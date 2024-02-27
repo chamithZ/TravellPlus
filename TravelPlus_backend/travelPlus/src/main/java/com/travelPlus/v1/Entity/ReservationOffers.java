@@ -20,5 +20,5 @@ public class ReservationOffers {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="reservationId", referencedColumnName = "reservationId")
-    private Hotel hotel;
+    private Reservation reservation;
 }
