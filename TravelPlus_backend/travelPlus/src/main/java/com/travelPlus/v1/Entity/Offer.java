@@ -22,4 +22,5 @@ public class Offer {
     @JoinColumn(name="hotelId", referencedColumnName = "hotelID")
     private Hotel hotel;
 
+
 }
