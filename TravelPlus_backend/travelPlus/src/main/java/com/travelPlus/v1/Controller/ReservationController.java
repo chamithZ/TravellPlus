@@ -1,9 +1,9 @@
 package com.travelPlus.v1.Controller;
 
 import com.travelPlus.v1.DTO.HotelDTO;
+import com.travelPlus.v1.DTO.ReservationDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
-import com.travelPlus.v1.DTO.UserDTO;
-import com.travelPlus.v1.Service.HotelService;
+import com.travelPlus.v1.Service.ReservationService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,26 +13,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/hotel")
-public class HotelController {
+@RequestMapping("/api/reservation")
+public class ReservationController {
     @Autowired
-    private HotelService hotelService;
+    private ReservationService reservationService;
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addHotel")
-    public ResponseEntity addHotel(@RequestBody HotelDTO hotelDTO) {
-        try {
-            String res = hotelService.addHotel(hotelDTO);
+    @PostMapping("/addReservation")
+    public ResponseEntity addReservation(@RequestBody ReservationDTO reservationDTO){
+        String res= reservationService.addReservation(reservationDTO);
+        try{
             if (res.equals("000")) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(hotelDTO);
+                responseDTO.setContent(reservationDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("006")) {
+            }
+            else if (res.equals("006")) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Already Added");
-                responseDTO.setContent(hotelDTO);
+                responseDTO.setMessage("Already Booked");
+                responseDTO.setContent(reservationDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             } else {
                 responseDTO.setCode(VarList.RSP_FAIL);
@@ -40,30 +41,29 @@ public class HotelController {
                 responseDTO.setContent(null);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             }
-        }
-        catch( Exception ex){
+        } catch(Exception e){
             responseDTO.setCode(VarList.RSP_ERROR );
-            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setMessage(e.getMessage());
             responseDTO.setContent(null);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
+
     @PutMapping(value="/updateHotel")
-    public ResponseEntity updateHotel(@RequestBody HotelDTO hotelDTO){
+    public ResponseEntity updateHotel(@RequestBody ReservationDTO reservationDTO){
 
         try{
-            String res= hotelService.updateHotel(hotelDTO);
+            String res= reservationService.updateReservation(reservationDTO);
             if(res.equals("000")){
                 responseDTO.setCode(VarList.RSP_SUCCESS );
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(hotelDTO);
+                responseDTO.setContent(reservationDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 
             }else if(res.equals("001")){
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND );
-                responseDTO.setMessage("Not a Registered Hotel ");
-                responseDTO.setContent(hotelDTO);
+                responseDTO.setMessage("Reservation is not available ");
+                responseDTO.setContent(reservationDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 
             }else{
@@ -81,13 +81,13 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/getHotels")
-    public ResponseEntity getlAllHotel(){
+    @GetMapping("/getReservations")
+    public ResponseEntity getAllReservation(){
         try{
-            List<HotelDTO> emp=hotelService.getAllHotel();
-            responseDTO.setCode(VarList.RSP_DUPLICATED );
+            List<ReservationDTO> reservationDTOList=reservationService.getAllReservation();
+            responseDTO.setCode(VarList.RSP_SUCCESS );
             responseDTO.setMessage("Success");
-            responseDTO.setContent(emp);
+            responseDTO.setContent(reservationDTOList);
             return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 
         }catch(Exception ex){
@@ -98,31 +98,5 @@ public class HotelController {
         }
     }
 
-    @DeleteMapping("/deleteHotel/{hotelId}")
-    public ResponseEntity deleteHotel(@PathVariable int hotelId){
-        try{
-            String emp= hotelService.deleteHotel(hotelId);
-            if(emp.equals("000")){
-                responseDTO.setCode(VarList.RSP_DUPLICATED );
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(emp);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            }
-            else {
-                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No Hotel found ");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
-            }}catch( Exception e){
-            responseDTO.setCode(VarList.RSP_ERROR );
-            responseDTO.setMessage(e.getMessage());
-            responseDTO.setContent(e);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
 
 }
-

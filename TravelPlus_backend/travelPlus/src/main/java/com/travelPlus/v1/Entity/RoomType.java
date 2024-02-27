@@ -24,7 +24,7 @@ public class RoomType {
 
     private String roomDescription;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
     private Hotel hotel;
 }

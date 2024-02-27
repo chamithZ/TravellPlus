@@ -19,7 +19,7 @@ public class Contract {
     private String peakMarkUp;
     private String offPeakMarkUp;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
     private Hotel hotel;
 
