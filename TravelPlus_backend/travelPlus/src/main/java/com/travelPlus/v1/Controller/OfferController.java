@@ -1,10 +1,10 @@
 package com.travelPlus.v1.Controller;
 
+import com.travelPlus.v1.DTO.OfferDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.DTO.RoomTypeDTO;
-import com.travelPlus.v1.DTO.SupplementDTO;
+import com.travelPlus.v1.Service.OfferService;
 import com.travelPlus.v1.Service.RoomTypeService;
-import com.travelPlus.v1.Service.SupplementService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,32 +14,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/supplement")
-public class SupplementController {
+@RequestMapping("/api/offer")
+public class OfferController {
     @Autowired
-    private SupplementService supplementService;
+    private OfferService offerService;
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addSupplement")
-    public ResponseEntity addSupplement(@RequestBody SupplementDTO supplementDTO) {
+    @PostMapping("/addOffer")
+    public ResponseEntity addOffer(@RequestBody OfferDTO offerDTO) {
         try {
-            String res = supplementService.addSupplement(supplementDTO);
+            String res = offerService.addOffer(offerDTO);
             if (res.equals("000")) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(supplementDTO);
+                responseDTO.setContent(offerDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
             } else if (res.equals("006")) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Already Added");
-                responseDTO.setContent(supplementDTO);
+                responseDTO.setContent(offerDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             }
             else if (res.equals("011")) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Hotel not available");
-                responseDTO.setContent(supplementDTO);
+                responseDTO.setContent(offerDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             }
             else {
@@ -55,21 +55,21 @@ public class SupplementController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value="/updateSupplement")
-    public ResponseEntity updateRoomType(@RequestBody SupplementDTO supplementDTO){
+    @PutMapping(value="/updateOffer")
+    public ResponseEntity updateRoomType(@RequestBody OfferDTO offerDTO){
 
         try{
-            String res= supplementService.updateSupplement(supplementDTO);
+            String res= offerService.updateOffer(offerDTO);
             if(res.equals("000")){
                 responseDTO.setCode(VarList.RSP_DUPLICATED );
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(supplementDTO);
+                responseDTO.setContent(offerDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 
             }else if(res.equals("001")){
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND );
                 responseDTO.setMessage("Room type is not available ");
-                responseDTO.setContent(supplementDTO);
+                responseDTO.setContent(offerDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 
             }else{
@@ -87,10 +87,10 @@ public class SupplementController {
         }
     }
 
-    @DeleteMapping("/deleteSupplement/{supplementId}")
-    public ResponseEntity deleteHotel(@PathVariable int supplementId){
+    @DeleteMapping("/deleteOffer/{offerId}")
+    public ResponseEntity deleteOffer(@PathVariable int OfferId){
         try{
-            String emp= supplementService.deleteSupplement(supplementId);
+            String emp= offerService.deleteOffer(OfferId);
             if(emp.equals("000")){
                 responseDTO.setCode(VarList.RSP_DUPLICATED );
                 responseDTO.setMessage("Success");
@@ -99,7 +99,7 @@ public class SupplementController {
             }
             else {
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("Supplement is not available ");
+                responseDTO.setMessage("Offer  is not available ");
                 responseDTO.setContent(null);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 
@@ -111,10 +111,10 @@ public class SupplementController {
         }
     }
 
-    @GetMapping("/getSupplement/{hotelId}")
-    public ResponseEntity getAllSupplements(@PathVariable int hotelId){
+    @GetMapping("/getOffers/{hotelId}")
+    public ResponseEntity getAllOffers(@PathVariable int hotelId){
         try{
-            List<SupplementDTO> emp=supplementService.getAllSupplements(hotelId);
+            List<OfferDTO> emp=offerService.getAllOffers(hotelId);
             responseDTO.setCode(VarList.RSP_DUPLICATED );
             responseDTO.setMessage("Success");
             responseDTO.setContent(emp);
@@ -127,4 +127,5 @@ public class SupplementController {
             return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
