@@ -1,9 +1,12 @@
 package com.travelPlus.v1.Repo;
 
 import com.travelPlus.v1.Entity.Reservation;
+import com.travelPlus.v1.Entity.ReservationOffers;
 import com.travelPlus.v1.Entity.ReservationSupplement;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReservationSupplementRepo extends JpaRepository<ReservationSupplement,Integer> {
+import java.util.List;
 
+public interface ReservationSupplementRepo extends JpaRepository<ReservationSupplement,Integer> {
+    List<ReservationSupplement> findByReservation_reservationId(int reservationId);
 }

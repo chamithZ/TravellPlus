@@ -30,4 +30,8 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation")
     private List<ReservationSupplement>  reservationSupplements;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="userId" , referencedColumnName = "userId")
+    private User user;
+
 }

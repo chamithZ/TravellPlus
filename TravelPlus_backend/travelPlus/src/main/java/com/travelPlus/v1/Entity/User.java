@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
@@ -20,4 +22,7 @@ public class User {
   private String contactNo;
   private String nic;
   private int age;
+
+  @OneToMany(mappedBy = "user")
+  private List<Reservation> reservation;
 }
