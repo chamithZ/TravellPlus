@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,9 +21,24 @@ public class Contract {
     private String peakMarkUp;
     private String offPeakMarkUp;
 
+    @OneToMany(mappedBy = "contract")
+    private List<RoomType> roomType;
+
+
+    @OneToMany(mappedBy = "contract")
+    private List<Offer> offer;
+
+    @OneToMany(mappedBy = "contract")
+    private List<Supplement> supplement;
+
+    @OneToMany(mappedBy = "contract")
+    private List<Season> seasons;
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
     private Hotel hotel;
+
+
 
 
 }

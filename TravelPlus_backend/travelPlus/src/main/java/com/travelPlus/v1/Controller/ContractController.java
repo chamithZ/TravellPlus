@@ -3,6 +3,8 @@ package com.travelPlus.v1.Controller;
 import com.travelPlus.v1.DTO.ContractDTO;
 import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
+import com.travelPlus.v1.Entity.Contract;
+import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Service.ContractService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +107,8 @@ public class ContractController {
             return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     @DeleteMapping("/deleteContract/{contractId}")
     public ResponseEntity deleteContract(@PathVariable int contractId){

@@ -2,8 +2,10 @@ package com.travelPlus.v1.Service;
 
 import com.travelPlus.v1.DTO.RoomTypeDTO;
 import com.travelPlus.v1.DTO.SupplementDTO;
+import com.travelPlus.v1.Entity.Contract;
 import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Entity.Supplement;
+import com.travelPlus.v1.Repo.ContractRepo;
 import com.travelPlus.v1.Repo.HotelRepo;
 import com.travelPlus.v1.Repo.RoomTypeRepo;
 import com.travelPlus.v1.Repo.SupplementRepo;
@@ -23,7 +25,7 @@ public class SupplementService {
     @Autowired
     private SupplementRepo supplementRepo;
     @Autowired
-    private HotelRepo hotelRepo;
+    private ContractRepo contractRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -32,7 +34,7 @@ public class SupplementService {
         if(supplementRepo.existsById(supplementDTO.getSupplementId())){
             return VarList.RSP_DUPLICATED;
         }
-        else if(!hotelRepo.existsById(supplementDTO.getHotelId())){
+        else if(!contractRepo.existsById(supplementDTO.getContractId())){
             return VarList.RSP_NotAvailable;
         }
         else{
@@ -62,8 +64,8 @@ public class SupplementService {
         }
     }
 
-    public List<SupplementDTO> getAllSupplements(int hotelId){
-        List<Supplement> SupplementList=supplementRepo.findByHotel_HotelId(hotelId);
+    public List<SupplementDTO> getAllSupplements(int contractId){
+        List<Supplement> SupplementList=supplementRepo.findByContract_contractId(contractId);
         return modelMapper.map(SupplementList,new TypeToken<ArrayList<SupplementDTO>>(){
         }.getType());
     }

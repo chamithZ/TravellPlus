@@ -6,6 +6,7 @@ import com.travelPlus.v1.DTO.SupplementDTO;
 import com.travelPlus.v1.Entity.Offer;
 import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Entity.Supplement;
+import com.travelPlus.v1.Repo.ContractRepo;
 import com.travelPlus.v1.Repo.HotelRepo;
 import com.travelPlus.v1.Repo.OfferRepo;
 import com.travelPlus.v1.Repo.SupplementRepo;
@@ -25,7 +26,7 @@ public class OfferService {
     @Autowired
     private OfferRepo offerRepo;
     @Autowired
-    private HotelRepo hotelRepo;
+    private ContractRepo contractRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -34,7 +35,7 @@ public class OfferService {
         if(offerRepo.existsById(offerDTO.getOfferId())){
             return VarList.RSP_DUPLICATED;
         }
-        else if(!hotelRepo.existsById(offerDTO.getHotelId())){
+        else if(!contractRepo.existsById(offerDTO.getContractId())){
             return VarList.RSP_NotAvailable;
         }
         else{
@@ -64,8 +65,8 @@ public class OfferService {
         }
     }
 
-    public List<OfferDTO> getAllOffers(int hotelId){
-        List<Offer> OfferList=offerRepo.findByHotel_HotelId(hotelId);
+    public List<OfferDTO> getAllOffers(int contractId){
+        List<Offer> OfferList=offerRepo.findByContract_contractId(contractId);
         return modelMapper.map(OfferList,new TypeToken<ArrayList<OfferDTO>>(){
         }.getType());
     }

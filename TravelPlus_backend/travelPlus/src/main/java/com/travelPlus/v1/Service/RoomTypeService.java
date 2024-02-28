@@ -5,6 +5,7 @@ import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.RoomTypeDTO;
 import com.travelPlus.v1.Entity.Hotel;
 import com.travelPlus.v1.Entity.RoomType;
+import com.travelPlus.v1.Repo.ContractRepo;
 import com.travelPlus.v1.Repo.HotelRepo;
 import com.travelPlus.v1.Repo.RoomTypeRepo;
 import com.travelPlus.v1.Utill.VarList;
@@ -23,7 +24,7 @@ public class RoomTypeService {
     @Autowired
     private RoomTypeRepo roomTypeRepo;
     @Autowired
-    private HotelRepo hotelRepo;
+    private ContractRepo contractRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -32,7 +33,7 @@ public class RoomTypeService {
         if(roomTypeRepo.existsById(roomDTO.getRoomId())){
             return VarList.RSP_DUPLICATED;
         }
-        else if(!hotelRepo.existsById(roomDTO.getHotelId())){
+        else if(!contractRepo.existsById(roomDTO.getContractId())){
             return VarList.RSP_NotAvailable;
         }
         else{
@@ -62,8 +63,8 @@ public class RoomTypeService {
         }
     }
 
-    public List<RoomTypeDTO> getALlRoomType(int hotelId){
-        List<RoomType> roomTypeList=roomTypeRepo.findByHotel_HotelId(hotelId);
+    public List<RoomTypeDTO> getALlRoomType(int contractId){
+        List<RoomType> roomTypeList=roomTypeRepo.findByContract_contractId(contractId);
         return modelMapper.map(roomTypeList,new TypeToken<ArrayList<RoomTypeDTO>>(){
         }.getType());
     }

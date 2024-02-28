@@ -19,7 +19,7 @@ public class Supplement {
     private double offPeakPrice;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
-    private Hotel hotel;
+    @JoinColumn(name="contractId", referencedColumnName = "contractId")
+    private Contract contract;
 
 }

@@ -12,5 +12,5 @@ public class SupplementDTO {
     private String serviceName;
     private double peakPrice;
     private double offPeakPrice;
-    private int hotelId;
+    private int contractId;
 }

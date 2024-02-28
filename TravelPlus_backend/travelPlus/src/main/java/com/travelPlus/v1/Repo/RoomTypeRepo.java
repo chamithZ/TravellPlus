@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RoomTypeRepo extends JpaRepository<RoomType,Integer> {
-    List<RoomType> findByHotel_HotelId(int hotelId);
+    List<RoomType> findByContract_contractId(int contractId);
 }

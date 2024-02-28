@@ -24,14 +24,5 @@ public class Hotel {
     private String hotelContactNo;
 
     @OneToMany(mappedBy = "hotel")
-    private List<RoomType> roomType;
-
-    @OneToMany(mappedBy = "hotel")
-    private List<Offer> offer;
-
-    @OneToMany(mappedBy = "hotel")
-    private List<Supplement> supplement;
-
-    @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;
 }
