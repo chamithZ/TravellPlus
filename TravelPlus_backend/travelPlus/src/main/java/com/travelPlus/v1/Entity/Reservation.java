@@ -24,6 +24,15 @@ public class Reservation {
     private String reservedRoomType;
     private double totalPrice;
 
+
+    @ManyToMany
+    @JoinTable(
+            name="room_reservation",
+            joinColumns=@JoinColumn(name="reservationId"),
+            inverseJoinColumns=@JoinColumn(name="roomId")
+    )
+    private List<RoomType> reservationRoomTypes;
+
     @OneToMany(mappedBy = "reservation")
     private List<ReservationOffers>  reservationOffers;
 
@@ -33,5 +42,8 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="userId" , referencedColumnName = "userId")
     private User user;
+
+
+
 
 }

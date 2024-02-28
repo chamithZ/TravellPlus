@@ -9,18 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="Offer")
-public class Offer {
+@Table(name="Season")
+public class Season {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int offerId;
-    private String offerName;
-    private String discountPrecentage;
-    private String conditions;
+    int seasonId;
+    String seasonType;
+    String startDate;
+    String endDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     private Contract contract;
-
-
 }

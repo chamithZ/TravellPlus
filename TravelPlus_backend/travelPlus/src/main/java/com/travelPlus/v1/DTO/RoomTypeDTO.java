@@ -17,6 +17,6 @@ public class RoomTypeDTO {
     private int offPeakNoOfRooms;
     private String roomBedType;
     private String roomDescription;
-    private int hotelId;
+    private int contractId;
 
 }

@@ -12,5 +12,5 @@ public class OfferDTO {
     private String offerName;
     private String discountPrecentage;
     private String conditions;
-    private int HotelId;
+    private int contractId;
 }

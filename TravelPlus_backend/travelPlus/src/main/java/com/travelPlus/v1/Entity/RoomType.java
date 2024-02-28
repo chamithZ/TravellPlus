@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +27,9 @@ public class RoomType {
     private String roomDescription;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
-    private Hotel hotel;
+    @JoinColumn(name="contractId", referencedColumnName = "contractId")
+    private Contract contract;
+
+    @ManyToMany(mappedBy = "reservationRoomTypes")
+    private List<Reservation> reservations ;
 }

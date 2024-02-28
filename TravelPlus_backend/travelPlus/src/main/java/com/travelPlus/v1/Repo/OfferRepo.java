@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OfferRepo extends JpaRepository <Offer,Integer>{
-    List<Offer> findByHotel_HotelId(int hotelId);
+    List<Offer> findByContract_contractId(int contractId);
 }
