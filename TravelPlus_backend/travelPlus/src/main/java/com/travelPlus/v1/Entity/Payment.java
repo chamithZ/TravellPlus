@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="Supplement")
-public class Supplement {
+@Table(name="Payment")
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int supplementId;
-    private String serviceName;
+    private int paymentId;
+    private double markUpPercentage;
+    private double rMarkupPercentage;
+    private int rPaymentDeadline;
+    private double cancellationPercentage;
+    private double totalPrice;
 
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="contractId", referencedColumnName = "contractId")
-    private Contract contract;
 
 }

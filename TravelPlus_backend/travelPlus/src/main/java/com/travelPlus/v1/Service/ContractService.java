@@ -31,7 +31,7 @@ public class ContractService {
         if(contractRepo.existsById(contractDTO.getContractId())){
             return VarList.RSP_DUPLICATED;
         }
-        else if(!hotelRepo.existsById(contractDTO.getHotelId())){
+        else if(!hotelRepo.existsById(contractDTO.getContractId())){
             return VarList.RSP_NotAvailable;
         }
         else{
@@ -40,7 +40,7 @@ public class ContractService {
         }
     }
     public String updateContract(ContractDTO contractDTO){
-        if(contractRepo.existsById(contractDTO.getHotelId())){
+        if(contractRepo.existsById(contractDTO.getContractId())){
             contractRepo.save(modelMapper.map(contractDTO,Contract.class));
             return VarList.RSP_SUCCESS;
         }

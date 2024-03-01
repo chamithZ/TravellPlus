@@ -17,12 +17,11 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reservationId;
-    private String guestName;
     private String checkInDate;
     private String checkOutDate;
-    private String paymentMethod;
-    private String reservedRoomType;
-    private double totalPrice;
+    private int childCount;
+    private int adultCount;
+    boolean isFullPayment;
 
 
     @ManyToMany
