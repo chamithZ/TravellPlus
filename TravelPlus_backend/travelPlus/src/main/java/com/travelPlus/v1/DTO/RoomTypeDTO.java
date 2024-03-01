@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 public class RoomTypeDTO {
     private int roomId;
     private String roomTypeName;
-    private double peakRoomPrice;
-    private double offPeakRoomPrice;
-    private int peakNoOfRooms;
-    private int offPeakNoOfRooms;
+    private String roomSize;
     private String roomBedType;
     private String roomDescription;
+    private String roomImage;
     private int contractId;
 
 }

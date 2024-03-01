@@ -18,8 +18,10 @@ public class Contract {
     private int contractId;
     private String startDate;
     private String endDate;
-    private String peakMarkUp;
-    private String offPeakMarkUp;
+    private double cancellationFeePrecentage;
+    private int cancellationDeadline;
+    private double prepaymentPrecentage;
+    private int paymentDeadline;
 
     @OneToMany(mappedBy = "contract")
     private List<RoomType> roomType;

@@ -14,6 +14,7 @@ public class ReservationDTO {
     private String checkOutDate;
     private String paymentMethod;
     private String reservedRoomType;
-    private double totalPrice;
+
+    private int roomTypeId;
 
 }

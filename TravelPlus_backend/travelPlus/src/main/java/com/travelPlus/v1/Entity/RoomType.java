@@ -17,14 +17,10 @@ public class RoomType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
     private String roomTypeName;
-    private double peakRoomPrice;
-    private double offPeakRoomPrice;
-
-    private int peakNoOfRooms;
-    private int offPeakNoOfRooms;
+    private String roomSize;
     private String roomBedType;
-
     private String roomDescription;
+    private String roomImage;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")

@@ -12,9 +12,10 @@ public class ContractDTO {
     private int contractId;
     private String startDate;
     private String endDate;
-    private String peakMarkUp;
-    private String offPeakMarkUp;
-    private int hotelId;
+    private double cancellationFeePrecentage;
+    private int cancellationDeadline;
+    private double prepaymentPrecentage;
+    private int paymentDeadline;
 
 }
 

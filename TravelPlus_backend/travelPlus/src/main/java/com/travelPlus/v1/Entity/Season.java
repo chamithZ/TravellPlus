@@ -17,6 +17,7 @@ public class Season {
     String seasonType;
     String startDate;
     String endDate;
+    double markUp;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
