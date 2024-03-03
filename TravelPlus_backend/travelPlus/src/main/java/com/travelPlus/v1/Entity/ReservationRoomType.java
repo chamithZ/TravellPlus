@@ -6,27 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Table(name="Payment")
-public class Payment {
+public class ReservationRoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int paymentId;
-    private double markUpPercentage;
-    private double rMarkupPercentage;
-    private int rPaymentDeadline;
-    private double cancellationPercentage;
-    private double totalPrice;
+    private int rRoomTypeId;
+    private String roomTypeName;
+    private double roomPrice;
 
-    @OneToOne  // payment - reservation relation
+    @OneToOne  // ReservationRoomType - reservation relation
     @JoinColumn(name="reservationId" , referencedColumnName = "reservationId")
     private Reservation reservation;
-
-
-
-
-
-
 }

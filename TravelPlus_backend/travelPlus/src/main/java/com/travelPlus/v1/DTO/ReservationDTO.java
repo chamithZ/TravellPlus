@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReservationDTO {
     private int reservationId;
-    private String guestName;
     private String checkInDate;
     private String checkOutDate;
-    private String paymentMethod;
-    private String reservedRoomType;
+    private int childCount;
+    private int adultCount;
+    boolean isFullPayment;
+
 
     private int roomTypeId;
 

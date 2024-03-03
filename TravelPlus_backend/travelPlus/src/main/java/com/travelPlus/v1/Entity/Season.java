@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +21,15 @@ public class Season {
     String startDate;
     String endDate;
     double markUp;
+
+
+
+    @OneToMany(mappedBy = "season")
+    Set<RoomTypeSeason> roomTypeSeasons;
+
+    @OneToMany(mappedBy = "season")
+    Set<SupplementSeason> supplementSeasons;
+
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")

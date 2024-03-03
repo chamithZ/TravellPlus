@@ -13,4 +13,6 @@ public class SeasonDTO {
     String startDate;
     String endDate;
     double markUp;
+    int contractId;
+
 }

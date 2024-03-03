@@ -15,12 +15,13 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int offerId;
     private String offerName;
-    private String discountPrecentage;
+    private String discountPercentage;
     private String conditions;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) // offer - contract relation
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     private Contract contract;
+
 
 
 }
