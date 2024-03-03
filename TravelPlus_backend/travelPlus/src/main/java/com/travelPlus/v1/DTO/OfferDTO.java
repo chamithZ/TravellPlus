@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class OfferDTO {
     private int offerId;
     private String offerName;
-    private String discountPrecentage;
+    private String discountPercentage;
     private String conditions;
     private int contractId;
 }

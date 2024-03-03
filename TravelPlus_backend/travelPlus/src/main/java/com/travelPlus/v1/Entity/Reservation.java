@@ -24,23 +24,28 @@ public class Reservation {
     boolean isFullPayment;
 
 
-    @ManyToMany
-    @JoinTable(
-            name="room_reservation",
-            joinColumns=@JoinColumn(name="reservationId"),
-            inverseJoinColumns=@JoinColumn(name="roomId")
-    )
-    private List<RoomType> reservationRoomTypes;
 
-    @OneToMany(mappedBy = "reservation")
+
+    @OneToMany(mappedBy = "reservation") //reservation - reservationOffers relation
     private List<ReservationOffers>  reservationOffers;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation")  //reservation- reservationSupplement relation
     private List<ReservationSupplement>  reservationSupplements;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH) //reservation - user relation
     @JoinColumn(name="userId" , referencedColumnName = "userId")
     private User user;
+
+    @OneToOne(mappedBy = "reservation")
+    private Payment payment;
+
+    @OneToOne(mappedBy = "reservation")
+    private ReservationRoomType reservationRoomType;
+
+    @ManyToOne
+    @JoinColumn(name="roomId",referencedColumnName = "roomId")
+    private RoomType roomType;
+
 
 
 

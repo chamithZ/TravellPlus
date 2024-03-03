@@ -25,4 +25,6 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;
+
+
 }

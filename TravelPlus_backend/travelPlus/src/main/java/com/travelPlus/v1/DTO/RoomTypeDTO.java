@@ -16,5 +16,8 @@ public class RoomTypeDTO {
     private String roomDescription;
     private String roomImage;
     private int contractId;
+    private double price;
+    private int noOfRooms;
+    int seasonId;
 
 }

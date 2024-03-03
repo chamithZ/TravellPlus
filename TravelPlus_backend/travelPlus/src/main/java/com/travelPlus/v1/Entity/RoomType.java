@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -26,6 +27,12 @@ public class RoomType {
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     private Contract contract;
 
-    @ManyToMany(mappedBy = "reservationRoomTypes")
-    private List<Reservation> reservations ;
+
+
+    @OneToMany(mappedBy = "roomType")
+    Set<RoomTypeSeason> roomTypeSeasons;
+
+    @OneToMany(mappedBy = "roomType")
+    Set<Reservation> reservationlist;
+
 }
