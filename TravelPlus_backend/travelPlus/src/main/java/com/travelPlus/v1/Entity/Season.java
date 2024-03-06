@@ -1,10 +1,13 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -14,9 +17,10 @@ import java.util.Set;
 @Data
 @Table(name="Season")
 public class Season {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int seasonId;
+    long seasonId;
     String seasonType;
     String startDate;
     String endDate;
@@ -25,10 +29,11 @@ public class Season {
 
 
     @OneToMany(mappedBy = "season")
-    Set<RoomTypeSeason> roomTypeSeasons;
+    @JsonIgnore
+    Collection<RoomTypeSeason> roomTypeSeasons=new ArrayList<>();
 
     @OneToMany(mappedBy = "season")
-    Set<SupplementSeason> supplementSeasons;
+    Collection<SupplementSeason> supplementSeasons=new ArrayList<>();
 
 
     @ManyToOne(cascade = CascadeType.DETACH)

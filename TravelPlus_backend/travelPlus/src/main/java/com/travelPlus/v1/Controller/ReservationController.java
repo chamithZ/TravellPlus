@@ -1,6 +1,7 @@
 package com.travelPlus.v1.Controller;
 
 import com.travelPlus.v1.DTO.HotelDTO;
+import com.travelPlus.v1.DTO.PaymentDTO;
 import com.travelPlus.v1.DTO.ReservationDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.Service.ReservationService;
@@ -20,8 +21,8 @@ public class ReservationController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addReservation")
-    public ResponseEntity addReservation(@RequestBody ReservationDTO reservationDTO){
+    @PostMapping
+    public ResponseEntity addReservation(@RequestBody ReservationDTO reservationDTO ){
         String res= reservationService.addReservation(reservationDTO);
         try{
             if (res.equals("000")) {
@@ -49,7 +50,7 @@ public class ReservationController {
         }
     }
 
-    @PutMapping(value="/updateHotel")
+    @PutMapping
     public ResponseEntity updateHotel(@RequestBody ReservationDTO reservationDTO){
 
         try{
@@ -81,10 +82,10 @@ public class ReservationController {
         }
     }
 
-    @GetMapping("/getReservations")
-    public ResponseEntity getAllReservation(){
+    @GetMapping("/{userId}")
+    public ResponseEntity getAllReservation(@PathVariable long userId){
         try{
-            List<ReservationDTO> reservationDTOList=reservationService.getAllReservation();
+            List<ReservationDTO> reservationDTOList=reservationService.getAllReservation(userId);
             responseDTO.setCode(VarList.RSP_SUCCESS );
             responseDTO.setMessage("Success");
             responseDTO.setContent(reservationDTOList);
@@ -95,6 +96,30 @@ public class ReservationController {
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent((null));
             return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{reservationId}")
+    public ResponseEntity cancelReservation(@PathVariable long reservationId){
+        try{
+            String emp= reservationService.deleteReservation(reservationId);
+            if(emp.equals("000")){
+                responseDTO.setCode(VarList.RSP_DUPLICATED );
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(emp);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            }
+            else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("Reservation is not available ");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+
+            }}catch( Exception e){
+            responseDTO.setCode(VarList.RSP_ERROR );
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

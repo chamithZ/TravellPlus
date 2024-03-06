@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SeasonDTO {
-    int seasonId;
+    long seasonId;
     String seasonType;
     String startDate;
     String endDate;
     double markUp;
-    int contractId;
+    long contractId;
 
 }

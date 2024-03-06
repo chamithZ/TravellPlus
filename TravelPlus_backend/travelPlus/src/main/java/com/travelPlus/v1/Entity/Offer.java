@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int offerId;
+    private long offerId;
     private String offerName;
     private String discountPercentage;
     private String conditions;
 
-    @ManyToOne(cascade = CascadeType.ALL) // offer - contract relation
+    @ManyToOne// offer - contract relation
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     private Contract contract;
 

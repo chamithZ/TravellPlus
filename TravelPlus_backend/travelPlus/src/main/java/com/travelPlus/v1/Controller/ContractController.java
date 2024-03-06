@@ -22,7 +22,7 @@ public class ContractController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addContract")
+    @PostMapping
     public ResponseEntity addHotel(@RequestBody ContractDTO contractDTO) {
         try {
             String res = contractService.addContract(contractDTO);
@@ -59,7 +59,7 @@ public class ContractController {
 
     }
 
-    @PutMapping(value="/updateContract")
+    @PutMapping
     public ResponseEntity updateContract(@RequestBody ContractDTO contractDTO){
 
         try{
@@ -91,7 +91,7 @@ public class ContractController {
         }
     }
 
-    @GetMapping("/getContracts")
+    @GetMapping
     public ResponseEntity getAllCOntracts(){
         try{
             List<ContractDTO> emp=contractService.getAllContracts();
@@ -110,7 +110,7 @@ public class ContractController {
 
 
 
-    @DeleteMapping("/deleteContract/{contractId}")
+    @DeleteMapping("/{contractId}")
     public ResponseEntity deleteContract(@PathVariable int contractId){
         try{
             String emp= contractService.deleteContract(contractId);

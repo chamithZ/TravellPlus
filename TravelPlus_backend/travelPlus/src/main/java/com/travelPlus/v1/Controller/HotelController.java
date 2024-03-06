@@ -2,6 +2,7 @@ package com.travelPlus.v1.Controller;
 
 import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
+import com.travelPlus.v1.DTO.SeasonDTO;
 import com.travelPlus.v1.DTO.UserDTO;
 import com.travelPlus.v1.Service.HotelService;
 import com.travelPlus.v1.Utill.VarList;
@@ -20,7 +21,7 @@ public class HotelController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addHotel")
+    @PostMapping
     public ResponseEntity addHotel(@RequestBody HotelDTO hotelDTO) {
         try {
             String res = hotelService.addHotel(hotelDTO);
@@ -49,7 +50,7 @@ public class HotelController {
         }
 
     }
-    @PutMapping(value="/updateHotel")
+    @PutMapping
     public ResponseEntity updateHotel(@RequestBody HotelDTO hotelDTO){
 
         try{
@@ -81,7 +82,7 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/getHotels")
+    @GetMapping
     public ResponseEntity getlAllHotel(){
         try{
             List<HotelDTO> emp=hotelService.getAllHotel();
@@ -98,7 +99,24 @@ public class HotelController {
         }
     }
 
-    @DeleteMapping("/deleteHotel/{hotelId}")
+    @GetMapping("/{destination}/{checkIn}/{checkOut}")
+    public ResponseEntity searchHotel(@PathVariable String destination,@PathVariable String checkIn,@PathVariable String checkOut){
+        try{
+            List<HotelDTO> hotels=hotelService.searchHotel(destination,checkIn,checkOut);
+            responseDTO.setCode(VarList.RSP_DUPLICATED );
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(hotels);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+
+        }catch(Exception ex){
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent((null));
+            return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{hotelId}")
     public ResponseEntity deleteHotel(@PathVariable int hotelId){
         try{
             String emp= hotelService.deleteHotel(hotelId);

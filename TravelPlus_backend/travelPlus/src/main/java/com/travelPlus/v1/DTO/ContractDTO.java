@@ -1,6 +1,7 @@
 package com.travelPlus.v1.DTO;
 
 import com.travelPlus.v1.Entity.Offer;
+import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Entity.Season;
 import com.travelPlus.v1.Entity.Supplement;
 import lombok.AllArgsConstructor;
@@ -14,16 +15,21 @@ import java.util.List;
 @AllArgsConstructor
 
 public class ContractDTO {
-    private int contractId;
+    private long contractId;
     private String startDate;
     private String endDate;
     private double cancellationFeePrecentage;
     private int cancellationDeadline;
     private double prepaymentPrecentage;
     private int paymentDeadline;
-    private int hotelId;
+    private long hotelId;
+    private List<OfferDTO> offer;
+    private List<SupplementDTO> supplements;
+    private List<SeasonDTO> season;
+    private List<RoomTypeDTO> roomType;
 
 
 }
+
 
 

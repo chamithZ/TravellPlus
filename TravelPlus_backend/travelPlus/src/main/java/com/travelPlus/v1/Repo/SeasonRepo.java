@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SeasonRepo extends JpaRepository<Season,Integer> {
-    List<Season> findByContract_contractId(int contractId);
+public interface SeasonRepo extends JpaRepository<Season,Long> {
+    List<Season> findByContract_contractId(long contractId);
 }
 

@@ -1,5 +1,6 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.List;
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contractId;
+    private long contractId;
     private String startDate;
     private String endDate;
     private double cancellationFeePrecentage;
@@ -27,13 +28,15 @@ public class Contract {
     private List<RoomType> roomType;
 
 
-    @OneToMany(mappedBy = "contract") // contract - offer relation
-    private List<Offer> offer;
+    @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL) // contract - offer relation
+    @JsonIgnore
+    private List<Offer> offers;
 
     @OneToMany(mappedBy = "contract")  // contract - supplement relation
     private List<Supplement> supplement;
 
-    @OneToMany(mappedBy = "contract")  // contract - season relation
+    @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL)
+    @JsonIgnore// contract - season relation
     private List<Season> seasons;
 
     @ManyToOne(cascade = CascadeType.DETACH)  //contract - hotel relation

@@ -1,5 +1,6 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,20 +14,15 @@ import lombok.NoArgsConstructor;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int paymentId;
-    private double markUpPercentage;
-    private double rMarkupPercentage;
+    private long paymentId;
+    private double rmarkUpPercentage;
+    private int rcancellationDeadline;
     private int rPaymentDeadline;
-    private double cancellationPercentage;
+    private double rcancellationPercentage;
     private double totalPrice;
 
     @OneToOne  // payment - reservation relation
     @JoinColumn(name="reservationId" , referencedColumnName = "reservationId")
     private Reservation reservation;
-
-
-
-
-
 
 }

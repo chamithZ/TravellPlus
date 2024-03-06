@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferDTO {
-    private int offerId;
+    private long offerId;
     private String offerName;
     private String discountPercentage;
     private String conditions;
-    private int contractId;
+    private long contractId;
 }

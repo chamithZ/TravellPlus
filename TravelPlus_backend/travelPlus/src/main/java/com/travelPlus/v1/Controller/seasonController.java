@@ -21,7 +21,7 @@ public class seasonController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addSeason")
+    @PostMapping
     public ResponseEntity addSeason(@RequestBody SeasonDTO seasonDTO) {
         try {
             String res = seasonService.addSeason(seasonDTO);
@@ -55,7 +55,7 @@ public class seasonController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value="/updateSeason")
+    @PutMapping
     public ResponseEntity updateSeason(@RequestBody SeasonDTO seasonDTO){
 
         try{
@@ -87,7 +87,7 @@ public class seasonController {
         }
     }
 
-    @DeleteMapping("/deleteSeason/{seasonId}")
+    @DeleteMapping("/{seasonId}")
     public ResponseEntity deleteSeason(@PathVariable int seasonId){
         try{
             String emp= seasonService.deleteSeason(seasonId);
@@ -111,7 +111,7 @@ public class seasonController {
         }
     }
 
-    @GetMapping("/getSeasons/{contractId}")
+    @GetMapping("/{contractId}")
     public ResponseEntity getAllRoomType(@PathVariable int contractId){
         try{
             List<SeasonDTO> emp=seasonService.getAllSeason(contractId);
