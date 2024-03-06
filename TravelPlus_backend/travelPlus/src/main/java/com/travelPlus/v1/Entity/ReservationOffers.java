@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ReservationOffers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rOfferId;
+    private long rOfferId;
     private String offerName;
     private String discounPrecentage;
 

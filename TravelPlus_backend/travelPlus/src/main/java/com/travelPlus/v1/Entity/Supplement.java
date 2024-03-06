@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -16,15 +18,15 @@ import java.util.Set;
 public class Supplement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int supplementId;
+    private long supplementId;
     private String serviceName;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     private Contract contract;
 
-    @OneToMany(mappedBy = "supplement")
-    Set<SupplementSeason> supplementSeason;
+    @OneToMany(mappedBy = "supplement",cascade = CascadeType.ALL)
+    Collection<SupplementSeason> supplementSeason=new ArrayList<>();
 
 }

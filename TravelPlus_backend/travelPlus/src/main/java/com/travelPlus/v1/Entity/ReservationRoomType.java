@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 public class ReservationRoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rRoomTypeId;
+    private long rRoomTypeId;
     private String roomTypeName;
     private double roomPrice;
 
     @OneToOne  // ReservationRoomType - reservation relation
     @JoinColumn(name="reservationId" , referencedColumnName = "reservationId")
     private Reservation reservation;
+
 }

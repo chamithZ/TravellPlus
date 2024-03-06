@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDTO {
-    private int paymentId;
-    private double markUpPercentage;
-    private double rMarkupPercentage;
+    private long paymentId;
+    private double rmarkUpPercentage;
+    private int rcancellationDeadline;
     private int rPaymentDeadline;
-    private double cancellationPercentage;
+    private double rcancellationPercentage;
     private double totalPrice;
+    private long reservationId;
 }

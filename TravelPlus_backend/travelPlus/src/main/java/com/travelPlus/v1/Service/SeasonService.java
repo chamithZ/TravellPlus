@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,6 +37,7 @@ public class SeasonService {
             return VarList.RSP_NotAvailable;
         }
         else{
+
             seasonRepo.save(modelMapper.map(seasonDTO, Season.class));
             return VarList.RSP_SUCCESS;
         }
@@ -51,7 +53,7 @@ public class SeasonService {
         }
     }
 
-    public String deleteSeason(int seasonId) {
+    public String deleteSeason(long seasonId) {
         if (seasonRepo.existsById(seasonId))
         {
             seasonRepo.deleteById(seasonId);
@@ -68,4 +70,11 @@ public class SeasonService {
         }.getType());
     }
 
+    public Season findSeasonById(long seasonId){
+            Season season =seasonRepo.findById(seasonId).orElse(null);
+            return season;
+    }
+
 }
+
+

@@ -1,14 +1,11 @@
 package com.travelPlus.v1.Service;
 
 import com.travelPlus.v1.DTO.RoomTypeDTO;
+import com.travelPlus.v1.DTO.RoomTypeSeasonDTO;
 import com.travelPlus.v1.DTO.SupplementDTO;
-import com.travelPlus.v1.Entity.Contract;
-import com.travelPlus.v1.Entity.RoomType;
-import com.travelPlus.v1.Entity.Supplement;
-import com.travelPlus.v1.Repo.ContractRepo;
-import com.travelPlus.v1.Repo.HotelRepo;
-import com.travelPlus.v1.Repo.RoomTypeRepo;
-import com.travelPlus.v1.Repo.SupplementRepo;
+import com.travelPlus.v1.DTO.SupplementSeasonDTO;
+import com.travelPlus.v1.Entity.*;
+import com.travelPlus.v1.Repo.*;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,6 +24,10 @@ public class SupplementService {
     private SupplementRepo supplementRepo;
     @Autowired
     private ContractRepo contractRepo;
+    @Autowired
+    private SeasonRepo seasonRepo;
+    @Autowired
+    private SeasonService seasonService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -38,7 +40,31 @@ public class SupplementService {
             return VarList.RSP_NotAvailable;
         }
         else{
-            supplementRepo.save(modelMapper.map(supplementDTO, Supplement.class));
+            Supplement supplement = new Supplement();
+            supplement.setServiceName(supplementDTO.getServiceName());
+
+            Contract contract = new Contract();
+            contract.setContractId(supplementDTO.getContractId());
+            supplement.setContract(contract);
+
+            // Iterate over the list of SeasonRoomTypeDTO
+            for (SupplementSeasonDTO supplementSeasonDTO : supplementDTO.getSupplementSeason()) {
+                Season season = seasonRepo.findById(supplementSeasonDTO.getSeason().getSeasonId())
+                        .orElseThrow(() -> new RuntimeException("Season not found"));
+
+
+                SupplementSeason supplementSeason = new SupplementSeason();
+                supplementSeason.setId(new SupplementSeasonKey(supplement.getSupplementId(), season.getSeasonId()));
+                supplementSeason.setSupplement(supplement);
+                supplementSeason.setSeason(season);
+                supplementSeason.setPrice(supplementSeasonDTO.getPrice());
+
+
+                supplement.getSupplementSeason().add(supplementSeason);
+            }
+
+            // Save the RoomType along with its associated RoomTypeSeasons
+            supplementRepo.save(supplement);
             return VarList.RSP_SUCCESS;
         }
     }
@@ -53,7 +79,7 @@ public class SupplementService {
         }
     }
 
-    public String deleteSupplement(int suppelemtId) {
+    public String deleteSupplement(long suppelemtId) {
         if (supplementRepo.existsById(suppelemtId))
         {
             supplementRepo.deleteById(suppelemtId);

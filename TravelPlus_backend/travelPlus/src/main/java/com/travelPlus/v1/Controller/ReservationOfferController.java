@@ -21,7 +21,7 @@ public class ReservationOfferController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addReservationOffer")
+    @PostMapping
     public ResponseEntity addReservationOffer(@RequestBody ReservationOffersDTO reservationOffersDTO) {
         try {
             String res = reservationOfferService.addReservationOffer(reservationOffersDTO);
@@ -55,7 +55,7 @@ public class ReservationOfferController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value="/updateReservationOffer")
+    @PutMapping
     public ResponseEntity updateRoomType(@RequestBody ReservationOffersDTO reservationOffersDTO){
 
         try{
@@ -87,7 +87,7 @@ public class ReservationOfferController {
         }
     }
 
-    @DeleteMapping("/deleteRervationOffer/{reservationOfferId}")
+    @DeleteMapping("/{reservationOfferId}")
     public ResponseEntity deleteReservationOffer(@PathVariable int reservationOfferId){
         try{
             String res= reservationOfferService.deleteRoomType(reservationOfferId);
@@ -111,7 +111,7 @@ public class ReservationOfferController {
         }
     }
 
-    @GetMapping("/getAllOffer/{reservationId}")
+    @GetMapping("/{reservationId}")
     public ResponseEntity getAllRoomType(@PathVariable int reservationId){
         try{
             List<ReservationOffersDTO> emp=reservationOfferService.getAllOffers(reservationId);

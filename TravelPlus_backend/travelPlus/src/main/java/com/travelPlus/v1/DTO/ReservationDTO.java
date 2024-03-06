@@ -1,5 +1,6 @@
 package com.travelPlus.v1.DTO;
 
+import com.travelPlus.v1.Entity.ReservationRoomType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,14 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDTO {
-    private int reservationId;
+    private long reservationId;
     private String checkInDate;
     private String checkOutDate;
     private int childCount;
     private int adultCount;
     boolean isFullPayment;
-
-
-    private int roomTypeId;
+    private long roomTypeId;
+    private long userId;
+    private ReservationRoomType reservationRoomType;
+    private PaymentDTO paymentDTO;
 
 }

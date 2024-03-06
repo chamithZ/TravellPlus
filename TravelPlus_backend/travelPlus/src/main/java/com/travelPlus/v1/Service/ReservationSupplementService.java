@@ -52,7 +52,7 @@ public class ReservationSupplementService {
         }
     }
 
-    public String deleteReservationSupplement(int reservationSupplementId) {
+    public String deleteReservationSupplement(long reservationSupplementId) {
         if (reservationSupplementRepo.existsById(reservationSupplementId))
         {
             reservationSupplementRepo.deleteById(reservationSupplementId);
@@ -63,7 +63,7 @@ public class ReservationSupplementService {
         }
     }
 
-    public List<ReservationOffersDTO> getAllSupplements(int reservationId){
+    public List<ReservationOffersDTO> getAllSupplements(long reservationId){
         List<ReservationSupplement> reservationOffers=reservationSupplementRepo.findByReservation_reservationId(reservationId);
         return modelMapper.map(reservationOffers,new TypeToken<ArrayList<ReservationOffersDTO>>(){
         }.getType());

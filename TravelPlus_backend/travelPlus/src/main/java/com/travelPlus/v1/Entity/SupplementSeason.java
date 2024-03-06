@@ -12,16 +12,17 @@ import lombok.NoArgsConstructor;
 @Entity
 public class SupplementSeason {
     @EmbeddedId
-    private SupplementSeasonKey id;
+    private SupplementSeasonKey id=new SupplementSeasonKey();
 
     @ManyToOne
     @MapsId("supplementId")
-
-    Supplement supplement;
+    @JoinColumn(name="supplement_id")
+    private  Supplement supplement;
 
     @ManyToOne
     @MapsId("seasonId")
-    Season season;
+    @JoinColumn(name="season_id")
+    private Season season;
     private double price;
 
 

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationOffersDTO {
-    private int rOfferId;
+    private long rOfferId;
     private String offerName;
     private String discounPrecentage;
-    private int reservationId;
+    private long reservationId;
 }

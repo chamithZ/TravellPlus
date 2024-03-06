@@ -20,7 +20,7 @@ public class ReservationSupplementController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addReservationSupplement")
+    @PostMapping
     public ResponseEntity addReservationSupplement(@RequestBody ReservationSupplementDTO reservationSupplementDTO) {
         try {
             String res = reservationSupplementService.addReservationSupplement(reservationSupplementDTO);
@@ -54,7 +54,7 @@ public class ReservationSupplementController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value="/updateReservationSupplement")
+    @PutMapping
     public ResponseEntity updateReservationOffer(@RequestBody ReservationSupplementDTO reservationSupplementDTO){
 
         try{
@@ -86,7 +86,7 @@ public class ReservationSupplementController {
         }
     }
 
-    @DeleteMapping("/deleteRervationSupplement/{rSupplementId}")
+    @DeleteMapping("/{rSupplementId}")
     public ResponseEntity deleteReservationOffer(@PathVariable int rSupplementId){
         try{
             String res= reservationSupplementService.deleteReservationSupplement(rSupplementId);
@@ -110,7 +110,7 @@ public class ReservationSupplementController {
         }
     }
 
-    @GetMapping("/getAllSupplements/{reservationId}")
+    @GetMapping("{reservationId}")
     public ResponseEntity getAllRervationSupplements(@PathVariable int reservationId){
         try{
             List<ReservationOffersDTO> emp=reservationSupplementService.getAllSupplements(reservationId);

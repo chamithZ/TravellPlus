@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReservationSupplementRepo extends JpaRepository<ReservationSupplement,Integer> {
-    List<ReservationSupplement> findByReservation_reservationId(int reservationId);
+public interface ReservationSupplementRepo extends JpaRepository<ReservationSupplement,Long> {
+    List<ReservationSupplement> findByReservation_reservationId(long reservationId);
 }

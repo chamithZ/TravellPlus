@@ -2,10 +2,10 @@ package com.travelPlus.v1.Service;
 
 import com.travelPlus.v1.DTO.ContractDTO;
 import com.travelPlus.v1.DTO.HotelDTO;
-import com.travelPlus.v1.Entity.Contract;
-import com.travelPlus.v1.Entity.Hotel;
-import com.travelPlus.v1.Repo.ContractRepo;
-import com.travelPlus.v1.Repo.HotelRepo;
+import com.travelPlus.v1.DTO.OfferDTO;
+import com.travelPlus.v1.DTO.SeasonDTO;
+import com.travelPlus.v1.Entity.*;
+import com.travelPlus.v1.Repo.*;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -25,17 +25,41 @@ public class ContractService {
     @Autowired
     private HotelRepo hotelRepo;
     @Autowired
+    private SeasonRepo seasonRepo;
+    @Autowired
+    private SupplementRepo supplementRepo;
+    @Autowired
+    private OfferRepo offerRepo;
+    @Autowired
+    private RoomTypeRepo roomTypeRepo;
+    @Autowired
     private ModelMapper modelMapper;
 
-    public String addContract(ContractDTO contractDTO){
-        if(contractRepo.existsById(contractDTO.getContractId())){
+    public String addContract(ContractDTO contractDTO) {
+        if (contractRepo.existsById(contractDTO.getContractId())) {
             return VarList.RSP_DUPLICATED;
-        }
-        else if(!hotelRepo.existsById(contractDTO.getContractId())){
+        } else if (!hotelRepo.existsById(contractDTO.getHotelId())) {
             return VarList.RSP_NotAvailable;
-        }
-        else{
-            contractRepo.save(modelMapper.map(contractDTO, Contract.class));
+        } else {
+            // Save the Contract entity
+            Contract contract = modelMapper.map(contractDTO, Contract.class);
+            contractRepo.save(contract);
+
+            // Retrieve the generated contractId
+            long contractId = contract.getContractId();
+
+            // Save the Season entities with the contractId
+            for (SeasonDTO seasonDTO : contractDTO.getSeason()) {
+                seasonDTO.setContractId(contractId);
+                Season season = modelMapper.map(seasonDTO, Season.class);
+                seasonRepo.save(season);
+            }
+            for (OfferDTO offerDTO : contractDTO.getOffer()) {
+                offerDTO.setContractId(contractId);
+                Offer offer = modelMapper.map(offerDTO, Offer.class);
+                offerRepo.save(offer);
+            }
+
             return VarList.RSP_SUCCESS;
         }
     }
@@ -48,7 +72,7 @@ public class ContractService {
             return VarList.RSP_NO_DATA_FOUND;
         }
     }
-    public String deleteContract(int contractId) {
+    public String deleteContract(long contractId) {
         if (contractRepo.existsById(contractId))
         {
             contractRepo.deleteById(contractId);

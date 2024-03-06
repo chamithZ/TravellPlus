@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class HotelDTO {
-    private int hotelId;
+    private long hotelId;
     private String hotelName;
     private String hotelAddress;
     private String hotelEmail;

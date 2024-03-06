@@ -3,6 +3,7 @@ package com.travelPlus.v1.Controller;
 import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.DTO.RoomTypeDTO;
+import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Service.RoomTypeService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class RoomTypeController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping("/addRoomType")
+    @PostMapping
     public ResponseEntity addRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
         try {
             String res = roomTypeService.addRoomType(roomTypeDTO);
@@ -54,7 +55,7 @@ public class RoomTypeController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value="/updateRoomType")
+    @PutMapping
     public ResponseEntity updateRoomType(@RequestBody RoomTypeDTO roomTypeDTO){
 
         try{
@@ -86,7 +87,7 @@ public class RoomTypeController {
         }
     }
 
-    @DeleteMapping("/deleteRoomType/{roomTypeId}")
+    @DeleteMapping("/{roomTypeId}")
     public ResponseEntity deleteHotel(@PathVariable int roomTypeId){
         try{
             String emp= roomTypeService.deleteRoomType(roomTypeId);
@@ -110,10 +111,10 @@ public class RoomTypeController {
         }
     }
 
-    @GetMapping("/getRoomTypes/{hotelId}")
-    public ResponseEntity getAllRoomType(@PathVariable int hotelId){
+    @GetMapping("/{contractId}")
+    public ResponseEntity getAllRoomType(@PathVariable long contractId){
         try{
-            List<RoomTypeDTO> emp=roomTypeService.getALlRoomType(hotelId);
+            List<RoomType> emp=roomTypeService.getALlRoomType(contractId);
             responseDTO.setCode(VarList.RSP_DUPLICATED );
             responseDTO.setMessage("Success");
             responseDTO.setContent(emp);

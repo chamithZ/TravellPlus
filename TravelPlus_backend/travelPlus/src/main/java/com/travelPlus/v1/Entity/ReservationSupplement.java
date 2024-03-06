@@ -14,7 +14,7 @@ public class ReservationSupplement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rSupplementId;
+    private long rSupplementId;
     private double price;
     private String serviceName;
 

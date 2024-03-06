@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SupplementRepo extends JpaRepository<Supplement,Integer> {
-    List<Supplement> findByContract_contractId(int contractId);
+public interface SupplementRepo extends JpaRepository<Supplement,Long> {
+    List<Supplement> findByContract_contractId(long contractId);
 }

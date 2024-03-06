@@ -54,7 +54,7 @@ public class OfferService {
         }
     }
 
-    public String deleteOffer(int offerId) {
+    public String deleteOffer(long offerId) {
         if (offerRepo.existsById(offerId))
         {
             offerRepo.deleteById(offerId);

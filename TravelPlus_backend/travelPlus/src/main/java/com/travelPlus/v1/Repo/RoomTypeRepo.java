@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RoomTypeRepo extends JpaRepository<RoomType,Integer> {
-    List<RoomType> findByContract_contractId(int contractId);
+public interface RoomTypeRepo extends JpaRepository<RoomType,Long> {
+    List<RoomType> findByContract_contractId(long contractId);
 }

@@ -2,8 +2,10 @@ package com.travelPlus.v1.Service;
 
 
 import com.travelPlus.v1.DTO.HotelDTO;
+import com.travelPlus.v1.DTO.RoomTypeDTO;
 import com.travelPlus.v1.DTO.UserDTO;
 import com.travelPlus.v1.Entity.Hotel;
+import com.travelPlus.v1.Entity.Season;
 import com.travelPlus.v1.Entity.User;
 import com.travelPlus.v1.Repo.HotelRepo;
 import com.travelPlus.v1.Utill.VarList;
@@ -45,7 +47,14 @@ public class HotelService {
         }
     }
 
-    public String deleteHotel(int hotelId) {
+    public List<HotelDTO> searchHotel(String destination,String checkInDate,String checkOutDate){
+        List<Hotel> hotels = hotelRepo.findHotelsByCityAndContractDates(destination, checkInDate, checkOutDate);
+
+        return modelMapper.map(hotels,new TypeToken<ArrayList<HotelDTO>>(){
+        }.getType());
+    }
+
+    public String deleteHotel(long hotelId) {
         if (hotelRepo.existsById(hotelId))
         {
             hotelRepo.deleteById(hotelId);
