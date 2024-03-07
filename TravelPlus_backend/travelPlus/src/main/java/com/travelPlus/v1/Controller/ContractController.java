@@ -23,7 +23,7 @@ public class ContractController {
     private ResponseDTO responseDTO;
 
     @PostMapping
-    public ResponseEntity addHotel(@RequestBody ContractDTO contractDTO) {
+    public ResponseEntity addContract(@RequestBody ContractDTO contractDTO) {
         try {
             String res = contractService.addContract(contractDTO);
             if (res.equals("000")) {

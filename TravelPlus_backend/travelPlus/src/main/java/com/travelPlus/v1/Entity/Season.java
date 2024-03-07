@@ -1,5 +1,6 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,5 +39,6 @@ public class Season {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
+    @JsonBackReference
     private Contract contract;
 }
