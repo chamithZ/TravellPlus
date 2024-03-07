@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -28,6 +31,7 @@ public class UserService {
             return VarList.RSP_DUPLICATED;
         }
         else{
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userRepo.save(modelMapper.map(userDTO, User.class));
             return VarList.RSP_SUCCESS;
         }

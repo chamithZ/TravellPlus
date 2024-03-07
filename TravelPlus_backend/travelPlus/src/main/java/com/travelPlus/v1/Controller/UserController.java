@@ -22,37 +22,7 @@ public class UserController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping
-    public ResponseEntity saveUser(@RequestBody UserDTO userDTO){
-        try{
-            String res= userService.saveUser(userDTO);
-            if(res.equals("000")){
-                responseDTO.setCode(VarList.RSP_SUCCESS );
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            }
-            else if(res.equals("006")){
-                responseDTO.setCode(VarList.RSP_DUPLICATED );
-                responseDTO.setMessage("Already registered");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-            else{
-                responseDTO.setCode(VarList.RSP_FAIL );
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
 
-        }
-        catch(Exception e){
-            responseDTO.setCode(VarList.RSP_ERROR );
-            responseDTO.setMessage(e.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @PutMapping
     public ResponseEntity updateUser(@RequestBody UserDTO userDTO){
