@@ -1,6 +1,7 @@
 package com.travelPlus.v1.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class Offer {
 
     @ManyToOne// offer - contract relation
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
-    @JsonBackReference
+    @JsonIgnore
     private Contract contract;
 
 

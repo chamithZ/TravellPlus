@@ -39,6 +39,6 @@ public class Season {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
-    @JsonBackReference
+    @JsonIgnore
     private Contract contract;
 }
