@@ -1,6 +1,7 @@
 package com.travelPlus.v1.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Supplement {
 
     @ManyToOne
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
-    @JsonBackReference
+    @JsonIgnore
     private Contract contract;
 
     @OneToMany(mappedBy = "supplement",cascade = CascadeType.ALL)

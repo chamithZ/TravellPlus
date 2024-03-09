@@ -25,24 +25,19 @@ public class Contract {
     private int paymentDeadline;
 
     @OneToMany(mappedBy = "contract") // contract - roomType relation
-    @JsonIgnore
     private List<RoomType> roomType;
 
 
     @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL) // contract - offer relation
-    @JsonIgnore
     private List<Offer> offers;
 
     @OneToMany(mappedBy = "contract")  // contract - supplement relation
-    @JsonIgnore
     private List<Supplement> supplement;
 
     @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL)// contract - season relation
-    @JsonIgnore
     private List<Season> seasons;
 
     @ManyToOne(cascade = CascadeType.DETACH)  //contract - hotel relation
-    @JsonIgnore
     @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
     private Hotel hotel;
 
