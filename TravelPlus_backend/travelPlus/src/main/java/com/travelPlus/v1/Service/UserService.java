@@ -1,5 +1,6 @@
 package com.travelPlus.v1.Service;
 
+import com.travelPlus.v1.Config.PasswordConfig;
 import com.travelPlus.v1.DTO.ContractDTO;
 import com.travelPlus.v1.DTO.UserDTO;
 import com.travelPlus.v1.Entity.Contract;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordConfig passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -31,11 +33,21 @@ public class UserService {
             return VarList.RSP_DUPLICATED;
         }
         else{
-            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            userDTO.setPassword(passwordEncoder.passwordEncoder().encode(userDTO.getPassword()));
             userRepo.save(modelMapper.map(userDTO, User.class));
+
             return VarList.RSP_SUCCESS;
         }
     }
+    public User save(User newUser) {
+        if (newUser.getUserId() == 0) {
+            newUser.setCreatedAt(LocalDateTime.now());
+        }
+
+        newUser.setUpdatedAt(LocalDateTime.now());
+        return userRepo.save(newUser);
+    }
+
 
     public String updateUser(UserDTO userDTO){
         if(userRepo.existsById(userDTO.getUserId())){
@@ -71,6 +83,5 @@ public class UserService {
         else{
             return null;
         }
-
     }
 }

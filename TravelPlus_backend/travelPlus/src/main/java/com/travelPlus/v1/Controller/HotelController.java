@@ -9,6 +9,7 @@ import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -100,6 +101,7 @@ public class HotelController {
     }
 
     @GetMapping("/{destination}/{checkIn}/{checkOut}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity searchHotel(@PathVariable String destination,@PathVariable String checkIn,@PathVariable String checkOut){
         try{
             List<HotelDTO> hotels=hotelService.searchHotel(destination,checkIn,checkOut);
