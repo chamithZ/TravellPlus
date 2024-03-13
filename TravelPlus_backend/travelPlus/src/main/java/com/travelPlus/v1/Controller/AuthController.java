@@ -1,9 +1,8 @@
 package com.travelPlus.v1.Controller;
 
-import com.travelPlus.v1.DTO.AuthDTO;
-import com.travelPlus.v1.DTO.JWTResponse;
-import com.travelPlus.v1.DTO.ResponseDTO;
-import com.travelPlus.v1.DTO.UserDTO;
+import com.travelPlus.v1.DTO.*;
+import com.travelPlus.v1.Service.AuthService;
+import com.travelPlus.v1.Service.UserDetailService;
 import com.travelPlus.v1.Service.UserService;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.travelPlus.v1.Service.UserDetailsService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -36,7 +34,10 @@ public class AuthController {
 
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailService userDetailsService;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,10 +46,10 @@ public class AuthController {
     @Autowired
     private ResponseDTO responseDTO;
 
-    @Value("${jwt.secret}")
+    @Value("${token.secret.key}")
     private String jwtSecret;
 
-    @Value("${jwt.expiration}")
+    @Value("${token.expirationms}")
     private int jwtExpirationMs;
 
     @PostMapping("/register")
@@ -83,19 +84,16 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO request) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+    @PostMapping("/login") //removed
+    public JWTResponse login(@RequestBody AuthDTO request) {
 
-        if (userDetails != null && passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return authService.signin(request);
 
-            String jwtToken = generateJwtToken(userDetails);
-            return ResponseEntity.ok(new JWTResponse(jwtToken));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
+    }
+
+    @PostMapping("/signup")
+    public JWTResponse signup(@RequestBody UserDTO request) {
+        return authService.signup(request);
     }
 
     @PostMapping("/logout")
