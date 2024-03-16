@@ -57,14 +57,12 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/api/user/**","/api/hotel/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/**", "/api/user/**","/api/hotel/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/**","/api/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**", "/api/v1/user/**","/api/v1/hotel/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 }

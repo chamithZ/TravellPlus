@@ -65,8 +65,8 @@ public class SeasonService {
     }
 
     public List<SeasonDTO> getAllSeason(int contractId){
-        List<Season> roomTypeList=seasonRepo.findByContract_contractId(contractId);
-        return modelMapper.map(roomTypeList,new TypeToken<ArrayList<RoomTypeDTO>>(){
+        List<Season> seasonList=seasonRepo.findByContract_contractId(contractId);
+        return modelMapper.map(seasonList,new TypeToken<ArrayList<SeasonDTO>>(){
         }.getType());
     }
 

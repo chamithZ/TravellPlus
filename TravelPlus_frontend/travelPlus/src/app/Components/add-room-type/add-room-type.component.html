@@ -1,0 +1,28 @@
+<form [formGroup]="roomTypeForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto">
+    <!-- Room Type Details -->
+    <!-- Your existing room type details inputs -->
+  
+    <!-- Season Details -->
+    <div class="mt-10 text-2xl text-gray-600 font-semibold mb-5">Season Details</div>
+    <div formArrayName="seasons">
+      <div *ngFor="let season of seasons; let i = index" [formGroupName]="i">
+        <div>
+          <label>Season Type: {{ season.seasonType }}</label>
+          <label>Start Date: {{ season.startDate }}</label>
+          <label>End Date: {{ season.endDate }}</label>
+        </div>
+        <div formGroupName="roomDetails">
+          <div *ngFor="let room of getRoomDetailsControls(i).controls; let j = index" [formGroupName]="j">
+            <input type="number" formControlName="roomPrice" placeholder="Room Price" required>
+            <input type="number" formControlName="noOfRooms" placeholder="Number of Rooms" required>
+            <button type="button" (click)="removeRoomDetails(i, j)">Remove Room</button>
+          </div>
+          <button type="button" (click)="addRoomDetails(i)">Add Room</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+  </form>
+  

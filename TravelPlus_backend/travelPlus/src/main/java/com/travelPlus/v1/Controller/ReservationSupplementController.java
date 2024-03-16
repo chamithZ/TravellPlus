@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reservationSupplement")
+@RequestMapping("/api/v1/reservationSupplement")
 public class ReservationSupplementController {
     private ReservationSupplementService reservationSupplementService;
     @Autowired
