@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/season")
+@RequestMapping("/api/v1/season")
 public class seasonController {
     @Autowired
     private SeasonService seasonService;
@@ -112,7 +112,7 @@ public class seasonController {
     }
 
     @GetMapping("/{contractId}")
-    public ResponseEntity getAllRoomType(@PathVariable int contractId){
+    public ResponseEntity getAllSeasons(@PathVariable int contractId){
         try{
             List<SeasonDTO> emp=seasonService.getAllSeason(contractId);
             responseDTO.setCode(VarList.RSP_DUPLICATED );

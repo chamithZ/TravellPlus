@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reservationOffer")
+@RequestMapping("/api/v1/reservationOffer")
 public class ReservationOfferController {
     @Autowired
     private ReservationOfferService reservationOfferService;

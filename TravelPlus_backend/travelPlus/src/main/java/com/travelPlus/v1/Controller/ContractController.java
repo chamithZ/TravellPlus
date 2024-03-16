@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contract")
+@RequestMapping("/api/v1/contract")
 public class ContractController {
     @Autowired
     private ContractService contractService;
