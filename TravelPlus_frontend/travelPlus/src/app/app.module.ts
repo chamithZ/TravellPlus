@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddHotelComponent } from './add-hotel/add-hotel.component';
-import { AddContractComponent } from './add-contract/add-contract.component';
+import { AddHotelComponent } from './Components/add-hotel/add-hotel.component';
+import { AddContractComponent } from './Components/add-contract/add-contract.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddRoomTypeComponent } from './add-room-type/add-room-type.component';
+import { AddRoomTypeComponent } from './Components/add-room-type/add-room-type.component';
 
 @NgModule({
   declarations: [
