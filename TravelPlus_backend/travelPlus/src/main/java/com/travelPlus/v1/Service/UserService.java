@@ -35,7 +35,6 @@ public class UserService {
         else{
             userDTO.setPassword(passwordEncoder.passwordEncoder().encode(userDTO.getPassword()));
             userRepo.save(modelMapper.map(userDTO, User.class));
-
             return VarList.RSP_SUCCESS;
         }
     }
