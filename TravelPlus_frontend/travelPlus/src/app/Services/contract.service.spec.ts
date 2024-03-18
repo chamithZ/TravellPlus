@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SeasonServiceService } from './season-service.service';
+import { ContractService } from './contract.service';
 
-describe('SeasonServiceService', () => {
-  let service: SeasonServiceService;
+describe('ContractService', () => {
+  let service: ContractService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SeasonServiceService);
+    service = TestBed.inject(ContractService);
   });
 
   it('should be created', () => {

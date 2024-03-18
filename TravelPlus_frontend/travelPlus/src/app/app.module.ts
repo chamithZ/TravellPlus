@@ -7,6 +7,8 @@ import { AddHotelComponent } from './Components/add-hotel/add-hotel.component';
 import { AddContractComponent } from './Components/add-contract/add-contract.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddRoomTypeComponent } from './Components/add-room-type/add-room-type.component';
+import { AddSupplementComponent } from './Components/add-supplement/add-supplement.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,13 +16,15 @@ import { AddRoomTypeComponent } from './Components/add-room-type/add-room-type.c
     AddHotelComponent,
     AddContractComponent,
     AddRoomTypeComponent,
+    AddSupplementComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
