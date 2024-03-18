@@ -1,28 +1,48 @@
-<form [formGroup]="roomTypeForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto">
-    <!-- Room Type Details -->
-    <!-- Your existing room type details inputs -->
-  
-    <!-- Season Details -->
-    <div class="mt-10 text-2xl text-gray-600 font-semibold mb-5">Season Details</div>
-    <div formArrayName="seasons">
-      <div *ngFor="let season of seasons; let i = index" [formGroupName]="i">
-        <div>
-          <label>Season Type: {{ season.seasonType }}</label>
-          <label>Start Date: {{ season.startDate }}</label>
-          <label>End Date: {{ season.endDate }}</label>
-        </div>
-        <div formGroupName="roomDetails">
-          <div *ngFor="let room of getRoomDetailsControls(i).controls; let j = index" [formGroupName]="j">
-            <input type="number" formControlName="roomPrice" placeholder="Room Price" required>
-            <input type="number" formControlName="noOfRooms" placeholder="Number of Rooms" required>
-            <button type="button" (click)="removeRoomDetails(i, j)">Remove Room</button>
-          </div>
-          <button type="button" (click)="addRoomDetails(i)">Add Room</button>
-        </div>
-      </div>
+<form class="max-w-md mx-auto">
+  <div class="flex flex-col items-center">
+    <div class="mt-10 text-3xl text-[#41A4FF] font-semibold mb-5">Add Room Type</div>
+
+    <!-- Room Type Name -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" name="roomTypeName" id="roomTypeName" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="roomTypeName" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Type Name</label>
     </div>
-  
-    <!-- Submit Button -->
-    <button type="submit">Submit</button>
-  </form>
-  
+
+    <!-- Room Size -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" name="roomSize" id="roomSize" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="roomSize" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Size</label>
+    </div>
+
+    <!-- Room Bed Type -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" name="roomBedType" id="roomBedType" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="roomBedType" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Bed Type</label>
+    </div>
+
+    <!-- Room Description -->
+    <div class="relative z-0 w-full mb-5 group">
+      <textarea name="roomDescription" id="roomDescription" rows="4" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required ></textarea>
+      <label for="roomDescription" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Description</label>
+    </div>
+
+    <!-- Room Image -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" name="roomImage" id="roomImage" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="roomImage" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Image</label>
+    </div>
+
+    <!-- Contract ID -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="number" name="contractId" id="contractId" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="contractId" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contract ID</label>
+    </div>
+
+    <!-- Room Type Seasons -->
+    <!-- You can dynamically add fields for Room Type Seasons using Angular's ngFor directive -->
+    <!-- Example: ngFor="let season of newRoomType.roomTypeSeasons; let i=index" -->
+    <!-- You'll need to handle adding/removing seasons dynamically in your component -->
+
+    <button type="submit" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
+  </div>
+</form>
