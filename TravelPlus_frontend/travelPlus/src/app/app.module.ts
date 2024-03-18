@@ -8,6 +8,7 @@ import { AddContractComponent } from './Components/add-contract/add-contract.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddRoomTypeComponent } from './Components/add-room-type/add-room-type.component';
 import { AddSupplementComponent } from './Components/add-supplement/add-supplement.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AddSupplementComponent } from './Components/add-supplement/add-suppleme
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

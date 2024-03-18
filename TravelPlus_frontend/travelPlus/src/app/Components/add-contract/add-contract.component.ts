@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { contract } from '../../Models/Contract';
 
 @Component({
   selector: 'app-add-contract',
@@ -9,7 +10,9 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 export class AddContractComponent implements OnInit {
   contractForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder
+    ) {}
 
   ngOnInit(): void {
     this.contractForm = this.formBuilder.group({
@@ -60,7 +63,9 @@ export class AddContractComponent implements OnInit {
 
   onSubmit(): void {
     if (this.contractForm.valid) {
-      // Submit the form data
+      const values=this.contractForm.value as contract;
+      this.contractService.addHotelComponent(values as contract).subscribe((res)=>{
+        this.hotelForm.reset()
       console.log(this.contractForm.value);
     } else {
       // Form is invalid
