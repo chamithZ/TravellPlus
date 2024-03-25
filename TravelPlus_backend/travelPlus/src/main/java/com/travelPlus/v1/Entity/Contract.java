@@ -19,9 +19,9 @@ public class Contract {
     private long contractId;
     private String startDate;
     private String endDate;
-    private double cancellationFeePrecentage;
+    private double cancellationFeePercentage;
     private int cancellationDeadline;
-    private double prepaymentPrecentage;
+    private double prepaymentPercentage;
     private int paymentDeadline;
 
     @OneToMany(mappedBy = "contract") // contract - roomType relation

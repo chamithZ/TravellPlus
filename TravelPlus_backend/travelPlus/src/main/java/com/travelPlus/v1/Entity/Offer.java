@@ -18,6 +18,8 @@ public class Offer {
     private long offerId;
     private String offerName;
     private String discountPercentage;
+    private String startDate;
+    private String endDate;
     private String conditions;
 
     @ManyToOne// offer - contract relation

@@ -18,9 +18,9 @@ public class ContractDTO {
     private long contractId;
     private String startDate;
     private String endDate;
-    private double cancellationFeePrecentage;
+    private double cancellationFeePercentage;
     private int cancellationDeadline;
-    private double prepaymentPrecentage;
+    private double prepaymentPercentage;
     private int paymentDeadline;
     private long hotelId;
     private List<OfferDTO> offer;
