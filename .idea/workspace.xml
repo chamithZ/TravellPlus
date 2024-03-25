@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ad31889b-044a-4e64-8dfc-1a3d700231cd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/Components/add-hotel/add-hotel.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/Components/add-hotel/add-hotel.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/Components/add-hotel/add-hotel.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/Components/add-hotel/add-hotel.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/TravelPlus_frontend/travelPlus/src/app/app.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,20 +29,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;test&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Chamith/Documents/TravelPlus&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "test",
+    "last_opened_file_path": "C:/Users/Chamith/Documents/TravelPlus/TravelPlus_backend/travelPlus",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <module name="TravelPlus" />
@@ -61,6 +64,8 @@
       <workItem from="1708971625738" duration="613000" />
       <workItem from="1709007555793" duration="794000" />
       <workItem from="1709553575426" duration="599000" />
+      <workItem from="1710678516354" duration="11637000" />
+      <workItem from="1710771810276" duration="61000" />
     </task>
     <servers />
   </component>
