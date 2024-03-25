@@ -24,18 +24,18 @@ export class AddContractComponent implements OnInit {
       cancellationDeadline: ['', Validators.required],
       prepaymentPercentage: ['', Validators.required],
       paymentDeadline: ['', Validators.required],
-      seasons: this.formBuilder.array([]),
-      offers: this.formBuilder.array([]),
-      hotelId: 1
+      hotelId:1,
+      season: this.formBuilder.array([]),
+      offer: this.formBuilder.array([])
     });
   }
 
-  get seasons(): FormArray {
-    return this.contractForm.get('seasons') as FormArray;
+  get season(): FormArray {
+    return this.contractForm.get('season') as FormArray;
   }
 
   addSeason(): void {
-    this.seasons.push(this.formBuilder.group({
+    this.season.push(this.formBuilder.group({
       seasonType: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -44,32 +44,33 @@ export class AddContractComponent implements OnInit {
   }
 
   removeSeason(index: number): void {
-    this.seasons.removeAt(index);
+    this.season.removeAt(index);
   }
 
-  get offers(): FormArray {
-    return this.contractForm.get('offers') as FormArray;
+  get offer(): FormArray {
+    return this.contractForm.get('offer') as FormArray;
   }
 
   addOffer(): void {
-    this.offers.push(this.formBuilder.group({
+    this.offer.push(this.formBuilder.group({
       offerName: ['', Validators.required],
       offerType: ['', Validators.required],
       conditions: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
       discountPercentage: ['', Validators.required]
     }));
   }
 
   removeOffer(index: number): void {
-    this.offers.removeAt(index);
+    this.offer.removeAt(index);
   }
 
   onSubmit(): void {
  
       const values=this.contractForm.value as contract;
+      console.log(values);
       this.contractService.addContract(values as contract).subscribe((res)=>{
-        this.contractForm.reset()
-      console.log(this.contractForm.value);
       this.contractForm.reset();
       })
  

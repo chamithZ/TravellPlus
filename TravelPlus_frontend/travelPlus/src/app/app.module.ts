@@ -11,6 +11,10 @@ import { AddSupplementComponent } from './Components/add-supplement/add-suppleme
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './Components/header/header.component';
 import { FooterComponent } from './Components/footer/footer.component';
+import { HomeComponent } from './Pages/home/home.component';
+import { HomeHeroComponent } from './Components/home-hero/home-hero.component';
+import { HomeSearchBarComponent } from './Components/home-search-bar/home-search-bar.component';
+import { HotelCardComponent } from './Components/hotel-card/hotel-card.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,10 @@ import { FooterComponent } from './Components/footer/footer.component';
     AddSupplementComponent,
     HeaderComponent,
     FooterComponent,
+    HomeComponent,
+    HomeHeroComponent,
+    HomeSearchBarComponent,
+    HotelCardComponent,
 
   ],
   imports: [
