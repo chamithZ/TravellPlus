@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddRoomTypeComponent } from './Components/add-room-type/add-room-type.component';
 import { AddSupplementComponent } from './Components/add-supplement/add-supplement.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from './Components/header/header.component';
+import { FooterComponent } from './Components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     AddContractComponent,
     AddRoomTypeComponent,
     AddSupplementComponent,
+    HeaderComponent,
+    FooterComponent,
 
   ],
   imports: [

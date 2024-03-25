@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { contract } from '../../Models/Contract';
+import { ContractService } from '../../Services/contract.service';
 
 @Component({
   selector: 'app-add-contract',
@@ -11,7 +12,8 @@ export class AddContractComponent implements OnInit {
   contractForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private contractService: ContractService
     ) {}
 
   ngOnInit(): void {
@@ -23,7 +25,8 @@ export class AddContractComponent implements OnInit {
       prepaymentPercentage: ['', Validators.required],
       paymentDeadline: ['', Validators.required],
       seasons: this.formBuilder.array([]),
-      offers: this.formBuilder.array([])
+      offers: this.formBuilder.array([]),
+      hotelId: 1
     });
   }
 
@@ -62,13 +65,16 @@ export class AddContractComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.contractForm.valid) {
+ 
       const values=this.contractForm.value as contract;
-      this.contractService.addHotelComponent(values as contract).subscribe((res)=>{
-        this.hotelForm.reset()
+      this.contractService.addContract(values as contract).subscribe((res)=>{
+        this.contractForm.reset()
       console.log(this.contractForm.value);
-    } else {
-      // Form is invalid
-    }
+      this.contractForm.reset();
+      })
+ 
   }
 }
+
+
+
