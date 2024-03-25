@@ -1,0 +1,28 @@
+<!-- hotel-card.component.html -->
+<div class="w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-16 xl:px-20 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <ng-container *ngIf="loading; else hotelCardsLoading">
+        Loading...
+      </ng-container>
+      <ng-template #hotelCardsLoading>
+        <ng-container *ngFor="let item of data">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <img [src]="'hotels/images/' + item.HotelImg" alt="" class="w-full object-cover h-64">
+            <div class="p-4">
+              <h2 class="font-bold text-gray-700 text-lg mb-2">{{ item.name }}</h2>
+              <p class="font-light text-gray-500 mb-2">{{ item.city }}</p>
+              <p class="font-medium text-gray-900 mb-2">Starting from Rs.{{ item.cheapestPrice }}</p>
+              <div class="flex items-center">
+                <a [routerLink]="'/hotelOverview/' + item._id">
+                  <button class="bg-blue-700 text-white font-bold px-3 py-1 rounded mr-2" type="button">
+                    View
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+  

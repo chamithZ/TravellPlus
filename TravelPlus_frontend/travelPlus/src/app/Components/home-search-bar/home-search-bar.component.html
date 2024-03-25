@@ -1,0 +1,20 @@
+<!-- hotel-search-bar.component.html -->
+<div class="bg-white mt-4 lg:mt-[0px] px-8 shadow-lg max-w-[1240px] p-4 lg:text-left text-center h-full items-center mx-auto rounded-lg">
+    <form class="flex flex-col lg:flex-row justify-between px-4">
+      <div class="flex flex-col">
+        <label for="Location" class="py-3 ml-5">Location</label>
+        <input type="text" class="border rounded-md p-3 lg:w-[300px] w-full" placeholder="Where are you going?" [(ngModel)]="city">
+      </div>
+  
+      <div class="flex flex-col">
+        <label for="checkInDate" class="py-3 ml-5">Check-In Date</label>
+        <input type="date" class="border rounded-md p-3 w-full" [min]="currentDate" [(ngModel)]="checkInDate">
+      </div>
+  
+      <div class="flex flex-col">
+        <label for="returnDate" class="py-3 ml-5">Check-Out Date</label>
+        <input type="date" class="border rounded-md p-3 w-full" [min]="tomorrowDate" [(ngModel)]="checkOutDate">
+      </div>
+    </form>
+  </div>
+  

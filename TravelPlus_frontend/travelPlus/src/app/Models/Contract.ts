@@ -9,7 +9,7 @@ export interface contract{
     prepaymentPercentage:number,
     paymentDeadline:number,
     hotelId:number,
-    seasons:Season[],
-    offers:Offer[]
+    season:Season[],
+    offer:Offer[] 
 
-}
+}  
