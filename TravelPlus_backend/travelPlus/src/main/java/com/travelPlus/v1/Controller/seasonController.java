@@ -68,7 +68,7 @@ public class seasonController {
 
             }else if(res.equals("001")){
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND );
-                responseDTO.setMessage("Room type is not available ");
+                responseDTO.setMessage("Season is not available ");
                 responseDTO.setContent(seasonDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 

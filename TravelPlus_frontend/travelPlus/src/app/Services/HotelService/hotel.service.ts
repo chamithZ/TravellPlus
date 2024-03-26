@@ -1,7 +1,7 @@
 import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Hotel } from '../Models/Hotel';
-import { Response } from '../Models/Response';
+import { Hotel } from '../../Models/Hotel';
+import { Response } from '../../Models/Response';
 
 
 @Injectable({

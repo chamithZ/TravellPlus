@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { HotelService } from '../../Services/hotel.service';
+import { HotelService } from '../../Services/HotelService/hotel.service';
 import { Hotel } from '../../Models/Hotel';
 
 @Component({
