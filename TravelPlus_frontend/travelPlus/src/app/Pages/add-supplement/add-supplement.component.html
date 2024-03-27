@@ -1,0 +1,30 @@
+<form [formGroup]="supplementForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto">
+    <div class="flex flex-col items-center">
+      <div class="mt-10 text-3xl text-[#41A4FF] font-semibold mb-5">Add Supplement</div>
+  
+    
+  
+      <!-- Supplemnt Name -->
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="text" formControlName="serviceName" id="serviceName" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+        <label for="serviceName" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Service Name</label>
+      </div>
+  
+      
+      <div formArrayName="supplementSeason" class="relative z-0 w-full mb-5 group">
+      <div *ngFor="let season of seasons let i=index" class="relative z-0 w-full mb-5 group">
+        <!-- Season ID -->
+        <input type="hidden" name="seasonId" [value]="season.seasonId">
+  
+        <!--  Price -->
+       <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
+          <input type="number" formControlName="price" name="supplementPrice" id="supplementPrice{{season.seasonId}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+  
+          <label for="supplementPrice{{season.seasonId}}" class="ml-8 peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Supplement Price for {{season.seasonType}}</label>
+        </div>
+     
+    </div>
+    </div>
+      <button type="submit" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
+    </div>
+  </form>

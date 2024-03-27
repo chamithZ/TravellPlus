@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Season } from '../../Models/Season';
 import { RoomService } from '../../Services/RoomService/room.service';
 import { RoomType } from '../../Models/RoomType';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-room-type',
@@ -12,13 +13,14 @@ import { RoomType } from '../../Models/RoomType';
 })
 export class AddRoomTypeComponent implements OnInit {
   seasons: Season[] = [];
-  contractId: number = 57;
+  contractId!: number ;
   roomTypeForm!: FormGroup; // Declare roomTypeForm as a FormGroup
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private roomService:RoomService ) {} // Inject FormBuilder
+  constructor(private router: Router,private http: HttpClient, private formBuilder: FormBuilder, private roomService:RoomService, private route: ActivatedRoute  ) {} // Inject FormBuilder
 
   ngOnInit(): void {
-    this.contractId = 57;
+    this.route.params.subscribe(params => 
+      this.contractId = params['contractId']);
     this.fetchSeasons(this.contractId);
 
     // Initialize the form
@@ -91,7 +93,8 @@ export class AddRoomTypeComponent implements OnInit {
     
     console.log(transformedValue); 
     this.roomService.addRoomType(transformedValue as RoomType).subscribe((res)=>{
-      this.roomTypeForm.reset();
+      this.roomTypeForm.reset({ contractId: this.contractId });
+      this.router.navigate(['/addSupplement',this.contractId]);
   })
    
 }
