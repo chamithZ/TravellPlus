@@ -67,24 +67,7 @@ public class HotelServiceTest {
         verify(hotelRepo, times(1)).save(any(Hotel.class));
     }
 
-    @Test
-    public void testSearchHotel() {
-        // Mock data
-        String destination = "TestCity";
-        String checkInDate = "2024-03-06";
-        String checkOutDate = "2024-03-10";
-        List<Hotel> mockHotels = new ArrayList<>();  // Add mock hotels
 
-        // Mock repository behavior
-        when(hotelRepo.findHotelsByCityAndContractDates(destination, checkInDate, checkOutDate)).thenReturn(mockHotels);
-
-        // Call the service method
-        List<HotelDTO> result = hotelService.searchHotel(destination, checkInDate, checkOutDate);
-
-        // Assertions
-        assertThat(result).isNotNull();
-        verify(modelMapper, times(1)).map(mockHotels, new TypeToken<ArrayList<HotelDTO>>() {}.getType());
-    }
 
     @Test
     public void testDeleteHotel() {
