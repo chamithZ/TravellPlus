@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,8 +24,8 @@ public class Season {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long seasonId;
     String seasonType;
-    String startDate;
-    String endDate;
+    LocalDate startDate;
+    LocalDate endDate;
     double markUp;
 
 

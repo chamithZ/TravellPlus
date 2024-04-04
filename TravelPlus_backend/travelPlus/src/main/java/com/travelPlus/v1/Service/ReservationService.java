@@ -1,14 +1,9 @@
 package com.travelPlus.v1.Service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
-import com.travelPlus.v1.DTO.HotelDTO;
-import com.travelPlus.v1.DTO.PaymentDTO;
-import com.travelPlus.v1.DTO.ReservationDTO;
+import com.travelPlus.v1.DTO.*;
 import com.travelPlus.v1.Entity.*;
-import com.travelPlus.v1.Repo.PaymentRepo;
-import com.travelPlus.v1.Repo.ReservationRepo;
-import com.travelPlus.v1.Repo.ReservationRoomTypeRepo;
-import com.travelPlus.v1.Repo.RoomTypeRepo;
+import com.travelPlus.v1.Repo.*;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -29,9 +24,93 @@ public class ReservationService {
     @Autowired
     private ReservationRepo reservationRepo;
     @Autowired
+    private RoomTypeRepo roomTypeRepo;
+    @Autowired
     private PaymentRepo paymentRepo;
     @Autowired
+    private ReservationOffersRepo reservationOffersRepo;
+    @Autowired
+    private ReservationSupplementRepo supplementRepo;
+    @Autowired
     private ReservationRoomTypeRepo reservationRoomTypeRepo;
+
+    public String addBooking(ReservationDTO reservationDTO) {
+        Reservation reservation = new Reservation();
+
+        reservation.setCheckInDate(reservationDTO.getCheckInDate());
+        reservation.setCheckOutDate(reservationDTO.getCheckOutDate());
+        reservation.setAdultCount(reservationDTO.getAdultCount());
+        reservation.setFullPayment(reservationDTO.isFullPayment());
+
+        User user = new User();
+        user.setUserId(reservationDTO.getUserId());
+        reservation.setUser(user);
+
+        // Iterate over the list of RoomTypeReservationDTO
+        for (RoomTypeReservationDTO roomTypeReservationDTO : reservationDTO.getRoomTypeReservation()) {
+            RoomType roomType = roomTypeRepo.findById(roomTypeReservationDTO.getRoomType().getRoomId())
+                    .orElseThrow(() -> new RuntimeException("RoomType not found"));
+
+            // Create a new RoomTypeReservation
+            RoomTypeReservation roomTypeReservation = new RoomTypeReservation();
+            roomTypeReservation.setId(new RoomTypeReservationKey(reservation.getReservationId(), roomType.getRoomId()));
+            roomTypeReservation.setReservation(reservation);
+            roomTypeReservation.setRoomType(roomType);
+            roomTypeReservation.setRoomsCount(roomTypeReservationDTO.getRoomCount());
+
+            // Add the RoomTypeReservation to the Reservation's collection
+            reservation.getRoomTypeReservation().add(roomTypeReservation);
+
+
+            ReservationRoomType reservationRoomType=new ReservationRoomType();
+            reservationRoomType.setRoomTypeName(roomType.getRoomTypeName());
+            reservationRoomType.setRoomPrice(roomTypeReservationDTO.getRoomPrice());
+            reservationRoomType.setReservation(reservation);
+
+            reservationRoomTypeRepo.save(reservationRoomType);
+        }
+        // Save the RoomTypeReservation along with its associated RoomType
+        reservationRepo.save(reservation);
+
+        PaymentDTO paymentDTO = reservationDTO.getPaymentDTO();
+        Payment payment = new Payment();
+        payment.setPaymentId(paymentDTO.getPaymentId());
+        // Set other payment attributes
+        payment.setRmarkUpPercentage(paymentDTO.getRmarkUpPercentage());
+        payment.setRcancellationDeadline(paymentDTO.getRcancellationDeadline());
+        payment.setRPaymentDeadline(paymentDTO.getRPaymentDeadline());
+        payment.setRcancellationPercentage(paymentDTO.getRcancellationPercentage());
+        payment.setTotalPrice(paymentDTO.getTotalPrice());
+        payment.setReservation(reservation);
+        // Save payment
+        paymentRepo.save(payment);
+
+        paymentRepo.save(payment);
+        for (ReservationSupplementDTO supplementDTO : reservationDTO.getReservationSupplementDTOS()) {
+            ReservationSupplement supplement = new ReservationSupplement();
+            supplement.setRSupplementId(supplementDTO.getRSupplementId());
+            supplement.setPrice(supplementDTO.getPrice());
+            supplement.setServiceName(supplementDTO.getServiceName());
+            supplement.setReservation(reservation);
+            // Set other supplement attributes
+            // Save supplement
+            supplementRepo.save(supplement);
+        }
+
+        // Create and save ReservationOffers
+        for (ReservationOffersDTO offersDTO : reservationDTO.getReservationOffersDTOS()) {
+            ReservationOffers offers = new ReservationOffers();
+            offers.setROfferId(offersDTO.getROfferId());
+            offers.setOfferName(offersDTO.getOfferName());
+            offers.setDiscounPrecentage(offersDTO.getDiscounPrecentage());
+            offers.setReservation(reservation);
+            // Set other offers attributes
+            // Save offers
+            reservationOffersRepo.save(offers);
+        }
+
+        return VarList.RSP_SUCCESS;
+    }
 
     public String addReservation(ReservationDTO reservationDTO) {
         if (reservationRepo.existsById(reservationDTO.getReservationId())) {

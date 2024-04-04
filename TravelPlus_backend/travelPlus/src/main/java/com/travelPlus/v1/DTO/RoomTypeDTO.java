@@ -16,7 +16,7 @@ import java.util.List;
 public class RoomTypeDTO {
     private long roomId;
     private String roomTypeName;
-    private String roomSize;
+    private int roomSize;
     private String roomBedType;
     private String roomDescription;
     private String roomImage;

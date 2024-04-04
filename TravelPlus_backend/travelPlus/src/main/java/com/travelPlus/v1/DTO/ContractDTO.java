@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -16,8 +17,8 @@ import java.util.List;
 
 public class ContractDTO {
     private long contractId;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private double cancellationFeePercentage;
     private int cancellationDeadline;
     private double prepaymentPercentage;
