@@ -16,6 +16,7 @@ import { HomeSearchBarComponent } from './Components/home-search-bar/home-search
 import { HotelCardComponent } from './Components/hotel-card/hotel-card.component';
 import { AddSupplementComponent } from './Pages/add-supplement/add-supplement.component';
 import { CommonModule } from '@angular/common';
+import { SearchListComponent } from './Pages/search-list/search-list.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CommonModule } from '@angular/common';
     HomeHeroComponent,
     HomeSearchBarComponent,
     HotelCardComponent,
+    SearchListComponent,
 
   ],
   imports: [

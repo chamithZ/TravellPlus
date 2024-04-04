@@ -5,11 +5,13 @@ import { AddRoomTypeComponent } from './Pages/add-room-type/add-room-type.compon
 import { HomeComponent } from './Pages/home/home.component';
 import { AddHotelComponent } from './Pages/add-hotel/add-hotel.component';
 import { AddSupplementComponent } from './Pages/add-supplement/add-supplement.component';
+import { SearchListComponent } from './Pages/search-list/search-list.component';
 
 const routes: Routes = [
-  {path:'addContract',component: AddContractComponent},
+  {path:'addContract/:hotelId',component: AddContractComponent},
   {path:'addHotel',component:AddHotelComponent},
   {path:'home',component:HomeComponent},
+  {path:'searchResult',component:SearchListComponent},
   {path:'addRoomType/:contractId',component:AddRoomTypeComponent},
   {path:'addSupplement/:contractId',component:AddSupplementComponent}
 ];
