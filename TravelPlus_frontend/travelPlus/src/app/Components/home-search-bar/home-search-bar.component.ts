@@ -1,4 +1,9 @@
-import { Component, HostListener , Renderer2, ElementRef} from '@angular/core';
+import { Component, HostListener, Renderer2, ElementRef } from '@angular/core';
+import { HotelService } from '../../Services/HotelService/hotel.service';
+import { Hotel } from '../../Models/Hotel';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -12,11 +17,12 @@ export class HomeSearchBarComponent {
   roomCount: number = 1; // Default to 1 room
   guestCount: number = 1; // Default to 1 guest
   dropdownOpen: boolean = false;
+  hotels: Hotel[] = []; // To store the fetched hotel list
 
   currentDate: string = new Date().toISOString().split('T')[0];
   tomorrowDate: string = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private router: Router,private http: HttpClient, private formBuilder: FormBuilder,private hotelService: HotelService, private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit() {
     this.toggleDropdown();
@@ -58,4 +64,21 @@ export class HomeSearchBarComponent {
       this.guestCount--;
     }
   }
+
+  searchHotels() {
+    // Check if the required fields are set
+    if (!this.city || !this.checkInDate || !this.checkOutDate) {
+      console.error('Please fill in all required fields (Destination, Check-In Date, Check-Out Date)');
+
+      return; // Exit the method if any of the required fields are not set
+    }
+  
+    // Calling the searchHotel method from the hotel service
+    this.hotelService.searchHotel(this.city, this.checkInDate, this.checkOutDate, this.guestCount, this.roomCount)
+      .subscribe(response => {
+        this.router.navigate(['/searchResult'], { queryParams: { hotels: JSON.stringify(response.content) } });
+        
+      });
+  }
+  
 }
