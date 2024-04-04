@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface SeasonRepo extends JpaRepository<Season,Long> {
     List<Season> findByContract_contractId(long contractId);
+
 }
 
