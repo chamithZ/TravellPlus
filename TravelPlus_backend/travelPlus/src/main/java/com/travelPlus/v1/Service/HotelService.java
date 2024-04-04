@@ -8,6 +8,7 @@ import com.travelPlus.v1.Entity.Hotel;
 import com.travelPlus.v1.Entity.Season;
 import com.travelPlus.v1.Entity.User;
 import com.travelPlus.v1.Repo.HotelRepo;
+import com.travelPlus.v1.Repo.SeasonRepo;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class HotelService {
 
     @Autowired
     private HotelRepo hotelRepo;
+
+    @Autowired
+    private SeasonRepo seasonRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,12 +52,23 @@ public class HotelService {
         }
     }
 
-    public List<HotelDTO> searchHotel(String destination,String checkInDate,String checkOutDate){
-        List<Hotel> hotels = hotelRepo.findHotelsByCityAndContractDates(destination, checkInDate, checkOutDate);
+    public List<HotelDTO> searchHotel(String destination, String checkInDate, String checkOutDate, int guestCount, int roomCount) {
 
-        return modelMapper.map(hotels,new TypeToken<ArrayList<HotelDTO>>(){
-        }.getType());
+        int guestsPerRoom=guestCount/roomCount;
+        // Parse string dates to LocalDate
+
+        LocalDate parsedCheckInDate = LocalDate.parse(checkInDate);
+        LocalDate parsedCheckOutDate = LocalDate.parse(checkOutDate);
+
+
+        // Call repository method to find available hotels
+        List<Hotel> hotels = hotelRepo.findAvailableHotels(destination, parsedCheckInDate, parsedCheckOutDate, guestsPerRoom, roomCount);
+
+        // Map Hotel entities to HotelDTOs
+
+        return modelMapper.map(hotels, new TypeToken<ArrayList<HotelDTO>>() {}.getType());
     }
+
 
     public String deleteHotel(long hotelId) {
         if (hotelRepo.existsById(hotelId))
