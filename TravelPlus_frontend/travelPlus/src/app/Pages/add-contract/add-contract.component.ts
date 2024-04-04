@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { contract } from '../../Models/Contract';
 import { ContractService } from '../../Services/ContractService/contract.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contract',
@@ -10,13 +11,21 @@ import { ContractService } from '../../Services/ContractService/contract.service
 })
 export class AddContractComponent implements OnInit {
   contractForm!: FormGroup;
+  hotelId!: number ;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder, 
-    private contractService: ContractService
+    private contractService: ContractService,
+    private route: ActivatedRoute 
     ) {}
 
   ngOnInit(): void {
+
+    this.route.params.subscribe(params => 
+      this.hotelId = params['hotelId']);
+
+
     this.contractForm = this.formBuilder.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -24,10 +33,11 @@ export class AddContractComponent implements OnInit {
       cancellationDeadline: ['', Validators.required],
       prepaymentPercentage: ['', Validators.required],
       paymentDeadline: ['', Validators.required],
-      hotelId:1,
+      hotelId: [this.hotelId, Validators.required],
       season: this.formBuilder.array([]),
       offer: this.formBuilder.array([])
     });
+
   }
 
   get season(): FormArray {
