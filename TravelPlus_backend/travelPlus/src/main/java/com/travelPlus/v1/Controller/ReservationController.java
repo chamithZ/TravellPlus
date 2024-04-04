@@ -23,7 +23,7 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity addReservation(@RequestBody ReservationDTO reservationDTO ){
-        String res= reservationService.addReservation(reservationDTO);
+        String res= reservationService.addBooking(reservationDTO);
         try{
             if (res.equals("000")) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);

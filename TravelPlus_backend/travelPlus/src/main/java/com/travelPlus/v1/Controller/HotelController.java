@@ -100,21 +100,23 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/{destination}/{checkIn}/{checkOut}")
-    @PreAuthorize("hasAuthority('admin')")
-    public ResponseEntity searchHotel(@PathVariable String destination,@PathVariable String checkIn,@PathVariable String checkOut){
-        try{
-            List<HotelDTO> hotels=hotelService.searchHotel(destination,checkIn,checkOut);
-            responseDTO.setCode(VarList.RSP_DUPLICATED );
+    @GetMapping("/search")
+    public ResponseEntity searchHotel(  @RequestParam String destination,
+                                      @RequestParam String checkIn,
+                                      @RequestParam String checkOut,
+                                      @RequestParam int guestCount,
+                                      @RequestParam int numberOfRooms) {
+        try {
+            List<HotelDTO> hotels = hotelService.searchHotel(destination, checkIn, checkOut, guestCount, numberOfRooms);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Success");
             responseDTO.setContent(hotels);
             return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-
-        }catch(Exception ex){
+        } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent((null));
-            return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
