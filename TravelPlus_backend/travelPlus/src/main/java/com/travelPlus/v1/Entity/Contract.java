@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long contractId;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private double cancellationFeePercentage;
     private int cancellationDeadline;
     private double prepaymentPercentage;
@@ -40,8 +41,5 @@ public class Contract {
     @ManyToOne(cascade = CascadeType.DETACH)  //contract - hotel relation
     @JoinColumn(name="hotelId", referencedColumnName = "hotelId")
     private Hotel hotel;
-
-
-
 
 }

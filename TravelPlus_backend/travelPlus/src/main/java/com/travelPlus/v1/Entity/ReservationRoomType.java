@@ -16,7 +16,8 @@ public class ReservationRoomType {
     private String roomTypeName;
     private double roomPrice;
 
-    @OneToOne  // ReservationRoomType - reservation relation
+
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="reservationId" , referencedColumnName = "reservationId")
     private Reservation reservation;
 

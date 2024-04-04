@@ -1,6 +1,6 @@
 package com.travelPlus.v1.Entity;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class RoomTypeSeasonKey implements Serializable {
+public class RoomTypeReservationKey implements Serializable {
     long roomId;
-    long seasonId;
+    long reservationId;
+
 }

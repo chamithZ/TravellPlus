@@ -22,7 +22,7 @@ public class RoomType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomId;
     private String roomTypeName;
-    private String roomSize;
+    private int roomSize;
     private String roomBedType;
     private String roomDescription;
     private String roomImage;
@@ -38,8 +38,7 @@ public class RoomType {
     @JsonIgnore
     private Collection<RoomTypeSeason> roomTypeSeasons=new ArrayList<>();
 
-    @OneToMany(mappedBy = "roomType")
-    @JsonIgnore
-    private Set<Reservation> reservationlist;
+    @OneToMany(mappedBy = "roomType",cascade = CascadeType.ALL)
+    private Collection<RoomTypeReservation> roomTypeReservation=new ArrayList<>();
 
 }
