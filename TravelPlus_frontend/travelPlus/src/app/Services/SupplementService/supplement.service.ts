@@ -16,6 +16,6 @@ export class SupplementService {
   }
   
   addSupplement(supplement:Supplement){
-   return this.http.post<Response<Supplement>>(`${this.baseUrl}/supplement`,supplement,this.httpOptions)
+   return this.http.post<Response<Supplement>>(`${this.baseUrl}/supplements`,supplement,this.httpOptions)
   }
 }
