@@ -15,6 +15,7 @@ import org.modelmapper.internal.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +73,10 @@ public class RoomTypeService {
         return VarList.RSP_SUCCESS;
     }
 
+
+    public List<RoomType> findAvailableRoomTypes(long contractId, LocalDate checkInDate, LocalDate checkOutDate) {
+        return roomTypeRepo.findRoomTypesByContractIdAndSeasonValidity(contractId, checkInDate, checkOutDate);
+    }
 
 
 

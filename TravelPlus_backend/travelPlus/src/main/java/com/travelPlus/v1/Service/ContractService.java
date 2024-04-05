@@ -13,6 +13,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +89,16 @@ public class ContractService {
         return modelMapper.map(contractList,new TypeToken<ArrayList<ContractDTO>>(){
         }.getType());
     }
+    public long getContractIdByHotelIdAndDateRange(long hotelId, LocalDate startDate, LocalDate endDate) {
+        Contract contract = contractRepo.findByHotelHotelIdAndStartDateBeforeAndEndDateAfter(hotelId, startDate, endDate);
+        if (contract != null) {
+            return contract.getContractId();
+        } else {
+            // No contract found for the given hotel ID and date range
+            return -1; // Or you can throw an exception or return null depending on your application's logic
+        }
+    }
+    
 
 
 

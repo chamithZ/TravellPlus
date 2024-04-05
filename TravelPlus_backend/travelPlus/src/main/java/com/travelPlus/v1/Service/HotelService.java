@@ -86,4 +86,13 @@ public class HotelService {
         return modelMapper.map(hotelList,new TypeToken<ArrayList<HotelDTO>>(){
         }.getType());
     }
+    public HotelDTO getHotel(long hotelId) {
+        if(hotelRepo.existsById(hotelId)){
+            Hotel hotel=hotelRepo.findById(hotelId).orElse(null);
+            return modelMapper.map(hotel,HotelDTO.class);
+        }
+        else{
+            return null;
+        }
+    }
 }
