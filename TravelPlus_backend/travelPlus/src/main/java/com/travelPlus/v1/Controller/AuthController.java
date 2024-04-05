@@ -28,7 +28,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auths")
 public class AuthController {
 
 

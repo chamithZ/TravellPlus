@@ -12,10 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/contract")
+@RequestMapping("/api/v1/contracts")
 public class ContractController {
     @Autowired
     private ContractService contractService;
@@ -131,6 +132,36 @@ public class ContractController {
             responseDTO.setMessage(e.getMessage());
             responseDTO.setContent(e);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/{hotelId}")
+    public ResponseEntity<ResponseDTO> getContractIdByHotelIdAndDateRange(
+            @PathVariable long hotelId,
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+            LocalDate parsedStartDate = LocalDate.parse(startDate);
+            LocalDate parsedEndDate = LocalDate.parse(endDate);
+
+            long contractId = contractService.getContractIdByHotelIdAndDateRange(hotelId, parsedStartDate, parsedEndDate);
+
+            if (contractId != -1) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Contract ID found");
+                responseDTO.setContent(contractId);
+                return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No contract found for the given hotel ID and date range");
+                responseDTO.setContent(null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
+            }
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
         }
     }
 

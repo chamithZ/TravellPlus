@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/hotel")
+@RequestMapping("/api/v1/hotels")
 public class HotelController {
     @Autowired
     private HotelService hotelService;
@@ -117,6 +117,32 @@ public class HotelController {
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent(null);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/{hotelId}")
+    public ResponseEntity getHotel(@PathVariable long hotelId){
+        try{
+
+            HotelDTO hotelDTO=hotelService.getHotel(hotelId);
+            if(hotelDTO!=null){
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(hotelDTO);
+                return  new ResponseEntity<>(responseDTO,HttpStatus.ACCEPTED);
+            }
+            else{
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage(" User not found!");
+                responseDTO.setContent(hotelDTO);
+                return  new ResponseEntity<>(responseDTO,HttpStatus.ACCEPTED);
+            }
+
+        }
+        catch (Exception ex){
+            responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent((null));
+            return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

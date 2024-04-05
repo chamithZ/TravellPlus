@@ -11,10 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/roomType")
+@RequestMapping("/api/v1/roomTypes")
 public class RoomTypeController {
     @Autowired
     private RoomTypeService roomTypeService;
@@ -35,14 +36,12 @@ public class RoomTypeController {
                 responseDTO.setMessage("Already Added");
                 responseDTO.setContent(roomTypeDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-             else if (res.equals("011")) {
-            responseDTO.setCode(VarList.RSP_DUPLICATED);
-            responseDTO.setMessage("Hotel not available");
-            responseDTO.setContent(roomTypeDTO);
-            return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-             }
-        else {
+            } else if (res.equals("011")) {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("Hotel not available");
+                responseDTO.setContent(roomTypeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            } else {
                 responseDTO.setCode(VarList.RSP_FAIL);
                 responseDTO.setMessage("Error");
                 responseDTO.setContent(null);
@@ -55,37 +54,61 @@ public class RoomTypeController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping
-    public ResponseEntity updateRoomType(@RequestBody RoomTypeDTO roomTypeDTO){
 
-        try{
-            String res= roomTypeService.updateRoomType(roomTypeDTO);
-            if(res.equals("000")){
-                responseDTO.setCode(VarList.RSP_DUPLICATED );
+    @PutMapping
+    public ResponseEntity updateRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
+
+        try {
+            String res = roomTypeService.updateRoomType(roomTypeDTO);
+            if (res.equals("000")) {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Success");
                 responseDTO.setContent(roomTypeDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 
-            }else if(res.equals("001")){
-                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND );
+            } else if (res.equals("001")) {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
                 responseDTO.setMessage("Room type is not available ");
                 responseDTO.setContent(roomTypeDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 
-            }else{
-                responseDTO.setCode(VarList.RSP_FAIL );
+            } else {
+                responseDTO.setCode(VarList.RSP_FAIL);
                 responseDTO.setMessage("Error");
                 responseDTO.setContent(null);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 
             }
-        }catch( Exception ex){
-            responseDTO.setCode(VarList.RSP_ERROR );
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent(null);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{contractId}/{checkInDate}/{checkOutDate}")
+    public ResponseEntity<List<RoomType>> findAvailableRoomTypes(
+            @PathVariable long contractId,
+            @PathVariable("checkInDate") String checkInDateStr,
+            @PathVariable("checkOutDate") String checkOutDateStr
+    ) {
+        try {
+            LocalDate checkInDate = LocalDate.parse(checkInDateStr);
+            LocalDate checkOutDate = LocalDate.parse(checkOutDateStr);
+
+            List<RoomType> availableRoomTypes = roomTypeService.findAvailableRoomTypes(contractId, checkInDate, checkOutDate);
+
+            return new ResponseEntity<>(availableRoomTypes, HttpStatus.OK);
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
     @DeleteMapping("/{roomTypeId}")
     public ResponseEntity deleteHotel(@PathVariable int roomTypeId){
