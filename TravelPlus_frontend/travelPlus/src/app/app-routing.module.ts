@@ -6,11 +6,13 @@ import { HomeComponent } from './Pages/home/home.component';
 import { AddHotelComponent } from './Pages/add-hotel/add-hotel.component';
 import { AddSupplementComponent } from './Pages/add-supplement/add-supplement.component';
 import { SearchListComponent } from './Pages/search-list/search-list.component';
+import { HotelOverviewComponent } from './Pages/hotel-overview/hotel-overview.component';
 
 const routes: Routes = [
   {path:'addContract/:hotelId',component: AddContractComponent},
   {path:'addHotel',component:AddHotelComponent},
   {path:'home',component:HomeComponent},
+  {path:'hotel/:hotelId',component:HotelOverviewComponent},
   {path:'searchResult',component:SearchListComponent},
   {path:'addRoomType/:contractId',component:AddRoomTypeComponent},
   {path:'addSupplement/:contractId',component:AddSupplementComponent}
