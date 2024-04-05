@@ -23,5 +23,6 @@ public class RoomTypeDTO {
     private long contractId;
 
     private Collection<RoomTypeSeasonDTO> roomTypeSeasons=new ArrayList<>();
+    private Collection<RoomTypeSeason> roomTypeSeason=new ArrayList<>();
 
 }
