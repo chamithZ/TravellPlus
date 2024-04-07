@@ -22,6 +22,7 @@ public class Hotel {
     private String hotelEmail;
     private String hotelCity;
     private String hotelContactNo;
+    private String hotelDescription;
 
     @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;

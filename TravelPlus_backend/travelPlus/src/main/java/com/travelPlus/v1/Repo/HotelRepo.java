@@ -19,15 +19,7 @@ public interface HotelRepo extends JpaRepository<Hotel,Long> {
             "WHERE h.hotelCity = :city " +
             "AND ( :checkInDate >= c.startDate AND :checkOutDate <= c.endDate) " +
             "AND rt.roomSize >= :guestsPerRoom " +
-            "AND (rs.noOfRooms - " +
-            "     COALESCE((SELECT COUNT(r) " +
-            "               FROM RoomTypeReservation rrt,Reservation r" +
-            "               WHERE rrt.roomType = rt " +
-            "               AND :checkInDate < r.checkOutDate " +
-            "               AND :checkOutDate > r.checkInDate), 0)) >= :numberOfRooms " +
-            "AND EXISTS (SELECT 1 FROM rs.season s " +
-            "            WHERE :checkInDate BETWEEN s.startDate AND s.endDate " +
-            "            AND :checkOutDate BETWEEN s.startDate AND s.endDate) " +
+            "AND EXISTS (SELECT 1 FROM rs.season s WHERE :checkInDate BETWEEN s.startDate AND s.endDate AND :checkOutDate BETWEEN s.startDate AND s.endDate)" +
             "GROUP BY h " +
             "HAVING COALESCE(SUM(rs.noOfRooms), 0) >= :numberOfRooms")
     List<Hotel> findAvailableHotels(@Param("city") String city,

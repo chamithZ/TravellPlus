@@ -15,4 +15,5 @@ public class HotelDTO {
     private String hotelEmail;
     private String hotelCity;
     private String hotelContactNo;
+    private String hotelDescription;
 }

@@ -5,4 +5,5 @@ export interface Season{
     startDate:string,
     endDate:string,
     markUp:number
+
 }

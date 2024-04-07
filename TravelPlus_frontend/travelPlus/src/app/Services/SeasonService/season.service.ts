@@ -16,6 +16,6 @@ export class SeasonService {
   };
 
   getSeasons(contractId: string) {
-    return this.http.get<Season[]>(`${this.baseUrl}/season/${contractId}`, this.httpOptions);
+    return this.http.get<Season[]>(`${this.baseUrl}/seasons/${contractId}`, this.httpOptions);
   }
 }

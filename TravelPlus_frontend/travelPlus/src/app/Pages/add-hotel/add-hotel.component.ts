@@ -15,7 +15,8 @@ export class AddHotelComponent implements OnInit{
     hotelAddress:[''],
     hotelCity:[''],
     hotelEmail:[''],
-    hotelContactNo:['']
+    hotelContactNo:[''],
+    hotelDescription:['']
   })
 
   isDataUploaded=false;

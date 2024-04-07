@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/supplement")
+@RequestMapping("/api/v1/supplements")
 public class SupplementController {
     @Autowired
     private SupplementService supplementService;

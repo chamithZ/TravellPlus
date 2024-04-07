@@ -35,7 +35,6 @@ public class RoomType {
 
 
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Collection<RoomTypeSeason> roomTypeSeasons=new ArrayList<>();
 
     @OneToMany(mappedBy = "roomType",cascade = CascadeType.ALL)

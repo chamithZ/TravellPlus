@@ -1,9 +1,8 @@
-import { Component, HostListener, Renderer2, ElementRef } from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { HotelService } from '../../Services/HotelService/hotel.service';
-import { Hotel } from '../../Models/Hotel';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { HotelDataService } from '../../Services/HotelDataService/hotel-data.service';
+import { SearchCriteria } from '../../Models/SearchCriteria'; // Import the SearchCriteria model
 
 @Component({
   selector: 'app-home-search-bar',
@@ -14,18 +13,16 @@ export class HomeSearchBarComponent {
   city: string = '';
   checkInDate: string = '';
   checkOutDate: string = '';
-  roomCount: number = 1; // Default to 1 room
-  guestCount: number = 1; // Default to 1 guest
+  roomCount: number = 1;
+  guestCount: number = 1;
   dropdownOpen: boolean = false;
-  hotels: Hotel[] = []; // To store the fetched hotel list
 
   currentDate: string = new Date().toISOString().split('T')[0];
   tomorrowDate: string = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-  constructor(private router: Router,private http: HttpClient, private formBuilder: FormBuilder,private hotelService: HotelService, private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private router: Router, private hotelDataService: HotelDataService, private renderer: Renderer2, private el: ElementRef, private hotelService: HotelService) {}
 
   ngOnInit() {
-    this.toggleDropdown();
     this.renderer.listen('document', 'click', (event: MouseEvent) => {
       this.handleDocumentClick(event);
     });
@@ -42,43 +39,43 @@ export class HomeSearchBarComponent {
   }
 
   incrementRoomCount() {
-    // Allow incrementing without a maximum limit
     this.roomCount++;
   }
 
   decrementRoomCount() {
-    // Ensure room count is never less than 1
     if (this.roomCount > 1) {
       this.roomCount--;
     }
   }
 
   incrementGuestCount() {
-    // Allow incrementing without a maximum limit
     this.guestCount++;
   }
 
   decrementGuestCount() {
-    // Ensure guest count is never less than 1
     if (this.guestCount > 1) {
       this.guestCount--;
     }
   }
 
   searchHotels() {
-    // Check if the required fields are set
     if (!this.city || !this.checkInDate || !this.checkOutDate) {
       console.error('Please fill in all required fields (Destination, Check-In Date, Check-Out Date)');
-
-      return; // Exit the method if any of the required fields are not set
+      return;
     }
   
-    // Calling the searchHotel method from the hotel service
+    const searchCriteria: SearchCriteria = { // Create search criteria object
+      city: this.city,
+      checkInDate: this.checkInDate,
+      checkOutDate: this.checkOutDate,
+      roomCount: this.roomCount,
+      guestCount: this.guestCount
+    };
+
     this.hotelService.searchHotel(this.city, this.checkInDate, this.checkOutDate, this.guestCount, this.roomCount)
       .subscribe(response => {
-        this.router.navigate(['/searchResult'], { queryParams: { hotels: JSON.stringify(response.content) } });
-        
-      });
-  }
-  
+        this.hotelDataService.setHotels(response.content);
+        this.router.navigate(['/searchResult'], { queryParams: { searchCriteria: JSON.stringify(searchCriteria) } });;
+      })
+  }  
 }

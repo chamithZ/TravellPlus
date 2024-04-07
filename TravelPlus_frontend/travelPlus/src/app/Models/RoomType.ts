@@ -7,6 +7,8 @@ export interface RoomType{
     "roomDescription":string,
     "roomImage":string,
     "contractId":number,
-    "roomTypeSeasons": RoomTypeSeason[]
+    "roomTypeSeasons": RoomTypeSeason[],
+    roomPrice?: number; // Add this property
+    roomCount?: number;
 
 }
