@@ -28,4 +28,9 @@ export class ContractService {
 
     return this.http.get<Response<number>>(`${this.baseUrl}/contracts/${hotelId}`, { params: params });
   }
+
+  getContractById(contractId: number): Observable<Response<contract>> {
+    const url = `${this.baseUrl}/contracts/getContract/${contractId}`;
+    return this.http.get<Response<contract>>(url);
+  }
 }

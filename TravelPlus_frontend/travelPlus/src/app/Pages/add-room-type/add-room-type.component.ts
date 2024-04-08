@@ -37,7 +37,7 @@ export class AddRoomTypeComponent implements OnInit {
   }
 
   fetchSeasons(contractId: number): void {
-    const url = `http://localhost:8080/api/v1/season/${contractId}`;
+    const url = `http://localhost:8080/api/v1/seasons/${contractId}`;
   
     this.http.get<any>(url)
       .subscribe((data: any) => {
