@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Supplement } from '../../Models/Supplement';
 import { Response } from '../../Models/Response';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,8 @@ export class SupplementService {
   addSupplement(supplement:Supplement){
    return this.http.post<Response<Supplement>>(`${this.baseUrl}/supplements`,supplement,this.httpOptions)
   }
+  getSupplementList(contractId: number): Observable<Response<Supplement[]>> {
+    return this.http.get<Response<Supplement[]>>(`${this.baseUrl}/supplements/${contractId}`, this.httpOptions);
+  }
+  
 }
