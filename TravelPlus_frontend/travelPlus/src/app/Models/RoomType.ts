@@ -1,6 +1,8 @@
 import { RoomTypeSeason } from "./RoomTypeSeason";
 
 export interface RoomType{
+    selected: boolean;
+    "roomId": number;
     "roomTypeName":string,
     "roomSize":string,
     "roomBedType":string,
@@ -10,5 +12,7 @@ export interface RoomType{
     "roomTypeSeasons": RoomTypeSeason[],
     roomPrice?: number; // Add this property
     roomCount?: number;
+    availableRoomsCount?: number;
+    selectedRoomCount?: number;
 
 }

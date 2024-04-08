@@ -1,4 +1,5 @@
 import { RoomType } from "./RoomType";
+import { HotelImages } from "./HotelImages";
 
 export interface Hotel{
     "hotelId": number,
@@ -9,4 +10,5 @@ export interface Hotel{
     "hotelContactNo": string,
     "hotelDescription": string,
     roomTypes?: RoomType[];
+    hotelImages: HotelImages[];
 }
