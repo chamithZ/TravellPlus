@@ -111,10 +111,10 @@ public class OfferController {
         }
     }
 
-    @GetMapping("/{hotelId}")
-    public ResponseEntity getAllOffers(@PathVariable int hotelId){
+    @GetMapping("/{contractId}")
+    public ResponseEntity getAllOffers(@PathVariable int contractId){
         try{
-            List<OfferDTO> emp=offerService.getAllOffers(hotelId);
+            List<OfferDTO> emp=offerService.getAllOffers(contractId);
             responseDTO.setCode(VarList.RSP_DUPLICATED );
             responseDTO.setMessage("Success");
             responseDTO.setContent(emp);

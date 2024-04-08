@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RoomType } from '../../Models/RoomType';
 import { Response } from '../../Models/Response';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +27,9 @@ export class RoomService {
   getAvailableRoomTypes(contractId: number, checkInDate: string, checkOutDate: string): Observable<Response<RoomType[]>> {
     return this.http.get<Response<RoomType[]>>(`${this.baseUrl}/roomTypes/${contractId}/${checkInDate}/${checkOutDate}`);
   }
+  getAvailableRoomCount(contractId: number, checkInDate: string, checkOutDate: string): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/roomTypes/availableRoomCount?contractId=${contractId}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`);
+  }
+  
+  
 }

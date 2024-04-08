@@ -102,7 +102,7 @@ public class ReservationService {
             ReservationOffers offers = new ReservationOffers();
             offers.setROfferId(offersDTO.getROfferId());
             offers.setOfferName(offersDTO.getOfferName());
-            offers.setDiscounPrecentage(offersDTO.getDiscounPrecentage());
+            offers.setDiscountPercentage(offersDTO.getDiscountPercentage());
             offers.setReservation(reservation);
             // Set other offers attributes
             // Save offers
@@ -164,4 +164,6 @@ public class ReservationService {
         return modelMapper.map(reservations,new TypeToken<ArrayList<ReservationDTO>>(){
         }.getType());
     }
+
+
 }

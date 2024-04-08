@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -96,6 +97,15 @@ public class ContractService {
         } else {
             // No contract found for the given hotel ID and date range
             return -1; // Or you can throw an exception or return null depending on your application's logic
+        }
+    }
+    public ContractDTO getContractById(long contractId) {
+       Contract contract = contractRepo.findById(contractId).orElse(null);
+        System.out.println(contractId);
+        if (contract!=null) {
+            return modelMapper.map(contract,ContractDTO.class);
+        } else {
+            return null; // Or you can throw an exception or return null depending on your application's logic
         }
     }
     

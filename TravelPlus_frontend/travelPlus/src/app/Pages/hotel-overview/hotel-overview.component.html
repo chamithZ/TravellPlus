@@ -1,23 +1,110 @@
-<div class="container mx-auto px-4">
-  <!-- Hotel Name and Description -->
-  <div class="mt-8">
-    <h1 class="text-3xl font-semibold">{{ hotel?.hotelName }}</h1>
-    <p class="text-gray-600">{{ hotel?.hotelCity }}</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Details</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Include Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-white font-poppins text-gray-700">
+
+  <div class="container mx-auto px-4 py-8">
+    <!-- Hotel Name and Description -->
+    <div class="text-center">
+      <h1 class="text-3xl font-semibold text-blue-500">{{ hotel?.hotelName }}</h1>
+      <p>{{ hotel?.hotelCity }}</p>
+      <p>{{ hotel?.hotelDescription }}</p>
+    </div>
+
+    <div *ngIf="hotel && hotel.hotelImages && hotel.hotelImages.length > 0" class="mt-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div *ngFor="let image of hotel.hotelImages">
+          <div class="relative">
+            <img *ngIf="image.imageData" [src]="'data:image/png;base64,' + image.imageData" alt="Hotel Image" class="w-full h-auto object-cover rounded-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Available Room Types -->
+    <div *ngIf="roomTypes && roomTypes.length > 0" class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">Available Room Types</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2">Room Type</th>
+              <th class="px-4 py-2">Guest Count</th>
+              <th class="px-4 py-2">Bed Type</th>
+              <th class="px-4 py-2">Description</th>
+              <th class="px-4 py-2">Price</th>
+              <th class="px-4 py-2">Available Rooms</th>
+              <th class="px-4 py-2">Select Room Count</th>
+              <th class="px-4 py-2">Select Room</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let roomType of roomTypes" class="hover:bg-gray-100">
+              <td class="border px-4 py-2">{{ roomType.roomTypeName }}</td>
+              <td class="border px-4 py-2">{{ roomType.roomSize }}</td>
+              <td class="border px-4 py-2">{{ roomType.roomBedType }}</td>
+              <td class="border px-4 py-2">{{ roomType.roomDescription }}</td>
+              <td class="border px-4 py-2">{{ roomType.roomPrice }}</td>
+              <td class="border px-4 py-2">{{ roomType.availableRoomsCount }}</td>
+              <td class="border px-4 py-2">
+                <select name="selectedRoomCount" [(ngModel)]="roomType.selectedRoomCount" class="form-select text-blue-500 border-blue-500">
+                  <option *ngFor="let count of getRoomCountOptions(roomType.availableRoomsCount)" [value]="count">{{ count }}</option>
+                </select>
+              </td>
+              <td class="border px-4 py-2">
+                <input type="checkbox" name="selectedRoomType" class="form-checkbox text-blue-500 border-blue-500"
+                       [checked]="isSelectedRoom(roomType)" (change)="handleRoomTypeSelection($event, roomType)">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Supplements -->
+    <div *ngIf="supplements && supplements.length > 0" class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">Supplements</h2>
+      <ul>
+        <li *ngFor="let supplement of supplements" class="border-b border-gray-300 py-4 hover:bg-gray-100">
+          <div>{{ supplement.serviceName }}</div>
+          <div>Price: {{ supplement.price }}</div>
+          <input type="checkbox" name="selectedSupplement" class="form-checkbox text-blue-500 border-blue-500"
+                 [checked]="isSelectedSupplements(supplement)" (change)="handleSupplementSelection($event, supplement)">
+        </li>
+      </ul>
+    </div>
+
+    <!-- Special Offers -->
+    <div *ngIf="offers && offers.length > 0" class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">Special Offers</h2>
+      <ul>
+        <li *ngFor="let offer of offers" class="border-b border-gray-300 py-4 hover:bg-gray-100">
+          <div>{{ offer.offerName }}</div>
+          <div>{{ offer.discountPercentage }}% Off</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex justify-between">
+    <div>Total Amount:</div>
+    <div>{{calculateTotalPrice() }}</div>
+    <div class="flex justify-center mt-8">
+      <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" (click)="addReservation()">
+        Reserve
+      </button>
+    </div>
   </div>
 
-  <!-- Available Room Types -->
-  <div *ngIf="roomTypes && roomTypes.length > 0" class="mt-8">
-    <h2 class="text-xl font-semibold">Available Room Types:</h2>
-    <ul class="list-disc pl-4">
-      <li *ngFor="let roomType of roomTypes">
-        <div>{{ roomType.roomTypeName }}</div>
-        <div>Size: {{ roomType.roomSize }}</div>
-        <div>Bed Type: {{ roomType.roomBedType }}</div>
-        <div>Description: {{ roomType.roomDescription }}</div>
-        <div>Room Price: {{ roomType.roomPrice }}</div>
-        <div>Room Count: {{ roomType.roomCount }}</div>
-        <!-- Add more details as needed -->
-      </li>
-    </ul>
-  </div>
-</div>
+</body>
+
+</html>

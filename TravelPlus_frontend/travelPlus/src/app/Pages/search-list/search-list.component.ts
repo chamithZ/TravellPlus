@@ -4,6 +4,7 @@ import { Hotel } from '../../Models/Hotel';
 import { HotelDataService } from '../../Services/HotelDataService/hotel-data.service';
 import { SearchCriteria } from '../../Models/SearchCriteria';
 import { HotelService } from '../../Services/HotelService/hotel.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search-list',
@@ -22,7 +23,7 @@ export class SearchListComponent implements OnInit {
   currentDate: string = new Date().toISOString().split('T')[0]; // Set current date
   tomorrowDate: string = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // Set tomorrow's date
 
-  constructor(private router: Router, private route: ActivatedRoute, private hotelDataService: HotelDataService, private hotelService: HotelService) { }
+  constructor(private sanitizer: DomSanitizer,private router: Router, private route: ActivatedRoute, private hotelDataService: HotelDataService, private hotelService: HotelService) { }
 
   ngOnInit(): void {
     this.hotelDataService.hotels$.subscribe((hotels: Hotel[]) => {
@@ -72,6 +73,21 @@ export class SearchListComponent implements OnInit {
     })
   }
 
+  blobToUrl(blobData: any): string {
+  try {
+    const blob = new Blob([blobData], { type: 'image/jpg' }); // Adjust the MIME type if needed
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error('Error creating object URL:', error);
+    return ''; // Return empty string or handle the error appropriately
+  }
+}
+getSafeImageUrl(imageData: Blob): SafeUrl {
+  // Create a blob URL for the image data
+  const imageUrl = URL.createObjectURL(imageData);
+  // Ensure the URL is safe to use to prevent security vulnerabilities
+  return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+}
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;

@@ -10,4 +10,5 @@ public interface ContractRepo extends JpaRepository<Contract,Long> {
    Contract findByHotelHotelIdAndStartDateBeforeAndEndDateAfter(
             long hotelId, LocalDate endDate, LocalDate startDate
     );
+
 }

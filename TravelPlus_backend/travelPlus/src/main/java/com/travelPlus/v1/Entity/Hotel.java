@@ -27,5 +27,8 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;
 
+    @OneToMany(mappedBy = "hotel")
+    private List<HotelImage> hotelImages;
+
 
 }

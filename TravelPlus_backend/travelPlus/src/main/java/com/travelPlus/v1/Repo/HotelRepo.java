@@ -19,6 +19,12 @@ public interface HotelRepo extends JpaRepository<Hotel,Long> {
             "WHERE h.hotelCity = :city " +
             "AND ( :checkInDate >= c.startDate AND :checkOutDate <= c.endDate) " +
             "AND rt.roomSize >= :guestsPerRoom " +
+            "AND NOT EXISTS (" +
+            "   SELECT 1 FROM RoomTypeReservation rrt " +
+            "   WHERE rrt.roomType = rt " +
+            "   AND rrt.reservation.checkOutDate > :checkInDate " +
+            "   AND rrt.reservation.checkInDate < :checkOutDate" +
+            ")" +
             "AND EXISTS (SELECT 1 FROM rs.season s WHERE :checkInDate BETWEEN s.startDate AND s.endDate AND :checkOutDate BETWEEN s.startDate AND s.endDate)" +
             "GROUP BY h " +
             "HAVING COALESCE(SUM(rs.noOfRooms), 0) >= :numberOfRooms")
@@ -27,7 +33,6 @@ public interface HotelRepo extends JpaRepository<Hotel,Long> {
                                     @Param("checkOutDate") LocalDate checkOutDate,
                                     @Param("guestsPerRoom") int guestsPerRoom,
                                     @Param("numberOfRooms") int numberOfRooms);
-
 
 
 
