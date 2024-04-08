@@ -7,6 +7,7 @@ import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Service.RoomTypeService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -106,6 +107,15 @@ public class RoomTypeController {
             responseDTO.setContent(null);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @GetMapping("/availableRoomCount")
+    public List<Object[]> getAvailableRoomCount(
+            @RequestParam int contractId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate) {
+        return roomTypeService.getAvailableRoomCountByContractId(contractId, checkInDate, checkOutDate);
     }
 
 

@@ -164,6 +164,30 @@ public class ContractController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
         }
     }
+    @GetMapping("getContract/{contractId}")
+    public ResponseEntity<ResponseDTO> getContractById(@PathVariable long contractId) {
+        try {
+
+            ContractDTO contractDTO = contractService.getContractById(contractId);
+
+            if (contractDTO !=null) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Contract found");
+                responseDTO.setContent(contractDTO);
+                return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No contract found for contractId");
+                responseDTO.setContent(null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
+            }
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+        }
+    }
 
 
 

@@ -111,10 +111,10 @@ public class SupplementController {
         }
     }
 
-    @GetMapping("/{hotelId}")
-    public ResponseEntity getAllSupplements(@PathVariable int hotelId){
+    @GetMapping("/{contractId}")
+    public ResponseEntity getAllSupplements(@PathVariable int contractId){
         try{
-            List<SupplementDTO> emp=supplementService.getAllSupplements(hotelId);
+            List<SupplementDTO> emp=supplementService.getAllSupplements(contractId);
             responseDTO.setCode(VarList.RSP_DUPLICATED );
             responseDTO.setMessage("Success");
             responseDTO.setContent(emp);
