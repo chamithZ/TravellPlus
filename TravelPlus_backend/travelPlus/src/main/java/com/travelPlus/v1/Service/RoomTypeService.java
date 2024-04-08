@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +107,19 @@ public class RoomTypeService {
         List<RoomType> roomTypeList=roomTypeRepo.findByContract_contractId(contractId);
         return roomTypeList;
     }
+
+    public List<Object[]> getAvailableRoomCountByContractId(long contractId, LocalDate checkInDate, LocalDate checkOutDate) {
+        List<Object[]> availableRooms = roomTypeRepo.findAvailableRoomTypes(contractId, checkInDate, checkOutDate);
+
+        if (availableRooms == null) {
+
+            return Collections.emptyList();
+        } else {
+
+            return availableRooms;
+        }
+    }
+
 
 
 
