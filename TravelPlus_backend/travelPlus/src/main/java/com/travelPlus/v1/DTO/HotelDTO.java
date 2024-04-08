@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,4 +18,5 @@ public class HotelDTO {
     private String hotelCity;
     private String hotelContactNo;
     private String hotelDescription;
+    private List<HotelImageDTO> hotelImages;
 }

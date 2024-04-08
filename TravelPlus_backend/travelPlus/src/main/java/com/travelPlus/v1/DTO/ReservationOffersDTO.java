@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ReservationOffersDTO {
     private long rOfferId;
     private String offerName;
-    private String discounPrecentage;
+    private double discountPercentage;
     private long reservationId;
 }
