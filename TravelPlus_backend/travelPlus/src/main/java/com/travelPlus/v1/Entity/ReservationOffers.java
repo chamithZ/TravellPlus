@@ -16,7 +16,7 @@ public class ReservationOffers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long rOfferId;
     private String offerName;
-    private String discounPrecentage;
+    private double discountPercentage;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="reservationId", referencedColumnName = "reservationId")
