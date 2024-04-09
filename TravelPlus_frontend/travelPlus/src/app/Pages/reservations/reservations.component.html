@@ -1,0 +1,18 @@
+<div class="flex flex-wrap justify-center">
+  <div class="text-3xl text-blue-500 font-semibold mb-5">Your Reservations</div>
+  <div *ngFor="let reservation of reservations" class="max-w-sm rounded overflow-hidden shadow-lg m-4">
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">{{ reservation.title }}</div>
+      <p class="text-gray-700 text-base">Check-in Date: {{ reservation.checkInDate | date: 'medium' }}</p>
+      <p class="text-gray-700 text-base">Check-out Date: {{ reservation.checkOutDate | date: 'medium' }}</p>
+      <p class="text-gray-700 text-base">Reserved Date: {{ reservation.reservedDate | date: 'medium' }}</p>
+      <p class="text-gray-700 text-base">Time Elapsed: {{ getElapsedTime(reservation.reservedDate) }}</p>
+      <p class="text-gray-700 text-base">Room Types:</p>
+      <ul>
+        <li *ngFor="let roomType of reservation.roomTypes">
+          {{ roomType.roomTypeName }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
