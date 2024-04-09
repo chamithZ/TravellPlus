@@ -22,7 +22,9 @@ public class HotelController {
     @Autowired
     private ResponseDTO responseDTO;
 
+
     @PostMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity addHotel(@RequestBody HotelDTO hotelDTO) {
         try {
             String res = hotelService.addHotel(hotelDTO);

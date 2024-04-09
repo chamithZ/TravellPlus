@@ -97,11 +97,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity getUser(@PathVariable long userId){
+    @GetMapping("/{email}")
+    public ResponseEntity getUser(@PathVariable String email){
         try{
 
-            UserDTO userDTO=userService.getUser(userId);
+            UserDTO userDTO=userService.getUser(email);
             if(userDTO!=null){
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
