@@ -51,7 +51,7 @@ public class HotelService {
         } else {
             // Map HotelDTO to Hotel entity
             Hotel hotel = modelMapper.map(hotelDTO, Hotel.class);
-
+            hotel.setHotelStatus(true);
             // Save the hotel entity
             hotelRepo.save(hotel);
 
@@ -111,12 +111,15 @@ public class HotelService {
 
 
     public String deleteHotel(long hotelId) {
-        if (hotelRepo.existsById(hotelId))
-        {
-            hotelRepo.deleteById(hotelId);
+        // Check if the hotel exists
+        Hotel hotel = hotelRepo.findById(hotelId).orElse(null);
+        if (hotel != null) {
+            // Set hotelStatus as false
+            hotel.setHotelStatus(false);
+            // Save the updated hotel
+            hotelRepo.save(hotel);
             return VarList.RSP_SUCCESS;
-        }
-        else{
+        } else {
             return VarList.RSP_NO_DATA_FOUND;
         }
     }
