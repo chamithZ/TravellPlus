@@ -54,6 +54,7 @@ public class HotelController {
 
     }
     @PutMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity updateHotel(@RequestBody HotelDTO hotelDTO){
 
         try{
@@ -149,6 +150,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{hotelId}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity deleteHotel(@PathVariable int hotelId){
         try{
             String emp= hotelService.deleteHotel(hotelId);

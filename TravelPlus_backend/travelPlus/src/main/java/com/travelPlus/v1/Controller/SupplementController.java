@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,39 +23,61 @@ public class SupplementController {
     private ResponseDTO responseDTO;
 
     @PostMapping
-    public ResponseEntity addSupplement(@RequestBody SupplementDTO supplementDTO) {
+    public ResponseEntity addSupplements(@RequestBody List<SupplementDTO> supplementDTOList) {
         try {
-            String res = supplementService.addSupplement(supplementDTO);
-            if (res.equals("000")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
+            List<String> responses = new ArrayList<>();
+
+            for (SupplementDTO supplementDTO : supplementDTOList) {
+                String res = supplementService.addSupplement(supplementDTO);
+                responses.add(res);
+            }
+
+            List<SupplementDTO> successfulSupplements = new ArrayList<>();
+            List<SupplementDTO> duplicateSupplements = new ArrayList<>();
+            List<SupplementDTO> unavailableContracts = new ArrayList<>();
+
+            for (int i = 0; i < responses.size(); i++) {
+                String res = responses.get(i);
+                SupplementDTO supplementDTO = supplementDTOList.get(i);
+
+                if (res.equals("000")) {
+                    successfulSupplements.add(supplementDTO);
+                } else if (res.equals("006")) {
+                    duplicateSupplements.add(supplementDTO);
+                } else if (res.equals("011")) {
+                    unavailableContracts.add(supplementDTO);
+                }
+            }
+
+            if (!successfulSupplements.isEmpty()) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(supplementDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("006")) {
+                responseDTO.setContent(successfulSupplements);
+                return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+            } else if (!duplicateSupplements.isEmpty()) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Already Added");
-                responseDTO.setContent(supplementDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-            else if (res.equals("011")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Contract not available");
-                responseDTO.setContent(supplementDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-            else {
+                responseDTO.setMessage("Some supplements were already added");
+                responseDTO.setContent(duplicateSupplements);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+            } else if (!unavailableContracts.isEmpty()) {
+                responseDTO.setCode(VarList.RSP_FAIL);
+                responseDTO.setMessage("Some contracts are not available");
+                responseDTO.setContent(unavailableContracts);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+            } else {
                 responseDTO.setCode(VarList.RSP_FAIL);
                 responseDTO.setMessage("Error");
                 responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PutMapping
     public ResponseEntity updateRoomType(@RequestBody SupplementDTO supplementDTO){
 
