@@ -2,6 +2,7 @@ import { Offer } from "./Offer";
 import { Season } from "./Season";
 
 export interface contract{
+    contractId:number,
     startDate:String,
     endDate:String,
     cancellationFeePercentage:number,

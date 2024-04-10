@@ -14,6 +14,6 @@ export interface Reservation {
     paymentDTO: PaymentDTO;
     reservationSupplementDTOS: ReservationSupplement[];
     reservationOffersDTOS: ReservationOffer[];
-    hotelId: number;
+    hotelId: number
   }
    
