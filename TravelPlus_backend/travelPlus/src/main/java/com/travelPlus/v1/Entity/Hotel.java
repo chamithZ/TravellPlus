@@ -24,6 +24,7 @@ public class Hotel {
     private String hotelCity;
     private String hotelContactNo;
     private String hotelDescription;
+    private boolean hotelStatus;
 
     @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;
