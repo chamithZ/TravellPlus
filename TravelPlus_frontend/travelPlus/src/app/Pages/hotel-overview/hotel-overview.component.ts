@@ -47,7 +47,7 @@ export class HotelOverviewComponent implements OnInit {
     paymentDTO: { rmarkUpPercentage: 0, rcancellationDeadline: 0, rPaymentDeadline: 0, rcancellationPercentage: 0, totalPrice: 0 },
     reservationSupplementDTOS: [],
     reservationOffersDTOS: [],
-    hotelId: this.hotel?.hotelId ||0,
+    hotelId: this.hotel?.hotelId ||0
   }; 
 
 

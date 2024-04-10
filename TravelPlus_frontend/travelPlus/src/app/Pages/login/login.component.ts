@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../Services/AuthService/auth-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../Models/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   userId!: number;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -33,9 +34,10 @@ export class LoginComponent {
       next: response => {
         const token = response.token;
         localStorage.setItem('token', token);
-        console.log(token)
+        console.log(token);
 
-        
+        // Redirect to home page after successful login
+        this.router.navigateByUrl('/');
       },
       error: err => {
         // Handle login error
@@ -48,15 +50,12 @@ export class LoginComponent {
         const user: User = response.content;
         this.userId = user.userId;
         localStorage.setItem('userId', this.userId.toString());
-        console.log(this.userId)
+        console.log(this.userId);
       },
       error: err => {
         // Handle get user error
         console.error('Get user error:', err);
       }
     });
-
-
-
   }
 }

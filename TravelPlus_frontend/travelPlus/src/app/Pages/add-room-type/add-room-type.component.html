@@ -1,49 +1,62 @@
-<form [formGroup]="roomTypeForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto">
-  <div class="flex flex-col items-center">
+<form [formGroup]="roomTypeForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto">
+
+  <div class="flex flex-col items-center ">
     <div class="mt-10 text-3xl text-[#41A4FF] font-semibold mb-5">Add Room Type</div>
 
-    <!-- Room Type Name -->
-    <div class="relative z-0 w-full mb-5 group">
-      <input type="text" formControlName="roomTypeName" id="roomTypeName" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
-      <label for="roomTypeName" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Type Name</label>
-    </div>
-
-    <!-- Room Size -->
-    <div class="relative z-0 w-full mb-5 group">
-      <input type="text" formControlName="roomSize" id="roomSize" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
-      <label for="roomSize" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Size</label>
-    </div>
-
-    <!-- Room Bed Type -->
-    <div class="relative z-0 w-full mb-5 group">
-      <input type="text" formControlName="roomBedType" id="roomBedType" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
-      <label for="roomBedType" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Bed Type</label>
-    </div>
-
-    <!-- Room Description -->
-    <div class="relative z-0 w-full mb-5 group">
-      <textarea formControlName="roomDescription" id="roomDescription" rows="4" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required ></textarea>
-      <label for="roomDescription" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Description</label>
-    </div>
-    <div formArrayName="roomTypeSeasons" class="relative z-0 w-full mb-5 group">
-    <div *ngFor="let season of seasons let i=index" class="relative z-0 w-full mb-5 group">
-      <!-- Season ID -->
-      <input type="hidden" name="seasonId" [value]="season.seasonId">
-
-      <!-- Room Price -->
-     <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
-        <input type="number" formControlName="roomPrice" name="roomPrice" id="roomPrice{{season.seasonId}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
-
-        <label for="roomPrice{{season.seasonId}}" class="ml-8 peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Price for {{season.seasonType}}</label>
+    <!-- Room Types -->
+    <div formArrayName="roomTypes">
+      <div *ngFor="let roomType of roomTypes.controls; let i = index" [formGroupName]="i" class="mb-10">
+       <!-- Room Type Name -->
+       <div class="relative z-0 w-full mb-5 group">
+        <input type="text" formControlName="roomTypeName" id="roomTypeName{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+        <label for="roomTypeName{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Type Name</label>
       </div>
-      <div [formGroupName]="i"class="relative z-0 w-full mb-5 group">
-      <!-- Number of Rooms -->
-      <input type="number"  formControlName="noOfRooms" name="noOfRooms" id="noOfRooms{{season.seasonId}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
 
-      <label for="noOfRooms{{season.seasonId}}" class="ml-8  peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Number of Rooms for {{season.seasonType}}</label>
+         <!-- Room Size -->
+         <div class="relative z-0 w-full mb-5 group">
+          <input type="text" formControlName="roomSize" id="roomSize{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+          <label for="roomSize{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Size</label>
+        </div>
+
+           <!-- Room Bed Type -->
+           <div class="relative z-0 w-full mb-5 group">
+            <input type="text" formControlName="roomBedType" id="roomBedType{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+            <label for="roomBedType{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Bed Type</label>
+          </div>
+
+      
+        <!-- Room Description -->
+        <div class="relative z-0 w-full mb-5 group">
+          <textarea formControlName="roomDescription" id="roomDescription{{i}}" rows="4" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required></textarea>
+          <label for="roomDescription{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Description</label>
+        </div>
+        <label class="  text-gray-500 mb-12 mt-2" for="Destials">Room Type Deatils for seasons</label>
+
+        <!-- Room Type Seasons -->
+        <div formArrayName="roomTypeSeasons">
+          <div *ngFor="let season of seasons; let j = index" [formGroupName]="j" class="mb-5">
+            <input type="hidden" formControlName="seasonId" [value]="season.seasonId">
+    <!-- Room Price -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="number" formControlName="roomPrice" id="roomPrice{{i}}_{{j}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="roomPrice{{i}}_{{j}}" class="ml-8 peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Room Price for {{season.seasonType}}</label>
     </div>
-  </div>
-  </div>
+         
+            <!-- Number of Rooms -->
+            <div class="relative z-0 w-full mb-5 group">
+              <input type="number" formControlName="noOfRooms" id="noOfRooms{{i}}_{{j}}" class="block py-2.5 px-4 sm:px-5 w-full sm:w-96 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+              <label for="noOfRooms{{i}}_{{j}}" class="ml-8 peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Number of Rooms for {{season.seasonType}}</label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Room Type Button -->
+    <button type="button" (click)="addRoomTypeFormGroup()" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Add Room Type</button>
+
+    <!-- Submit Button -->
     <button type="submit" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
   </div>
 </form>

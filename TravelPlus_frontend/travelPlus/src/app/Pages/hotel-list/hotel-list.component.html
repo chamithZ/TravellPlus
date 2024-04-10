@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-5 lg:px-52">
+    <div *ngFor="let hotel of hotels" class="bg-white shadow-md rounded-lg overflow-hidden mt-5 md:w-4/5 lg:w-4/5">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-blue-500">{{ hotel.hotelName }}</h3>
+        <p class="text-gray-500">{{ hotel.hotelCity }}</p>
+      </div>
+      <div class="flex justify-between items-center px-4 py-2 bg-gray-100">
+        <button (click)="updateHotel(hotel.hotelId)" class="text-blue-500 hover:text-blue-700 font-bold">Update</button>
+        <button (click)="deleteHotel(hotel.hotelId)" class="text-red-500 hover:text-red-700 font-bold">Delete</button>
+        <button (click)="addContract(hotel.hotelId)" class="text-green-500 hover:text-green-700 font-bold">Add Contract</button>
+      </div>
+    </div>
+  </div>
+  

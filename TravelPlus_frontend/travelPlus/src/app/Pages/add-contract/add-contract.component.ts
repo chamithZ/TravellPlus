@@ -81,7 +81,10 @@ export class AddContractComponent implements OnInit {
       const values=this.contractForm.value as contract;
       console.log(values);
       this.contractService.addContract(values as contract).subscribe((res)=>{
+        console.log('Contract added successfully:', res);
       this.contractForm.reset();
+      this.router.navigate(['/addRoomType', res.content.contractId]);
+
       })
  
   }

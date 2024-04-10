@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../Services/ReservationService/reservation.service';
 import { Reservation } from '../../Models/Reservation';
 import { ReservationRoomTypeService } from '../../Services/ReservationRoomType/reservation-room-type.service';
+import { HotelService } from '../../Services/HotelService/hotel.service';
+import { Hotel } from '../../Models/Hotel';
+import { HotelImages } from '../../Models/HotelImages';
 
 @Component({
   selector: 'app-reservations',
@@ -10,10 +13,13 @@ import { ReservationRoomTypeService } from '../../Services/ReservationRoomType/r
 })
 export class ReservationsComponent implements OnInit {
   reservations: any[] = [];
+  hotel:Hotel[]=[];
+  hotelImages: HotelImages[]=[];
 
   constructor(
     private reservationService: ReservationService,
-    private reservationRoomTypeService: ReservationRoomTypeService // Inject ReservationRoomTypeService
+    private reservationRoomTypeService: ReservationRoomTypeService, // Inject ReservationRoomTypeServic
+    private hotelService: HotelService,
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +34,8 @@ export class ReservationsComponent implements OnInit {
           if (response && response.content) {
             this.reservations = response.content;
             console.log('Reservations:', this.reservations);
-            this.getRoomTypesForReservations(); // Call method to fetch room types
+            this.getRoomTypesAndHotelsForReservations(); // Call method to fetch room types
+            
           } else {
             console.error('Invalid response format:', response);
           }
@@ -39,17 +46,28 @@ export class ReservationsComponent implements OnInit {
       console.error('User ID is null');
     }
   }
-
-  getRoomTypesForReservations(): void {
-  
+  getRoomTypesAndHotelsForReservations(): void {
     this.reservations.forEach(reservation => {
-      
+      // Fetch room types for the reservation
       this.reservationRoomTypeService.getReservationRoomType(reservation.reservationId)
         .subscribe((response: any) => {
           if (response && response.content) {
-            // Assuming response.content is an array of room types for the reservation
             reservation.roomTypes = response.content; // Assign room types to reservation
-            console.log(response.content)
+            console.log('Room types:', response.content);
+
+            // Fetch hotel for the reservation
+            this.hotelService.getHotelById(reservation.hotelId)
+              .subscribe((hotelResponse: any) => {
+                if (hotelResponse && hotelResponse.content) {
+                  const hotel = hotelResponse.content;
+                  this.hotel.push(hotel); // Store hotel in the hotels array
+                  console.log('Hotel:', hotel);
+                } else {
+                  console.error('Invalid hotel response format:', hotelResponse);
+                }
+              }, hotelError => {
+                console.error('Error fetching hotel:', hotelError);
+              });
           } else {
             console.error('Invalid response format:', response);
           }
@@ -58,6 +76,13 @@ export class ReservationsComponent implements OnInit {
         });
     });
   }
+
+
+  getHotelName(hotelId: number): string {
+    const hotel = this.hotel.find(h => h.hotelId === hotelId);
+    return hotel ? hotel.hotelName : 'Unknown Hotel';
+  }
+ 
 
   getElapsedTime(reservedDate: Date): string {
     const now = new Date();
