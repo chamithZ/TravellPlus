@@ -4,16 +4,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   constructor(private router: Router) {}
-  title = 'travelPlus';
+  routesWithoutHeaderAndFooter:String[] = ['/addHotel', '/adminDashboard'];
 
-  showHeaderAndFooter(): boolean {
+  showAdminHeader(): boolean {
+    return this.routesWithoutHeaderAndFooter.includes(this.router.url);
+  }
 
-    const routesWithoutHeaderAndFooter = ['/addHotel'];
-
-    return !routesWithoutHeaderAndFooter.includes(this.router.url);
+  showRegularHeader(): boolean {
+    return !this.routesWithoutHeaderAndFooter.includes(this.router.url);
   }
 }

@@ -18,6 +18,16 @@ import { AddSupplementComponent } from './Pages/add-supplement/add-supplement.co
 import { CommonModule } from '@angular/common';
 import { SearchListComponent } from './Pages/search-list/search-list.component';
 import { HotelOverviewComponent } from './Pages/hotel-overview/hotel-overview.component';
+import { ReservationsComponent } from './Pages/reservations/reservations.component';
+import { LoginComponent } from './Pages/login/login.component';
+import { ReservationOverviewComponent } from './Pages/reservation-overview/reservation-overview.component';
+import { AdminDashboardComponent } from './Pages/admin-dashboard/admin-dashboard.component';
+import { UpdateHotelComponent } from './Pages/update-hotel/update-hotel.component';
+import { UpdateContractComponent } from './Pages/update-contract/update-contract.component';
+import { AdminHeaderComponent } from './Components/admin-header/admin-header.component';
+import { HotelListComponent } from './Pages/hotel-list/hotel-list.component';
+import { UserRegisterComponent } from './Pages/user-register/user-register.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +44,15 @@ import { HotelOverviewComponent } from './Pages/hotel-overview/hotel-overview.co
     HotelCardComponent,
     SearchListComponent,
     HotelOverviewComponent,
+    ReservationsComponent,
+    LoginComponent,
+    ReservationOverviewComponent,
+    AdminDashboardComponent,
+    UpdateHotelComponent,
+    UpdateContractComponent,
+    AdminHeaderComponent,
+    HotelListComponent,
+    UserRegisterComponent
 
   ],
   imports: [
