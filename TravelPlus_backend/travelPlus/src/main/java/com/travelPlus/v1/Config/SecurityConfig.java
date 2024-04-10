@@ -59,6 +59,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/api/v1/user/**","/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**", "/api/v1/user/**","/api/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/auth/**", "/api/v1/user/**","/api/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/auth/**", "/api/v1/user/**","/api/v1/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
