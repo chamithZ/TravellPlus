@@ -16,8 +16,12 @@ export class SupplementService {
     headers:new HttpHeaders({'Content-Type':'application/json'})
   }
   
-  addSupplement(supplement:Supplement){
-   return this.http.post<Response<Supplement>>(`${this.baseUrl}/supplements`,supplement,this.httpOptions)
+  
+  addSupplements(supplements: Supplement[]): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post<any>(`${this.baseUrl}/supplements`, supplements, httpOptions);
   }
   getSupplementList(contractId: number): Observable<Response<Supplement[]>> {
     return this.http.get<Response<Supplement[]>>(`${this.baseUrl}/supplements/${contractId}`, this.httpOptions);

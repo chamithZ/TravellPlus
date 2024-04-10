@@ -19,8 +19,8 @@ export class RoomService {
   };
 
   // Method to add a room type
-  addRoomType(room: RoomType): Observable<Response<RoomType>> {
-    return this.http.post<Response<RoomType>>(`${this.baseUrl}/roomTypes`, room, this.httpOptions);
+  addRoomType(room: RoomType[]): Observable<Response<RoomType[]>> {
+    return this.http.post<Response<RoomType[]>>(`${this.baseUrl}/roomTypes`, room, this.httpOptions);
   }
 
   // Method to get available room types

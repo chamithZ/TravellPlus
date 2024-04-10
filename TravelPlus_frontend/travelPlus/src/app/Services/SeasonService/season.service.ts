@@ -15,7 +15,7 @@ export class SeasonService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  getSeasons(contractId: string) {
+  getSeasons(contractId: number) {
     return this.http.get<Season[]>(`${this.baseUrl}/seasons/${contractId}`, this.httpOptions);
   }
 }

@@ -23,6 +23,20 @@ export class HotelService {
 
   }
 
+  
+  updateHotelComponent(hotel: Hotel): Observable<Response<Hotel>> {
+    const headers = this.authService.getTokenHeader();
+    return this.http.put<Response<Hotel>>(`${this.baseUrl}/hotels`, hotel, { headers });
+
+  }
+
+  deleteHotel(hotelId: number): Observable<Response<any>> {
+    const headers = this.authService.getTokenHeader();
+    const url = `${this.baseUrl}/hotels/${hotelId}`;
+    
+    return this.http.delete<Response<any>>(url, { headers });
+  }
+
   searchHotel(destination: string, checkIn: string, checkOut: string, guestCount: number, numberOfRooms: number): Observable<Response<Hotel[]>> {
     let params = new HttpParams()
       .set('destination', destination)
@@ -40,5 +54,9 @@ export class HotelService {
   getHotelById(hotelId: number): Observable<Response<Hotel>> {
     const url = `${this.baseUrl}/hotels/${hotelId}`;
     return this.http.get<Response<Hotel>>(url);
+  }
+  getAllHotels(): Observable<any> {
+    const url = `${this.baseUrl}/hotels`;
+    return this.http.get<any>(url);
   }
 }
