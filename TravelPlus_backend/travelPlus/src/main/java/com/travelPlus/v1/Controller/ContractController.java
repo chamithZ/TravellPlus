@@ -10,6 +10,7 @@ import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contracts")
+
 public class ContractController {
     @Autowired
     private ContractService contractService;
@@ -24,31 +26,27 @@ public class ContractController {
     private ResponseDTO responseDTO;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity addContract(@RequestBody ContractDTO contractDTO) {
         try {
-            String res = contractService.addContract(contractDTO);
-            if (res.equals("000")) {
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(contractDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("006")) {
+            long res = contractService.addContract(contractDTO);
+            if (res==-1) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Already Added");
                 responseDTO.setContent(contractDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-            else if (res.equals("011")) {
+            } else if (res==-2) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Hotel not available");
                 responseDTO.setContent(contractDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             }
             else {
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+                contractDTO.setContractId(res);
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(contractDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
             }
         }
         catch( Exception ex){
@@ -61,8 +59,9 @@ public class ContractController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity updateContract(@RequestBody ContractDTO contractDTO){
-
+    System.out.println("menna");
         try{
             String res= contractService.updateContract(contractDTO);
             if(res.equals("000")){
@@ -112,6 +111,7 @@ public class ContractController {
 
 
     @DeleteMapping("/{contractId}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity deleteContract(@PathVariable int contractId){
         try{
             String emp= contractService.deleteContract(contractId);

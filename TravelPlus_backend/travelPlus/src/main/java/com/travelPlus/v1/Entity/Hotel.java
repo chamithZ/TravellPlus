@@ -1,5 +1,6 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Hotel {
     private String hotelCity;
     private String hotelContactNo;
     private String hotelDescription;
+    private boolean hotelStatus;
 
     @OneToMany(mappedBy = "hotel")
     private List<Contract> contract;
@@ -30,5 +32,7 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     private List<HotelImage> hotelImages;
 
+    @OneToMany(mappedBy = "hotel")
+    private List<Reservation> reservations;
 
 }

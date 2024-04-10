@@ -21,6 +21,10 @@ export class ContractService {
     return this.http.post<Response<contract>>(`${this.baseUrl}/contracts`, contract, this.httpOptions);
   }
 
+  updateContract(contract: contract): Observable<Response<contract>> {
+    return this.http.put<Response<contract>>(`${this.baseUrl}/contracts`, contract, this.httpOptions);
+  }
+
   getContractIdByHotelIdAndDateRange(hotelId: number, startDate: string, endDate: string): Observable<Response<number>> {
     const params = new HttpParams()
       .set('startDate', startDate)

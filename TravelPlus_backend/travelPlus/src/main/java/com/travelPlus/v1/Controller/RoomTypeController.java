@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,27 +25,26 @@ public class RoomTypeController {
     private ResponseDTO responseDTO;
 
     @PostMapping
-    public ResponseEntity addRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
+    public ResponseEntity addRoomTypes(@RequestBody List<RoomTypeDTO> roomTypeDTOs) {
         try {
-            String res = roomTypeService.addRoomType(roomTypeDTO);
-            if (res.equals("000")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
+            List<RoomTypeDTO> addedRoomTypes = new ArrayList<>();
+
+            for (RoomTypeDTO roomTypeDTO : roomTypeDTOs) {
+                String res = roomTypeService.addRoomType(roomTypeDTO);
+
+                if (res.equals("000")) {
+                    addedRoomTypes.add(roomTypeDTO);
+                }
+            }
+
+            if (!addedRoomTypes.isEmpty()) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(roomTypeDTO);
+                responseDTO.setContent(addedRoomTypes);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("006")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Already Added");
-                responseDTO.setContent(roomTypeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            } else if (res.equals("011")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Hotel not available");
-                responseDTO.setContent(roomTypeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             } else {
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("All room types already added or not available");
                 responseDTO.setContent(null);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             }
@@ -55,6 +55,7 @@ public class RoomTypeController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PutMapping
     public ResponseEntity updateRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {

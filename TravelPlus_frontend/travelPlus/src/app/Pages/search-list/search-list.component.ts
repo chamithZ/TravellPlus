@@ -5,6 +5,9 @@ import { HotelDataService } from '../../Services/HotelDataService/hotel-data.ser
 import { SearchCriteria } from '../../Models/SearchCriteria';
 import { HotelService } from '../../Services/HotelService/hotel.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ContractService } from '../../Services/ContractService/contract.service';
+import { OffersService } from '../../Services/OfferService/offers.service';
+import { Offer } from '../../Models/Offer';
 
 @Component({
   selector: 'app-search-list',
@@ -15,6 +18,7 @@ export class SearchListComponent implements OnInit {
   hotels: Hotel[] = [];
   searchCriteria: SearchCriteria | null = null;
   city: string = '';
+  offers:Offer[]=[];
   checkInDate: string = '';
   checkOutDate: string = '';
   roomCount: number = 1;
@@ -23,11 +27,15 @@ export class SearchListComponent implements OnInit {
   currentDate: string = new Date().toISOString().split('T')[0]; // Set current date
   tomorrowDate: string = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // Set tomorrow's date
 
-  constructor(private sanitizer: DomSanitizer,private router: Router, private route: ActivatedRoute, private hotelDataService: HotelDataService, private hotelService: HotelService) { }
-
+  constructor(private sanitizer: DomSanitizer,private router: Router, private route: ActivatedRoute, private hotelDataService: HotelDataService, private hotelService: HotelService, private contractService:ContractService,private offerService:OffersService) { }
   ngOnInit(): void {
     this.hotelDataService.hotels$.subscribe((hotels: Hotel[]) => {
       this.hotels = hotels;
+      
+      // Fetch offers for each hotel
+      this.hotels.forEach(hotel => {
+        this.fetchOffersForHotel(hotel);
+      });
     });
   
     this.route.queryParams.subscribe(params => {
@@ -42,6 +50,28 @@ export class SearchListComponent implements OnInit {
         this.guestCount = this.searchCriteria.guestCount;
       }
     });
+  }
+  
+  fetchOffersForHotel(hotel: Hotel): void {
+    // Fetch contract ID for the hotel
+    this.contractService.getContractIdByHotelIdAndDateRange(hotel.hotelId, this.checkInDate, this.checkOutDate)
+      .subscribe(contract => {
+        if (contract && contract.content) {
+          const contractId = contract.content;
+  
+          // Fetch offers for the contract
+          this.offerService.getAllOffersForContract(contractId)
+            .subscribe(offersResponse => {
+              if (offersResponse && Array.isArray(offersResponse.content)) {
+                hotel.offers = offersResponse.content; // Assuming Hotel model has a property 'offers'
+              } else {
+                console.log('Invalid offer response format:', offersResponse);
+              }
+            }, error => {
+              console.error('Error fetching offers:', error); // Log any errors during offer fetch
+            });
+        }
+      });
   }
   
   navigateToHotelOverview(hotelId: number) {

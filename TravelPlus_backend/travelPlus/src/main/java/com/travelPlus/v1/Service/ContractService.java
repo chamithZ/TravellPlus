@@ -37,11 +37,11 @@ public class ContractService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public String addContract(ContractDTO contractDTO) {
+    public long addContract(ContractDTO contractDTO) {
         if (contractRepo.existsById(contractDTO.getContractId())) {
-            return VarList.RSP_DUPLICATED;
+            return -1;
         } else if (!hotelRepo.existsById(contractDTO.getHotelId())) {
-            return VarList.RSP_NotAvailable;
+            return -2;
         } else {
             // Save the Contract entity
             Contract contract = modelMapper.map(contractDTO, Contract.class);
@@ -62,7 +62,7 @@ public class ContractService {
                 offerRepo.save(offer);
             }
 
-            return VarList.RSP_SUCCESS;
+            return contractId;
         }
     }
     public String updateContract(ContractDTO contractDTO){

@@ -85,7 +85,7 @@ export class AddSupplementComponent {
 
     
     console.log(transformedValue); 
-    this.supplementService.addSupplement(transformedValue as Supplement).subscribe((res)=>{
+    this.supplementService.addSupplements(transformedValue as Supplement[]).subscribe((res)=>{
       this.supplementForm.reset({ contractId: this.contractId });
       this.router.navigate(['/addSupplement',this.contractId]);
    

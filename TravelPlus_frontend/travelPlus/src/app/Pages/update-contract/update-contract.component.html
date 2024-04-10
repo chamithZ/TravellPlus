@@ -1,0 +1,37 @@
+<div class="container max-w-md mx-auto">
+    <h2 class="mt-10 text-3xl text-[#41A4FF] font-semibold mb-5">Update Contract</h2>
+    <form [formGroup]="contractForm" (ngSubmit)="onSubmit()">
+      <div class="relative z-0 w-full mb-5 group hidden">
+        <label for="startDate" class="text-gray-700">Start Date</label>
+        <input type="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" id="startDate" formControlName="startDate">
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <label for="endDate" class="text-gray-700">Start Date</label>
+        <input type="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" id="endDate" formControlName="startDate">
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <label for="endDate" class="text-gray-700">End Date</label>
+        <input type="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" id="endDate" formControlName="endDate">
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <label for="cancellationFeePercentage" class="text-gray-700">Cancellation Fee Percentage</label>
+        <input type="number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" id="cancellationFeePercentage" formControlName="cancellationFeePercentage">
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" formControlName="cancellationDeadline" id="cancellationDeadline" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+        <label for="cancellationDeadline" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cancellation Deadline Days</label>
+      </div>
+    
+      <div class="relative z-0 w-full mb-5 group">
+        <label for="prepaymentPercentage" class="text-gray-700">Prepayment Percentage</label>
+        <input type="number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" id="prepaymentPercentage" formControlName="prepaymentPercentage">
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" formControlName="paymentDeadline" id="paymentDeadline" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+        <label for="paymentDeadline" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Prepayment Deadline Days</label>
+      </div>
+    
+      <button type="submit" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
+    </form>
+  </div>
+  

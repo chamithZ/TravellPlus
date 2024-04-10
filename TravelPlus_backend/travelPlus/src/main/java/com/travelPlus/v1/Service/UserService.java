@@ -74,9 +74,9 @@ public class UserService {
         }.getType());
     }
 
-    public UserDTO getUser(long userId) {
-        if(userRepo.existsById(userId)){
-            User user=userRepo.findById(userId).orElse(null);
+    public UserDTO getUser(String email) {
+        if(userRepo.existsUserByEmail(email)){
+            User user=userRepo.findUserByEmail(email).orElse(null);
             return modelMapper.map(user,UserDTO.class);
         }
         else{

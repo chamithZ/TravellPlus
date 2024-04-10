@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,8 +24,8 @@ public class Reservation {
     private long reservationId;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private int childCount;
-    private int adultCount;
+    private LocalDateTime reservedDate;
+    private int guestCount;
     boolean isFullPayment;
 
 
@@ -47,11 +48,18 @@ public class Reservation {
     @JsonIgnore
     private Payment payment;
 
+    @ManyToOne(cascade = CascadeType.DETACH) //reservation - hotel relation
+    @JoinColumn(name="hotelId" , referencedColumnName = "hotelId")
+    @JsonIgnore
+    private Hotel hotel;
+
 
     @OneToMany(mappedBy = "reservation")
+    @JsonIgnore
     private List<ReservationRoomType> reservationRoomTypes;
 
     @OneToMany(mappedBy = "reservation",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Collection<RoomTypeReservation> roomTypeReservation=new ArrayList<>();
 
 }

@@ -40,15 +40,15 @@ export class HotelOverviewComponent implements OnInit {
   newReservation: Reservation = {
     checkInDate: '',
     checkOutDate: '',
-    adultCount: 0,
+    guestCount: 0,
     isFullPayment: false,
     userId: 0,
     roomTypeReservation: [],
     paymentDTO: { rmarkUpPercentage: 0, rcancellationDeadline: 0, rPaymentDeadline: 0, rcancellationPercentage: 0, totalPrice: 0 },
     reservationSupplementDTOS: [],
     reservationOffersDTOS: [],
-    
-  };
+    hotelId: this.hotel?.hotelId ||0
+  }; 
 
 
   constructor(
@@ -159,9 +159,14 @@ export class HotelOverviewComponent implements OnInit {
     // Set reservation data based on user inputs and selected data
     this.newReservation.checkInDate = this.searchCriteria!.checkInDate; // Example, replace with actual user input
     this.newReservation.checkOutDate = this.searchCriteria!.checkOutDate; // Example, replace with actual user input
-    this.newReservation.adultCount = this.searchCriteria!.guestCount ;// Example, replace with actual user input
+    this.newReservation.guestCount = this.searchCriteria!.guestCount ;// Example, replace with actual user input
     this.newReservation.isFullPayment = true; // Example, replace with actual user input
-    this.newReservation.userId = 1; // Example, replace with actual user input
+    this.newReservation.userId = Number(localStorage.getItem('userId'))!;
+    if (this.hotel !== null) {
+      this.newReservation.hotelId = this.hotel.hotelId;
+  }
+
+
 
     this.contractService.getContractById(this.contractId).subscribe(contract => {
       if (contract && contract.content) {
@@ -209,9 +214,19 @@ export class HotelOverviewComponent implements OnInit {
       };
       this.newReservation.reservationOffersDTOS.push(reservationOffer);
     });
-
-    // Now you can send this.newReservation to your backend API for adding the reservation
     console.log('New Reservation:', this.newReservation);
+    this.reservationService.addReservation(this.newReservation)
+    .subscribe(
+      (response) => {
+        // Handle successful response
+        console.log('Reservation added successfully:', response);
+      },
+      (error) => {
+        // Handle error
+        console.error('Error adding reservation:', error);
+      }
+    );
+
  
   }
 

@@ -22,7 +22,9 @@ public class HotelController {
     @Autowired
     private ResponseDTO responseDTO;
 
+
     @PostMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity addHotel(@RequestBody HotelDTO hotelDTO) {
         try {
             String res = hotelService.addHotel(hotelDTO);
@@ -52,6 +54,7 @@ public class HotelController {
 
     }
     @PutMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity updateHotel(@RequestBody HotelDTO hotelDTO){
 
         try{
@@ -147,6 +150,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{hotelId}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity deleteHotel(@PathVariable int hotelId){
         try{
             String emp= hotelService.deleteHotel(hotelId);

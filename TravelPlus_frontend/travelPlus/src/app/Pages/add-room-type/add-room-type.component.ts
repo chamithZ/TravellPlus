@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'; // Import FormBuilder and FormGroup
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Season } from '../../Models/Season';
 import { RoomService } from '../../Services/RoomService/room.service';
@@ -14,26 +14,17 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 export class AddRoomTypeComponent implements OnInit {
   seasons: Season[] = [];
   contractId!: number ;
-  roomTypeForm!: FormGroup; // Declare roomTypeForm as a FormGroup
+  roomTypeForm!: FormGroup;
 
-  constructor(private router: Router,private http: HttpClient, private formBuilder: FormBuilder, private roomService:RoomService, private route: ActivatedRoute  ) {} // Inject FormBuilder
+  constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder, private roomService: RoomService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => 
-      this.contractId = params['contractId']);
+    this.route.params.subscribe(params => this.contractId = params['contractId']);
     this.fetchSeasons(this.contractId);
 
-    // Initialize the form
     this.roomTypeForm = this.formBuilder.group({
-      roomTypeName: ['', Validators.required],
-      roomSize: ['', Validators.required],
-      roomBedType: ['', Validators.required],
-      roomDescription: ['', Validators.required],
-      roomImage: ['', Validators.required],
-      contractId: [this.contractId, Validators.required], // Initialize contractId in the form
-      roomTypeSeasons: this.formBuilder.array([]) // Initialize an empty form array for roomTypeSeasons
+      roomTypes: this.formBuilder.array([]) // Initialize an empty form array for roomTypes
     });
-    
   }
 
   fetchSeasons(contractId: number): void {
@@ -44,11 +35,6 @@ export class AddRoomTypeComponent implements OnInit {
         if (data && data.content) {
           this.seasons = data.content;
           console.log('Seasons:', this.seasons);
-  
-          // Iterate over seasons to add controls to roomTypeSeasons FormArray
-          this.seasons.forEach(season => {
-            this.addSeasonFormGroup(season);
-          });
         } else {
           console.error('Invalid response format:', data);
         }
@@ -57,45 +43,70 @@ export class AddRoomTypeComponent implements OnInit {
       });
   }
 
-  // Getter for roomTypeSeasons form array
-  get roomTypeSeasons(): FormArray {
-    return this.roomTypeForm.get('roomTypeSeasons') as FormArray;
+  // Getter for roomTypes form array
+  get roomTypes(): FormArray {
+    return this.roomTypeForm.get('roomTypes') as FormArray;
   }
 
-  addSeasonFormGroup(season: Season): void {
+  addRoomTypeFormGroup(): void {
+    // Create a FormGroup for the room type
+    const roomTypeFormGroup = this.formBuilder.group({
+      roomTypeName: ['', Validators.required],
+      roomSize: ['', Validators.required],
+      roomBedType: ['', Validators.required],
+      roomDescription: ['', Validators.required],
+      roomImage: ['', Validators.required],
+      contractId: [this.contractId, Validators.required],
+      roomTypeSeasons: this.formBuilder.array([]) // Initialize an empty form array for roomTypeSeasons
+    });
+
+    // Add the FormGroup to the roomTypes FormArray
+    this.roomTypes.push(roomTypeFormGroup);
+  }
+
+  addSeasonFormGroup(roomTypeIndex: number, season: Season): void {
     // Create a FormGroup for the season
     const seasonFormGroup = this.formBuilder.group({
       seasonId: [season.seasonId],
-      roomPrice: ['', Validators.required], // Add validators if needed
-      noOfRooms: ['', Validators.required]  // Add validators if needed
+      roomPrice: ['', Validators.required],
+      noOfRooms: ['', Validators.required]
     });
-  
+
+    // Get the roomTypeSeasons FormArray for the specified room type index
+    const roomTypeSeasonsArray = this.roomTypes.at(roomTypeIndex).get('roomTypeSeasons') as FormArray;
+
     // Add the FormGroup to the roomTypeSeasons FormArray
-    this.roomTypeSeasons.push(seasonFormGroup);
+    roomTypeSeasonsArray.push(seasonFormGroup);
   }
 
-  
-  // Method to handle form submission
   onSubmit(): void {
     // Get the form value
     const formValue = this.roomTypeForm.value;
-    
-    const modifiedRoomTypeSeasons = formValue.roomTypeSeasons.map((season: any) => ({
-      ...season,
-      season: { seasonId: season.seasonId }
-    }));
-    
-    const transformedValue = {
-      ...formValue,
-      roomTypeSeasons: modifiedRoomTypeSeasons
-    };
 
-    
-    console.log(transformedValue); 
-    this.roomService.addRoomType(transformedValue as RoomType).subscribe((res)=>{
-      this.roomTypeForm.reset({ contractId: this.contractId });
-      this.router.navigate(['/addSupplement',this.contractId]);
-  })
-   
-}
-}
+    // Transform the form value to match the RoomType structure
+    const roomTypes = formValue.roomTypes.map((roomType: any) => {
+      const roomTypeSeasons = roomType.roomTypeSeasons.map((season: any) => ({
+        ...season,
+        season: { seasonId: season.seasonId }
+      }));
+
+      return {
+        ...roomType,
+        roomTypeSeasons
+      };
+    });
+
+    // Send the request to add multiple room types
+    this.roomService.addRoomType(roomTypes as RoomType[]).subscribe(
+      (res) => {
+        console.log('Room types added successfully:', res);
+        this.roomTypeForm.reset({ contractId: this.contractId });
+        this.router.navigate(['/addSupplement', this.contractId]);
+      },
+      (error) => {
+        console.error('Error adding room types:', error);
+        // Handle error accordingly
+      }
+    );
+  }
+} 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Hotel } from '../../Models/Hotel';
 import { Response } from '../../Models/Response';
 import { Observable } from 'rxjs';
+import { AuthService } from '../AuthService/auth-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,30 @@ import { Observable } from 'rxjs';
 export class HotelService {
   baseUrl = "http://localhost:8080/api/v1";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authService: AuthService) { }
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
   addHotelComponent(hotel: Hotel): Observable<Response<Hotel>> {
-    return this.http.post<Response<Hotel>>(`${this.baseUrl}/hotels`, hotel, this.httpOptions)
+    const headers = this.authService.getTokenHeader();
+    return this.http.post<Response<Hotel>>(`${this.baseUrl}/hotels`, hotel, { headers });
+
+  }
+
+  
+  updateHotelComponent(hotel: Hotel): Observable<Response<Hotel>> {
+    const headers = this.authService.getTokenHeader();
+    return this.http.put<Response<Hotel>>(`${this.baseUrl}/hotels`, hotel, { headers });
+
+  }
+
+  deleteHotel(hotelId: number): Observable<Response<any>> {
+    const headers = this.authService.getTokenHeader();
+    const url = `${this.baseUrl}/hotels/${hotelId}`;
+    
+    return this.http.delete<Response<any>>(url, { headers });
   }
 
   searchHotel(destination: string, checkIn: string, checkOut: string, guestCount: number, numberOfRooms: number): Observable<Response<Hotel[]>> {
@@ -37,5 +54,9 @@ export class HotelService {
   getHotelById(hotelId: number): Observable<Response<Hotel>> {
     const url = `${this.baseUrl}/hotels/${hotelId}`;
     return this.http.get<Response<Hotel>>(url);
+  }
+  getAllHotels(): Observable<any> {
+    const url = `${this.baseUrl}/hotels`;
+    return this.http.get<any>(url);
   }
 }

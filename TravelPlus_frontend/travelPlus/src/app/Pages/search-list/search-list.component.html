@@ -54,7 +54,7 @@
     </div>
   
  <!-- Search Results -->
- <div class="flex flex-col items-center mt-10 md:mt-0">
+<div class="flex flex-col items-center mt-10 md:mt-0">
   <div class="text-3xl text-blue-500 font-semibold mb-5">Search Result</div>
 
   <div *ngIf="hotels.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -65,7 +65,20 @@
 
         <div class="relative aspect-w-16 aspect-h-9 mb-4">
           <img *ngIf="hotel.hotelImages && hotel.hotelImages.length > 0" class="object-cover rounded-lg" [src]="'data:image/png;base64,' + hotel.hotelImages[0].imageData" alt="Hotel Image">
-         
+        </div>
+
+        <!-- Offers Section -->
+        <div class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">Offers</h3>
+          <div *ngIf="hotel.offers && hotel.offers.length > 0" class="grid grid-cols-1 gap-2">
+            <ng-container *ngFor="let offer of hotel.offers">
+              <div class="offer-item bg-gray-100 p-2 rounded-md shadow-md">
+                <h4 class="text-sm font-semibold">{{offer.offerName}}</h4>
+                <p class="text-xs text-gray-500">Discount: {{offer.discountPercentage}}%</p>
+              </div>
+            </ng-container>
+          </div>
+          <div *ngIf="!hotel.offers || hotel.offers.length === 0" class="text-sm text-gray-500">No offers available</div>
         </div>
 
         <div class="flex justify-end">
@@ -77,12 +90,10 @@
     </ng-container>
   </div>
 
-   
-      <div *ngIf="hotels.length === 0" class="text-center mt-8">
-        <p>No hotels found.</p>
-      </div>
-    </div>
+  <div *ngIf="hotels.length === 0" class="text-center mt-8">
+    <p>No hotels found.</p>
   </div>
+</div>
 
 
 
