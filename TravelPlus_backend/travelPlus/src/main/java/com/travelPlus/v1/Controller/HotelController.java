@@ -2,17 +2,21 @@ package com.travelPlus.v1.Controller;
 
 import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
-import com.travelPlus.v1.DTO.SeasonDTO;
-import com.travelPlus.v1.DTO.UserDTO;
+import com.travelPlus.v1.Entity.Hotel;
 import com.travelPlus.v1.Service.HotelService;
 import com.travelPlus.v1.Utill.VarList;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/hotels")
@@ -21,19 +25,20 @@ public class HotelController {
     private HotelService hotelService;
     @Autowired
     private ResponseDTO responseDTO;
-
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity addHotel(@RequestBody HotelDTO hotelDTO) {
         try {
-            String res = hotelService.addHotel(hotelDTO);
-            if (res.equals("000")) {
+            long res = hotelService.addHotel(hotelDTO);
+            if (res>0) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(hotelDTO);
+                responseDTO.setContent(res);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("006")) {
+            } else if (res==0) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Already Added");
                 responseDTO.setContent(hotelDTO);
@@ -87,33 +92,44 @@ public class HotelController {
     }
 
     @GetMapping
-    public ResponseEntity getlAllHotel(){
-        try{
-            List<HotelDTO> emp=hotelService.getAllHotel();
-            responseDTO.setCode(VarList.RSP_DUPLICATED );
-            responseDTO.setMessage("Success");
-            responseDTO.setContent(emp);
-            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+    public ResponseEntity getAllHotel(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
+        try {
+            Pageable pageRequest  = PageRequest.of(page, size);
+            Page<Hotel> hotelPage = hotelService.getAllHotel(pageRequest );
+            List<HotelDTO> hotelDTOs = hotelPage.getContent().stream()
+                    .map(hotel -> modelMapper.map(hotel, HotelDTO.class))
+                    .collect(Collectors.toList());
 
-        }catch(Exception ex){
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(hotelDTOs);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent((null));
-            return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity searchHotel(  @RequestParam String destination,
+    public ResponseEntity searchHotel(@RequestParam String destination,
                                       @RequestParam String checkIn,
                                       @RequestParam String checkOut,
                                       @RequestParam int guestCount,
-                                      @RequestParam int numberOfRooms) {
+                                      @RequestParam int numberOfRooms,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
         try {
-            List<HotelDTO> hotels = hotelService.searchHotel(destination, checkIn, checkOut, guestCount, numberOfRooms);
+            Pageable pageRequest = PageRequest.of(page, size);
+
+            List<HotelDTO> hotels = hotelService.searchHotel(destination, checkIn, checkOut, guestCount, numberOfRooms, pageRequest);
+
             responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Success");
             responseDTO.setContent(hotels);
+
             return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
@@ -122,6 +138,7 @@ public class HotelController {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/{hotelId}")
     public ResponseEntity getHotel(@PathVariable long hotelId){
         try{

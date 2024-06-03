@@ -1,22 +1,22 @@
 package com.travelPlus.v1.Controller;
 
 import com.travelPlus.v1.DTO.PaymentDTO;
-import com.travelPlus.v1.DTO.ReservationOffersDTO;
-import com.travelPlus.v1.DTO.ReservationSupplementDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.Service.PaymentService;
-import com.travelPlus.v1.Service.ReservationSupplementService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/payments")
 public class PaymentController {
+
+    @Autowired
     private PaymentService paymentService;
     @Autowired
     private ResponseDTO responseDTO;
@@ -111,6 +111,35 @@ public class PaymentController {
         }
     }
 
+    @GetMapping("/{reservationId}")
+    public ResponseEntity getPaymentsByReservationId(@PathVariable int reservationId) {
+        try {
+            System.out.println("hehehmm");
+            PaymentDTO paymentDTO = paymentService.getPaymentsByReservationId(reservationId);
+            if (paymentDTO != null) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(paymentDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.OK);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No payment found for the given reservation ID");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<ResponseDTO> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(new ResponseDTO("011","error", response));
+    }
 
 }

@@ -1,7 +1,7 @@
 package com.travelPlus.v1.DTO;
 
-import com.travelPlus.v1.Entity.Hotel;
 import com.travelPlus.v1.Entity.ReservationRoomType;
+import com.travelPlus.v1.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +14,13 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationDTO {
+
+public class UserReservationDTO {
     private long reservationId;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private LocalDateTime reservedDate;
     private int guestCount;
-    private long userId;
     private ReservationRoomType reservationRoomType;
     private PaymentDTO paymentDTO;
     private  boolean isFullPayment;
@@ -29,9 +29,9 @@ public class ReservationDTO {
     private Collection<ReservationSupplementDTO> reservationSupplementDTOS=new ArrayList<>();
     private Collection<ReservationOffersDTO> reservationOffersDTOS=new ArrayList<>();
     private long hotelId;
+    private User user;
 
-    public boolean getIsFullPayment(){
-        return this.isFullPayment;
-    }
+
 
 }
+

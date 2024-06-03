@@ -3,6 +3,7 @@ package com.travelPlus.v1.Controller;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.DTO.RoomTypeDTO;
 import com.travelPlus.v1.DTO.SeasonDTO;
+import com.travelPlus.v1.Entity.Season;
 import com.travelPlus.v1.Service.RoomTypeService;
 import com.travelPlus.v1.Service.SeasonService;
 import com.travelPlus.v1.Utill.VarList;
@@ -95,6 +96,30 @@ public class seasonController {
                 responseDTO.setCode(VarList.RSP_DUPLICATED );
                 responseDTO.setMessage("Success");
                 responseDTO.setContent(emp);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            }
+            else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("Season is not available ");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+
+            }}catch( Exception e){
+            responseDTO.setCode(VarList.RSP_ERROR );
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{contractId}/{checkIn}/{checkOut}")
+    public ResponseEntity getSeason(@PathVariable int contractId,@PathVariable String checkIn,@PathVariable String checkOut){
+        try{
+            Season season= seasonService.findSeasonByContract(contractId,checkIn,checkOut);
+            if(season!=null){
+                responseDTO.setCode(VarList.RSP_SUCCESS );
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(season);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
             }
             else {

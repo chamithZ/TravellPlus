@@ -24,6 +24,7 @@ public class RoomType {
     private String roomTypeName;
     private int roomSize;
     private String roomBedType;
+    @Column(columnDefinition = "VARCHAR(2000)")
     private String roomDescription;
     private String roomImage;
 
@@ -31,8 +32,6 @@ public class RoomType {
     @JoinColumn(name="contractId", referencedColumnName = "contractId")
     @JsonIgnore
     private Contract contract;
-
-
 
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
     private Collection<RoomTypeSeason> roomTypeSeasons=new ArrayList<>();

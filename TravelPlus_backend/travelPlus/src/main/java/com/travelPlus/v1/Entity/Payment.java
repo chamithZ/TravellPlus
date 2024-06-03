@@ -16,6 +16,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long paymentId;
     private double rmarkUpPercentage;
+    private double rprepaymentPercentage;
     private int rcancellationDeadline;
     private int rPaymentDeadline;
     private double rcancellationPercentage;

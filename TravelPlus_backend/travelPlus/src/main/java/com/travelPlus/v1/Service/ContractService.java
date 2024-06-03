@@ -1,22 +1,21 @@
 package com.travelPlus.v1.Service;
 
 import com.travelPlus.v1.DTO.ContractDTO;
-import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.OfferDTO;
 import com.travelPlus.v1.DTO.SeasonDTO;
-import com.travelPlus.v1.Entity.*;
+import com.travelPlus.v1.Entity.Contract;
+import com.travelPlus.v1.Entity.Offer;
+import com.travelPlus.v1.Entity.Season;
 import com.travelPlus.v1.Repo.*;
 import com.travelPlus.v1.Utill.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,6 +44,7 @@ public class ContractService {
         } else {
             // Save the Contract entity
             Contract contract = modelMapper.map(contractDTO, Contract.class);
+            contract.setContractStatus(true);
             contractRepo.save(contract);
 
             // Retrieve the generated contractId
@@ -75,20 +75,41 @@ public class ContractService {
         }
     }
     public String deleteContract(long contractId) {
-        if (contractRepo.existsById(contractId))
-        {
-            contractRepo.deleteById(contractId);
+        Contract contract = contractRepo.findById(contractId).orElse(null);
+        if (contract != null) {
+            // Set hotelStatus as false
+            contract.setContractStatus(false);
+            // Save the updated hotel
+            contractRepo.save(contract);
             return VarList.RSP_SUCCESS;
-        }
-        else{
+        } else {
             return VarList.RSP_NO_DATA_FOUND;
         }
     }
 
-    public List<ContractDTO> getAllContracts(){
-        List<Contract> contractList=contractRepo.findAll();
-        return modelMapper.map(contractList,new TypeToken<ArrayList<ContractDTO>>(){
-        }.getType());
+    public String enableContract(long contractId) {
+        Contract contract = contractRepo.findById(contractId).orElse(null);
+        if (contract != null) {
+            // Set hotelStatus as false
+            contract.setContractStatus(true);
+            // Save the updated hotel
+            contractRepo.save(contract);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
+    }
+
+    public Page<Contract> getAllContracts(Pageable pageable) {
+        Page<Contract> contractPage = contractRepo.findActiveContracts(pageable);
+        System.out.println(contractPage);
+        return contractPage;
+    }
+
+    public Page<Contract> getAllDisabledContracts(Pageable pageable) {
+        Page<Contract> contractPage = contractRepo.findDeactiveContracts(pageable);
+        System.out.println(contractPage);
+        return contractPage;
     }
     public long getContractIdByHotelIdAndDateRange(long hotelId, LocalDate startDate, LocalDate endDate) {
         Contract contract = contractRepo.findByHotelHotelIdAndStartDateBeforeAndEndDateAfter(hotelId, startDate, endDate);
@@ -96,7 +117,7 @@ public class ContractService {
             return contract.getContractId();
         } else {
             // No contract found for the given hotel ID and date range
-            return -1; // Or you can throw an exception or return null depending on your application's logic
+            return -1;
         }
     }
     public ContractDTO getContractById(long contractId) {

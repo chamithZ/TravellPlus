@@ -12,6 +12,7 @@ public class PaymentDTO {
     private double rmarkUpPercentage;
     private int rcancellationDeadline;
     private int rPaymentDeadline;
+    private double rprepaymentPercentage;
     private double rcancellationPercentage;
     private double totalPrice;
     private long reservationId;

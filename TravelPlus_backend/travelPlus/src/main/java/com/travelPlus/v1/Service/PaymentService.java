@@ -61,10 +61,15 @@ public class PaymentService {
                 return VarList.RSP_NO_DATA_FOUND;
             }
         }
+    public PaymentDTO getPaymentsByReservationId(long reservationId) {
 
-
-
-
+        Payment payment=paymentRepo.findByReservation_ReservationId(reservationId).orElse(null);
+        return modelMapper.map(payment,PaymentDTO.class);
     }
+
+
+
+
+}
 
 

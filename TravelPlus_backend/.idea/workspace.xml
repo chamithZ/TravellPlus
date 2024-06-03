@@ -5,8 +5,100 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="48f3d67f-48dc-4cf9-bac8-2800de614171" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/ContractController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/HotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/HotelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/ReservationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/SearchController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/seasonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Controller/seasonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/ContractDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/ContractDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/PaymentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/PaymentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/ReservationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/ReservationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/DTO/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Contract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Hotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Reservation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/RoomType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Supplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/Supplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/ContractRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/ContractRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/HotelRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/HotelRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/PaymentRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/PaymentRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/ReservationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/ReservationRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/RoomTypeRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/RoomTypeRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/SeasonRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/SeasonRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Repo/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/ContractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/ContractService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/HotelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/SeasonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/SeasonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Utill/ImageLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/travelPlus/src/main/java/com/travelPlus/v1/Utill/ImageLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/test/java/com/travelPlus/v1/ContractServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/test/java/com/travelPlus/v1/HotelServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/test/java/com/travelPlus/v1/ReservationServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/test/java/com/travelPlus/v1/UserServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travelPlus/src/test/java/com/travelPlus/v1/V1ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/admin-header/admin-header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/admin-header/admin-header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/admin-header/admin-header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/admin-header/admin-header.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/footer/footer.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/header/header.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/home-search-bar/home-search-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/home-search-bar/home-search-bar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/home-search-bar/home-search-bar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Components/home-search-bar/home-search-bar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Contract.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Contract.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/HotelImages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/HotelImages.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Payment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Payment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Reservation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Reservation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/Response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Models/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-contract/add-contract.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-contract/add-contract.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-contract/add-contract.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-contract/add-contract.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-hotel/add-hotel.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-room-type/add-room-type.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-room-type/add-room-type.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-room-type/add-room-type.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-room-type/add-room-type.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/add-supplement/add-supplement.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/admin-dashboard/admin-dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/admin-dashboard/admin-dashboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/admin-dashboard/admin-dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/admin-dashboard/admin-dashboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-list/hotel-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-list/hotel-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-list/hotel-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-list/hotel-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-overview/hotel-overview.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-overview/hotel-overview.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-overview/hotel-overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/hotel-overview/hotel-overview.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservation-overview/reservation-overview.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservation-overview/reservation-overview.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservation-overview/reservation-overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservation-overview/reservation-overview.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservations/reservations.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservations/reservations.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservations/reservations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/reservations/reservations.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/search-list/search-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/search-list/search-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/search-list/search-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/search-list/search-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/update-contract/update-contract.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/update-contract/update-contract.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/update-contract/update-contract.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/update-contract/update-contract.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/user-register/user-register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Pages/user-register/user-register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/AuthService/auth-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/AuthService/auth-service.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/ContractService/contract.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/ContractService/contract.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/HotelService/hotel.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/HotelService/hotel.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/ReservationService/reservation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/ReservationService/reservation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/SeasonService/season.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/SeasonService/season.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/SupplementService/supplement.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/Services/SupplementService/supplement.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../TravelPlus_frontend/travelPlus/src/app/app.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,21 +119,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Chamith/Documents/TravelPlus/TravelPlus_backend/travelPlus",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "onboarding.tips.debug.path": "C:/Users/Chamith/Documents/TravelPlus/TravelPlus_backend/src/Main.java",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;test&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Chamith/Documents/TravelPlus/TravelPlus_backend/travelPlus&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/Chamith/Documents/TravelPlus/TravelPlus_backend/src/Main.java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -52,6 +144,13 @@
       <updated>1708346780974</updated>
       <workItem from="1708346782073" duration="761000" />
       <workItem from="1708800732983" duration="45000" />
+      <workItem from="1714598965256" duration="431000" />
+      <workItem from="1714896003328" duration="53000" />
+      <workItem from="1714913370751" duration="1279000" />
+      <workItem from="1714940704208" duration="799000" />
+      <workItem from="1714977001215" duration="626000" />
+      <workItem from="1714998739303" duration="1199000" />
+      <workItem from="1715109808088" duration="15000" />
     </task>
     <servers />
   </component>

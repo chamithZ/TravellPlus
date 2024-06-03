@@ -18,5 +18,7 @@ public class UserDTO {
     private String userType;
     private String password;
     private int age;
+    private long propertyId;
+    private boolean userStatus;
 }
 
