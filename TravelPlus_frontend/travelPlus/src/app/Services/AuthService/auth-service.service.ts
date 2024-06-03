@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable , Output, EventEmitter} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from '../../Models/User';
 import { Response } from '../../Models/Response';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -12,6 +13,7 @@ import { Response } from '../../Models/Response';
 export class AuthService {
   private baseUrl = 'http://localhost:8080/api/v1'; 
   private loginUrl = 'http://localhost:8080/api/v1/auth/login'; 
+  @Output() getLogStatus: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient) { }
 
@@ -19,16 +21,36 @@ export class AuthService {
     const registerUrl = `${this.baseUrl}/auth/signup`;
     return this.http.post<Response<User>>(registerUrl, user);
   }
-
   login(credentials: { email: string, password: string }): Observable<{ token: string }> {
     // Send a POST request to the login endpoint with the provided credentials
-    return this.http.post<{ token: string }>(this.loginUrl, credentials);
+    return this.http.post<{ token: string }>(this.loginUrl, credentials)
+      .pipe(
+        tap((response: { token: string }) => {
+          // Emit the user's full name or 'Sign In' based on the response
+          if (response.token) {
+            this.getLogStatus.emit('logged');
+          } else {
+            this.getLogStatus.emit('Sign In');
+          }
+        })
+      );
   }
-
+  isAuthorize(user:String): boolean {
+    const userType = localStorage.getItem('userType');
+    return userType === user;
+  }
   setToken(token: string): void {
     localStorage.setItem('token', token); // Store the token in local storage
   }
 
+  isLogged(): Observable<boolean> {
+    // Retrieve the token from local storage
+    const token = this.getToken();
+    
+    
+    // Return an Observable that emits true if token exists, false otherwise
+    return of(!!token);
+  }
   getToken(): string | null {
     return localStorage.getItem('token'); // Retrieve the token from local storage
   }
@@ -66,6 +88,7 @@ export class AuthService {
  
   logout(): void {
     localStorage.removeItem('token'); // Remove the token from local storage on logout
+    this.getLogStatus.emit('Sign In');
   }
 }
 function jwt_decode(token: string): any {

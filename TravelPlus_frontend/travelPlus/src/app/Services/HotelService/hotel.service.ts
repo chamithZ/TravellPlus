@@ -37,13 +37,15 @@ export class HotelService {
     return this.http.delete<Response<any>>(url, { headers });
   }
 
-  searchHotel(destination: string, checkIn: string, checkOut: string, guestCount: number, numberOfRooms: number): Observable<Response<Hotel[]>> {
+  searchHotel(destination: string, checkIn: string, checkOut: string, guestCount: number, numberOfRooms: number, page: number, size: number): Observable<Response<Hotel[]>> {
     let params = new HttpParams()
       .set('destination', destination)
       .set('checkIn', checkIn)
       .set('checkOut', checkOut)
       .set('guestCount', guestCount.toString())
-      .set('numberOfRooms', numberOfRooms.toString());
+      .set('numberOfRooms', numberOfRooms.toString())
+      .set('page', page.toString()) // Include page parameter
+      .set('size', size.toString()); // Include size parameter
 
     const url = `${this.baseUrl}/hotels/search`;
     const options = { params };
@@ -55,8 +57,9 @@ export class HotelService {
     const url = `${this.baseUrl}/hotels/${hotelId}`;
     return this.http.get<Response<Hotel>>(url);
   }
-  getAllHotels(): Observable<any> {
-    const url = `${this.baseUrl}/hotels`;
+
+  getAllHotels(page: number, pageSize: number): Observable<any> {
+    const url = `${this.baseUrl}/hotels?page=${page}&pageSize=${pageSize}`;
     return this.http.get<any>(url);
   }
 }

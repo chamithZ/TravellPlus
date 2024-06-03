@@ -1,0 +1,27 @@
+<!-- supplement-list.component.html -->
+
+<div *ngIf="loadingSupplements; else supplementsList">
+    <!-- Loading indicator -->
+    <p>Loading supplements...</p>
+  </div>
+  
+  <ng-template #supplementsList>
+    <div *ngIf="supplements.length > 0; else noSupplements">
+      <h2>Supplement List</h2>
+      <ul>
+        <li *ngFor="let supplement of supplements">
+          <!-- Display supplement details here -->
+          <h3>{{ supplement.serviceName }}</h3>
+          <p>Price: {{ supplement.price }}</p>
+          <!-- Add more details as needed -->
+        </li>
+      </ul>
+    </div>
+    <ng-template #noSupplements>
+      <div class="not-authorized text-blue-400 flex flex-col justify-center items-center h-full mt-20">
+        <h2 class="text-2xl font-bold mb-4"> supplements not available.</h2>
+    </div>
+    
+    </ng-template>
+  </ng-template>
+  

@@ -1,6 +1,6 @@
 <div class="flex flex-col md:flex-row">
     <!-- Sidebar -->
-    <div class="bg-white p-4 md:mr-4 rounded-lg shadow-lg">
+    <div class=" bg-slate-100 p-4 md:mr-4 rounded-lg shadow-2xl mt-8">
       <form class="flex flex-col">
         <!-- Location Input -->
         <div class="input mb-4">
@@ -57,42 +57,95 @@
 <div class="flex flex-col items-center mt-10 md:mt-0">
   <div class="text-3xl text-blue-500 font-semibold mb-5">Search Result</div>
 
-  <div *ngIf="hotels.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <ng-container *ngFor="let hotel of hotels">
-      <div class="hotel-card bg-white shadow-md rounded-lg p-8">
-        <h2 class="text-xl font-bold mb-2">{{hotel.hotelName}}</h2>
-        <p class="text-gray-700 mb-4">{{hotel.hotelCity}}</p>
-
-        <div class="relative aspect-w-16 aspect-h-9 mb-4">
-          <img *ngIf="hotel.hotelImages && hotel.hotelImages.length > 0" class="object-cover rounded-lg" [src]="'data:image/png;base64,' + hotel.hotelImages[0].imageData" alt="Hotel Image">
-        </div>
-
-        <!-- Offers Section -->
-        <div class="mb-4">
-          <h3 class="text-lg font-semibold mb-2">Offers</h3>
-          <div *ngIf="hotel.offers && hotel.offers.length > 0" class="grid grid-cols-1 gap-2">
-            <ng-container *ngFor="let offer of hotel.offers">
-              <div class="offer-item bg-gray-100 p-2 rounded-md shadow-md">
-                <h4 class="text-sm font-semibold">{{offer.offerName}}</h4>
-                <p class="text-xs text-gray-500">Discount: {{offer.discountPercentage}}%</p>
-              </div>
-            </ng-container>
+  <div *ngIf="hotels.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+      <ng-container *ngFor="let hotel of hotels">
+        <div class="hotel-card lg:h-180 lg:w-80 shadow-2xl ml-5 bg-slate-100 hover:shadow-blue-200 rounded-lg p-8">
+          <h2 class="text-xl font-bold mb-2">{{hotel.hotelName}}</h2>
+          <p class="text-gray-700 mb-4">{{hotel.hotelCity}}</p>
+        
+          <div class="relative aspect-w-16 aspect-h-9 mb-4">
+            <img *ngIf="hotel.hotelImages && hotel.hotelImages.length > 0" class="object-cover rounded-lg" [src]="'data:image/png;base64,' + hotel.hotelImages[0].imageData" alt="Hotel Image">
           </div>
-          <div *ngIf="!hotel.offers || hotel.offers.length === 0" class="text-sm text-gray-500">No offers available</div>
-        </div>
 
-        <div class="flex justify-end">
-          <button (click)="navigateToHotelOverview(hotel.hotelId)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
-            See more
-          </button>
+          
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-gray-700 font-semibold">
+              Price per night
+              <ng-container  *ngIf="hotel.offers">
+                <div>
+                  <span class="line-through text-red-500">LKR {{ hotel.pricePerNight }}</span>
+                </div>
+                <div class="text-green-500 font-bold text-lg">
+                  With offer LKR {{ calculateOfferPrice(hotel.pricePerNight, hotel.offers[0].discountPercentage) }}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="hotel.offers.length === 0 || !hotel.offers">
+             
+                LKR {{ hotel.pricePerNight }} Per Night
+              </ng-container>
+            </p>
+          </div>
+         
+           
+          <!-- Offers Section -->
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold mb-2">Offers</h3>
+            <div *ngIf="hotel.offers && hotel.offers.length > 0" class="grid grid-cols-1 gap-2">
+              <ng-container *ngFor="let offer of hotel.offers">
+                <div class="offer-item bg-gray-100 p-2 rounded-md shadow-md">
+                  <h4 class="text-sm font-semibold">{{offer.offerName}}</h4>
+                  <p class="text-xs text-gray-500">Discount: {{offer.discountPercentage}}%</p>
+                </div>
+              </ng-container>
+            </div>
+            <div *ngIf="!hotel.offers || hotel.offers.length === 0" class="text-sm text-gray-500">No offers available</div>
+          </div>
+        
+          <div class="flex justify-end">
+            <button (click)="navigateToHotelOverview(hotel.hotelId)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
+              See more
+            </button>
+          </div>
+        </div>
+        
+      </ng-container>
+    </div>
+     <!-- Pagination -->
+  <div *ngIf="hotels.length !== 0" class="flex items-center justify-center mt-5 mb-24">
+    <button (click)="previousPage()" [disabled]="currentPage === 0" class="px-4 py-2 bg-blue-500 text-white rounded-md mr-2" [class.opacity-50]="currentPage === 0">Previous</button>
+    <span class="text-gray-600">Page No {{ currentPage + 1 }} </span>
+    <button (click)="nextPage()" [disabled]="currentPage + 1 === totalPages" class="px-4 py-2 bg-blue-500 text-white rounded-md ml-2" [class.opacity-50]="currentPage + 1 === totalPages">Next</button>
+  </div>
+    <div *ngIf="loading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+      <div class="bg-white rounded-lg p-8">
+        <div class="flex items-center justify-center mb-4">
+          <!-- Replace the SVG loader with a plane icon -->
+          <i class="fas fa-plane-departure text-blue-500 animate-bounce text-4xl"></i>
+          <p class="text-lg font-semibold text-[#41A4FF] ml-2">Loading...</p>
         </div>
       </div>
-    </ng-container>
-  </div>
+    </div>
+
+    <div *ngIf="hotels.length === 0" class="flex items-center justify-center mt-5 mb-24">
+      <button (click)="previousPage()" [disabled]="currentPage === 0" class="px-4 py-2 bg-blue-500 text-white rounded-md mr-2" [class.opacity-50]="currentPage === 0">Previous</button>
+      <span class="text-gray-600">Page No {{ currentPage + 1 }} </span>
+    
+    </div>
+      <div *ngIf="loading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+        <div class="bg-white rounded-lg p-8">
+          <div class="flex items-center justify-center mb-4">
+            <!-- Replace the SVG loader with a plane icon -->
+            <i class="fas fa-plane-departure text-blue-500 animate-bounce text-4xl"></i>
+            <p class="text-lg font-semibold text-[#41A4FF] ml-2">Loading...</p>
+          </div>
+        </div>
+      </div>
+
 
   <div *ngIf="hotels.length === 0" class="text-center mt-8">
     <p>No hotels found.</p>
   </div>
+  
 </div>
 
 

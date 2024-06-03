@@ -1,0 +1,38 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl text-[#41A4FF] font-semibold mb-5"> {{ getHotelName(this.hotelId) }} Hotel Reservations</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
+      <div *ngFor="let reservation of reservations" class="flex justify-center items-center">
+        <div class="bg-white rounded-lg overflow-hidden shadow-md flex-grow">
+          <div class="p-6">
+            <div class="flex justify-between">
+              <div>
+                <div *ngIf="hotel.length" class="mt-4">
+                  <p class="sm:text-xl text-gray-700 text-right font-bold lg:text-2xl"> <span class="text-blue-500">Booked Rooms</span></p>
+                </div>
+                <ul>
+                  <li *ngFor="let roomType of reservation.roomTypes let i=index" class="text-gray-700 mt-2">{{ roomType.roomTypeName }} - {{reservation.roomTypeReservation[i].roomCount
+                  }}</li>
+                </ul>
+                <p class="text-gray-700 font-semibold mt-5">Guest NIC: <span class="text-blue-500">{{ reservation.user.nic}}</span></p>
+                <p class="text-gray-700 font-semibold mt-5">Name: <span class="text-blue-500">{{ reservation.user.name}}</span></p>
+                <p class="text-gray-700 font-semibold mt-5">Contact: <span class="text-blue-500">{{ reservation.user.contactNo}}</span></p>
+              </div>
+           
+              
+              <div>
+                <p class="sm:text-xl text-gray-700 text-center font-bold lg:text-2xl"> <span class="text-blue-500">Reserved Dates</span></p>
+                <p class="text-gray-700 font-semibold mt-2">Check-in Date: <span class="text-blue-500">{{ reservation.checkInDate | date: 'mediumDate' }}</span></p>
+                <p class="text-gray-700 font-semibold mt-2">Check-out Date: <span class="text-blue-500">{{ reservation.checkOutDate | date: 'mediumDate' }}</span></p>
+                <p class="text-gray-700 font-semibold mt-2">Reserved Date: <span class="text-blue-500">{{ reservation.reservedDate | date: 'medium' }}</span></p>
+                <p class="text-gray-700 font-semibold mt-2">Time Elapsed: <span class="text-blue-500">{{ getElapsedTime(reservation.reservedDate) }}</span></p>
+               
+              </div>
+            </div>
+            <div class="mt-4 text-red-500 font-semibold" *ngIf="!reservation.fullPayment">Paid PrePayment</div>
+            <div class="mt-4 text-green-500 font-semibold" *ngIf="reservation.fullPayment">Paid full payment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

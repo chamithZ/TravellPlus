@@ -1,0 +1,65 @@
+<div class="flex flex-col md:flex-row justify-between">
+    <!-- Reservation Details Card -->
+    <div class="bg-slate-100 p-6 ml-4 md:mr-2 rounded-lg shadow-2xl mt-8 w-full md:w-1/2">
+        <h2 class="text-3xl text-blue-500 font-semibold mb-5">Reservation Details</h2>
+        
+        <div *ngIf="reservation" class="text-gray-600 mb-4">
+            <h3 class="text-xl font-bold mb-2">{{ hotel.hotelName }} Hotel</h3>
+            <!-- Display selected room types -->
+            <h3 class="text-lg font-semibold mb-2">Selected Room Types</h3>
+            <ul>
+                <li *ngFor="let roomType of roomTypes" class="text-gray-600 mb-2">
+                    Room Type: {{ roomType.roomTypeName }}
+                    <br>
+                    Selected Room Count: {{ roomType.selectedRoomCount }}
+                    <br>
+                    Room Price(per day) : LKR {{ roomType.roomPrice }}
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Display cancellation policies -->
+        <div *ngIf="contract">
+            <h3 class="text-lg font-semibold mb-2">Cancellation Policies</h3>
+            <p class="text-gray-600 mb-2">You can cancel Reservation before <strong>{{ contract.cancellationDeadline }} days</strong> to arrvie date</p>
+            <p class="text-gray-600 mb-2">If you cancel Reservation after that we charge <strong> {{ contract.cancellationFeePercentage }}% of full payement</strong>.</p>
+            
+          
+        </div>
+    </div>
+    
+    <!-- Payment Details Card -->
+    <div *ngIf="paymentDetails" class="bg-slate-100 p-6 ml-4 md:ml-2 mr-4 rounded-lg shadow-2xl mt-8 w-full md:w-1/2">
+        <h2 class="text-3xl text-blue-500 font-semibold mb-5">Payment Details</h2>
+        
+        <!-- Display payment details -->
+        <div class="text-gray-600 mb-2">Total Price for Selected Rooms: LKR {{ paymentDetails.roomTypeTotalPrice.toFixed(2) }}</div>
+        <div class="text-gray-600 mb-2">Total Price for Selected Supplements: LKR {{ paymentDetails.supplementsTotalPrice.toFixed(2) }}</div>
+        <div class="text-gray-600 mb-2">Total Discount Applied: LKR {{ paymentDetails.totalDiscount.toFixed(2) }}</div>
+        <div class="text-gray-600 mb-2">Total Amount: LKR {{ paymentDetails.totalPrice.toFixed(2) }}</div>
+        <div class="text-gray-600 mb-2">Service Charge: LKR {{ paymentDetails.serviceCharge.toFixed(2) }}</div>
+        <div class="text-gray-600 mb-2">Total Amount Including Service Charge: LKR {{ paymentDetails.totalAmountIncludingServiceCharge.toFixed(2) }}</div>
+        
+       
+        <p class="text-gray-600 mb-2">You can pay <strong>{{ contract.prepaymentPercentage }}% of Total Payment</strong> as PrePayement. </p>
+        <p class="text-gray-600 mb-2">You should pay full payement before <strong>{{ contract.paymentDeadline }} days</strong> to arrvie. Otherwise reservation will be canceled.</p>
+        <!-- Payment Options -->
+        <h3 class="text-lg font-semibold mb-2">Select Payment Option</h3>
+        <div class="mb-4">
+            <label for="fullPayment" class="text-gray-600 mb-2">Full Payment</label>
+            <input type="radio" id="fullPayment" name="paymentOption" value="fullPayment" (change)="updatePaymentOption(true)" checked>
+        </div>
+        <div class="mb-4">
+            <label for="prePayment" class="text-gray-600 mb-2">Prepayment</label>
+            <input type="radio" id="prePayment" name="paymentOption" value="prePayment" (change)="updatePaymentOption(false)">
+        </div>
+        
+        <!-- Display prepayment amount if prepayment option is selected -->
+        <div *ngIf="!paymentOption" class="text-gray-600 mb-2">
+            <div>Prepayment Amount: LKR {{ prepaymentAmount.toFixed(2) }}</div>
+        </div>
+        
+        <!-- Pay Now button -->
+        <button class="bg-[#41A4FF] text-white p-3 rounded-full focus:outline-none transition-colors duration-300 hover:bg-white hover:text-[#41A4FF] hover:border-[#41A4FF] border-2 border-[#41A4FF]" (click)="payNow()">Pay Now</button>
+    </div>
+</div>

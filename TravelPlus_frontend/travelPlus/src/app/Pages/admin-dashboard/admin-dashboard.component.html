@@ -3,23 +3,73 @@
       <h3 class="text-2xl font-bold p-4 text-blue-500">Admin Dashboard</h3>
       <ul class="flex-1">
         <li>
-          <a (click)="selectedOption = 'dashboard'" [class.bg-blue-100]="selectedOption === 'dashboard'" class="block p-4 hover:bg-blue-100 transition duration-200">Dashboard</a>
-        </li>
-        <li>
           <a (click)="selectedOption = 'hotel'" [class.bg-blue-100]="selectedOption === 'hotel'" class="block p-4 hover:bg-blue-100 transition duration-200">Hotel Management</a>
         </li>
         <li>
           <a (click)="selectedOption = 'contracts'" [class.bg-blue-100]="selectedOption === 'contracts'" class="block p-4 hover:bg-blue-100 transition duration-200">Contract Management</a>
         </li>
+        <li>
+          <a (click)="selectedOption = 'user'" [class.bg-blue-100]="selectedOption === 'user'" class="block p-4 hover:bg-blue-100 transition duration-200">User Management</a>
+        </li>
       </ul>
     </div>
     <div class="flex-1 bg-gray-200 relative">
-      <router-outlet></router-outlet>
-      <!-- Buttons for managing hotels -->
-      <div *ngIf="selectedOption === 'hotel'" class="absolute inset-0 flex justify-center items-center bg-gray-200 bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <button routerLink="/addHotel" class="block w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200 mb-4">Add Hotel</button>
-          <button routerLink="/hotelList" class="block w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">View Hotels</button>
+      <!-- Cards for managing hotels, contracts, and users -->
+      <div *ngIf="selectedOption === 'hotel'" class="flex justify-center items-start h-screen mt-16">
+        <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center">
+          <a routerLink="/addHotel" class="mt-5 mb-5 max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+            <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+              <i class="fas fa-plus-square text-3xl text-gray-600"></i>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800">Add Hotel</h2>
+              <p class="text-gray-700">Click here to add a new hotel.</p>
+            </div>
+          </a>
+          <a routerLink="/hotelList" class="mt-5 mb-5 max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+            <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+              <i class="fas fa-hotel text-3xl text-gray-600"></i>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800">View Hotels</h2>
+              <p class="text-gray-700">Click here to view all hotels.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div *ngIf="selectedOption === 'contracts'" class="flex justify-center items-start h-screen mt-16">
+        <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center">
+          <a routerLink="/contractList" class="mt-5 mb-5 max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center px-8">
+            <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+              <i class="fas fa-file-contract text-3xl text-gray-600"></i>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800">View Contracts</h2>
+              <p class="text-gray-700">Click here to view all contracts.</p>
+            </div>
+          </a>
+          <a routerLink="/disabledContracts" class="mt-5 mb-5 max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-3">
+            <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+              <i class="fas fa-ban text-3xl text-gray-600"></i>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800">View Disabled Contracts</h2>
+              <p class="text-gray-700">Click here to view disabled contracts.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div *ngIf="selectedOption === 'user'" class="flex justify-center items-start h-screen mt-16">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <a routerLink="/adminList" class="mt-5 mb-32 max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+            <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+              <i class="fas fa-users-cog text-3xl text-gray-600"></i>
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800">View Hotel Admins</h2>
+              <p class="text-gray-700">Click here to view hotel administrators.</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>

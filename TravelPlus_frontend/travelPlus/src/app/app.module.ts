@@ -27,6 +27,22 @@ import { UpdateContractComponent } from './Pages/update-contract/update-contract
 import { AdminHeaderComponent } from './Components/admin-header/admin-header.component';
 import { HotelListComponent } from './Pages/hotel-list/hotel-list.component';
 import { UserRegisterComponent } from './Pages/user-register/user-register.component';
+import { HotelAdminRegisterComponent } from './Pages/hotel-admin-register/hotel-admin-register.component';
+import { ContractListComponent } from './Pages/contract-list/contract-list.component';
+import { DisabledContractListComponent } from './Pages/disabled-contract-list/disabled-contract-list.component';
+import { PaymentComponent } from './Pages/payment/payment.component';
+import { HotelAdminDashboardComponent } from './Pages/hotel-admin-dashboard/hotel-admin-dashboard.component';
+import { AdminReservationListComponent } from './Pages/admin-reservation-list/admin-reservation-list.component';
+import { ViewHotelAdminsComponent } from './Pages/view-hotel-admins/view-hotel-admins.component';
+import { AuthErrorComponent } from './Components/auth-error/auth-error.component';
+import { RoomTypeListComponent } from './Pages/room-type-list/room-type-list.component';
+import { SupplementListComponent } from './Pages/supplement-list/supplement-list.component';
+import { AccountSettingComponent } from './Pages/account-setting/account-setting.component';
+import { UpdateUserComponent } from './Pages/update-user/update-user.component';
+import { Hero1Component } from './Components/hero-1/hero-1.component';
+import { Hero3Component } from './Components/hero-3/hero-3.component';
+import { AboutusComponent } from './Pages/aboutus/aboutus.component';
+import { ContactusComponent } from './Pages/contactus/contactus.component';
 
 
 @NgModule({
@@ -52,8 +68,23 @@ import { UserRegisterComponent } from './Pages/user-register/user-register.compo
     UpdateContractComponent,
     AdminHeaderComponent,
     HotelListComponent,
-    UserRegisterComponent
-
+    UserRegisterComponent,
+    HotelAdminRegisterComponent,
+    ContractListComponent,
+    DisabledContractListComponent,
+    PaymentComponent,
+    HotelAdminDashboardComponent,
+    AdminReservationListComponent,
+    ViewHotelAdminsComponent,
+    AuthErrorComponent,
+    RoomTypeListComponent,
+    SupplementListComponent,
+    AccountSettingComponent,
+    UpdateUserComponent,
+    Hero1Component,
+    Hero3Component,
+    AboutusComponent,
+    ContactusComponent
   ],
   imports: [
     BrowserModule,

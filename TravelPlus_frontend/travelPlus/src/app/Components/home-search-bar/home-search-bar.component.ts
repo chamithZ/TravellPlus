@@ -3,6 +3,8 @@ import { HotelService } from '../../Services/HotelService/hotel.service';
 import { Router } from '@angular/router';
 import { HotelDataService } from '../../Services/HotelDataService/hotel-data.service';
 import { SearchCriteria } from '../../Models/SearchCriteria'; // Import the SearchCriteria model
+import { CommonService } from '../../Services/CommonService/common.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -16,13 +18,21 @@ export class HomeSearchBarComponent {
   roomCount: number = 1;
   guestCount: number = 1;
   dropdownOpen: boolean = false;
+  location: any = '';
+  loading: boolean = false; // Variable to track loading state
 
   currentDate: string = new Date().toISOString().split('T')[0];
   tomorrowDate: string = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  maxDate: string = new Date(new Date().getFullYear() + 2, new Date().getMonth(), new Date().getDate()).toISOString().split('T')[0];
 
-  constructor(private router: Router, private hotelDataService: HotelDataService, private renderer: Renderer2, private el: ElementRef, private hotelService: HotelService) {}
+  constructor(private commonService: CommonService, private router: Router, private hotelDataService: HotelDataService, private renderer: Renderer2, private el: ElementRef, private hotelService: HotelService) {}
 
   ngOnInit() {
+    this.commonService.getLocation().subscribe((data) => {
+      this.location = data;
+      console.log(this.location?.city);
+    });
+
     this.renderer.listen('document', 'click', (event: MouseEvent) => {
       this.handleDocumentClick(event);
     });
@@ -33,7 +43,11 @@ export class HomeSearchBarComponent {
       this.dropdownOpen = false;
     }
   }
- 
+
+  setLocation() {
+    this.city = this.location?.city;
+  }
+
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
@@ -60,11 +74,18 @@ export class HomeSearchBarComponent {
 
   searchHotels() {
     if (!this.city || !this.checkInDate || !this.checkOutDate) {
-      console.error('Please fill in all required fields (Destination, Check-In Date, Check-Out Date)');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all required fields (Destination, Check-In Date, Check-Out Date)!',
+      });
       return;
     }
-  
-    const searchCriteria: SearchCriteria = { // Create search criteria object
+
+    // Start loading
+    this.loading = true;
+
+    const searchCriteria: SearchCriteria = {
       city: this.city,
       checkInDate: this.checkInDate,
       checkOutDate: this.checkOutDate,
@@ -72,10 +93,14 @@ export class HomeSearchBarComponent {
       guestCount: this.guestCount
     };
 
-    this.hotelService.searchHotel(this.city, this.checkInDate, this.checkOutDate, this.guestCount, this.roomCount)
+    this.hotelService.searchHotel(this.city, this.checkInDate, this.checkOutDate, this.guestCount, this.roomCount, 0, 10)
       .subscribe(response => {
         this.hotelDataService.setHotels(response.content);
-        this.router.navigate(['/searchResult'], { queryParams: { searchCriteria: JSON.stringify(searchCriteria) } });;
+        this.router.navigate(['/searchResult'], { queryParams: { searchCriteria: JSON.stringify(searchCriteria) } });
       })
-  }  
+      .add(() => {
+        // End loading
+        this.loading = false;
+      });
+  }
 }

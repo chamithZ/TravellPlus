@@ -1,0 +1,28 @@
+<div class=" min-h-screen">
+    <app-hero-1></app-hero-1>
+  
+    <div class="container mx-auto py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
+            <!-- Update Account Card -->
+            <a routerLink="/updateUser" class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center">
+                <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+                    <i class="fas fa-user text-3xl text-gray-600"></i>
+                </div>
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Update Account</h2>
+                    <p class="text-gray-700">Click here to update your account details.</p>
+                </div>
+            </a>
+            <!-- Reservations Card -->
+            <a routerLink="/reservations" class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center">
+                <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+                    <i class="fas fa-calendar-alt text-3xl text-gray-600"></i>
+                </div>
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Your Reservations</h2>
+                    <p class="text-gray-700">Click here to view your reservations.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

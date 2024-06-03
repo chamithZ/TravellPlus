@@ -2,33 +2,46 @@
     <!-- Hotel Contract Details -->
     <div class="mt-10 text-3xl text-[#41A4FF] font-semibold mb-5 ">Add Hotel Contract</div>
     <div class="relative z-0 w-full mb-5 group mt-10">
-      <input type="date" formControlName="startDate" id="startDate" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <input type="date" formControlName="startDate" [min]="currentDate" [max]="maxDate" id="startDate" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
       <label for="startDate" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Start Date</label>
     </div>
   
     <div class="relative z-0 w-full mb-5 group">
-      <input type="date" formControlName="endDate" id="endDate" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <input type="date" formControlName="endDate" [min]="tomorrowDate" [max]="maxDate" id="endDate" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
       <label for="endDate" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">End Date</label>
     </div>
   
     <div class="relative z-0 w-full mb-5 group">
-      <input type="number" formControlName="cancellationFeePercentage" id="cancellationFeePercentage" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
-      <label for="cancellationFeePercentage" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cancellation Fee Percentage</label>
+      <input type="number" formControlName="cancellationFeePercentage" id="cancellationFeePercentage" 
+             (input)="validateCancellationFeePercentage()" 
+             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+      <label for="cancellationFeePercentage" 
+             class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cancellation Fee Percentage</label>
+      <!-- Display error message if cancellation fee percentage is invalid -->
+      <div *ngIf="f['cancellationFeePercentage']?.hasError('invalidPercentage') && (f['cancellationFeePercentage']?.dirty || f['cancellationFeePercentage']?.touched)" 
+           class="text-red-500 text-sm mt-1">Cancellation Fee Percentage must be between 1 and 100.</div>
     </div>
+    
   
     <div class="relative z-0 w-full mb-5 group">
       <input type="number" formControlName="cancellationDeadline" id="cancellationDeadline" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
       <label for="cancellationDeadline" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cancellation Deadline Days</label>
     </div>
-  
     <div class="relative z-0 w-full mb-5 group">
       <input type="number" formControlName="prepaymentPercentage" id="prepaymentPercentage" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
       <label for="prepaymentPercentage" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Prepayment Percentage</label>
+    
+      <!-- Display error message if prepayment percentage is invalid -->
+      <div *ngIf="f['prepaymentPercentage'].invalid && (f['prepaymentPercentage'].dirty || f['prepaymentPercentage'].touched)" class="text-red-500 text-sm mt-1">
+        Prepayment Percentage must be between 1 and 100.
+      </div>
     </div>
-  
+    
+    
     <div class="relative z-0 w-full mb-5 group">
       <input type="number" formControlName="paymentDeadline" id="paymentDeadline" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
       <label for="paymentDeadline" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Prepayment Deadline Days</label>
+      
     </div>
   
     <!-- Season Details -->
@@ -45,11 +58,11 @@
           <label for="markUp{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">MarkUp Percentage for season</label>
         </div>
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
-          <input type="date" formControlName="startDate" id="startDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+          <input type="date" formControlName="startDate" [min]="currentDate" [max]="maxDate" id="startDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
           <label for="seasonStartDate{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Season Start Date</label>
         </div>
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
-          <input type="date" formControlName="endDate" id="endDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+          <input type="date" formControlName="endDate" [min]="tomorrowDate" [max]="maxDate" id="endDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
           <label for="seasonEndDate{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Season End Date</label>
         </div>
         <button class="mt-2 text-white border-2 bg-red-500 hover:bg-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm w-full sm:w-40 px-2 py-1.5 text-center bg-red-500 hover:text-red-500 border-red-400" type="button"  type="button" (click)="removeSeason(i)">Remove Season</button>
@@ -72,13 +85,15 @@
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
           <input type="number" formControlName="discountPercentage" id="discountPercentage{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
           <label for="discountPercentage{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Discount Percentage</label>
+          
+          
         </div>
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
-          <input type="date" formControlName="startDate" id="startDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+          <input type="date" formControlName="startDate" [min]="currentDate" [max]="maxDate" id="startDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
           <label for="offerStartDate{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Season Start Date</label>
         </div>
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
-          <input type="date" formControlName="endDate" id="endDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
+          <input type="date" formControlName="endDate" [min]="tomorrowDate" [max]="maxDate" id="endDate{{i}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer" placeholder=" " required />
           <label for="offerEndDate{{i}}" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Season End Date</label>
         </div>
         <div [formGroupName]="i" class="relative z-0 w-full mb-5 group">
@@ -92,6 +107,6 @@
     </div> 
   
     <!-- Submit Button -->
-    <button type="submit" class="mt-5 mb-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
+    <button type="submit" class="mt-5 mb-32 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Submit</button>
   </form>
    

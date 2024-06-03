@@ -49,7 +49,6 @@ export class AddRoomTypeComponent implements OnInit {
   }
 
   addRoomTypeFormGroup(): void {
-    // Create a FormGroup for the room type
     const roomTypeFormGroup = this.formBuilder.group({
       roomTypeName: ['', Validators.required],
       roomSize: ['', Validators.required],
@@ -57,13 +56,19 @@ export class AddRoomTypeComponent implements OnInit {
       roomDescription: ['', Validators.required],
       roomImage: ['', Validators.required],
       contractId: [this.contractId, Validators.required],
-      roomTypeSeasons: this.formBuilder.array([]) // Initialize an empty form array for roomTypeSeasons
+      roomTypeSeasons: this.formBuilder.array([]) // Initialize empty roomTypeSeasons
     });
-
-    // Add the FormGroup to the roomTypes FormArray
+  
     this.roomTypes.push(roomTypeFormGroup);
+  
+    // Get the index of the newly added room type
+    const roomTypeIndex = this.roomTypes.length - 1;
+  
+    // Add the room type seasons to the new roomTypeFormGroup
+    this.seasons.forEach((season: Season) => {
+      this.addSeasonFormGroup(roomTypeIndex, season);
+    });
   }
-
   addSeasonFormGroup(roomTypeIndex: number, season: Season): void {
     // Create a FormGroup for the season
     const seasonFormGroup = this.formBuilder.group({
@@ -95,7 +100,7 @@ export class AddRoomTypeComponent implements OnInit {
         roomTypeSeasons
       };
     });
-
+console.log(roomTypes)
     // Send the request to add multiple room types
     this.roomService.addRoomType(roomTypes as RoomType[]).subscribe(
       (res) => {
@@ -110,3 +115,4 @@ export class AddRoomTypeComponent implements OnInit {
     );
   }
 } 
+  
