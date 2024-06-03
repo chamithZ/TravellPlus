@@ -28,6 +28,7 @@ public class ContractDTO {
     private List<SupplementDTO> supplements;
     private List<SeasonDTO> season;
     private List<RoomTypeDTO> roomType;
+    private  boolean contractStatus;
 
 
 }

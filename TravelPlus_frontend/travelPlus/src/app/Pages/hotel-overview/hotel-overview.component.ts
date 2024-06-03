@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from '../../Services/HotelService/hotel.service';
 import { Hotel } from '../../Models/Hotel';
 import { Response } from '../../Models/Response';
@@ -16,6 +16,9 @@ import { ReservationSupplement } from '../../Models/ReservationSupplements';
 import { RoomTypeReservation } from '../../Models/RoomTypeReservation';
 import { ReservationOffer } from '../../Models/ReservationOffer';
 import { ReservationService } from '../../Services/ReservationService/reservation.service';
+import { SeasonService } from '../../Services/SeasonService/season.service';
+import { Season } from '../../Models/Season';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -34,17 +37,19 @@ export class HotelOverviewComponent implements OnInit {
   offers: Offer[] = []; // Offers array to store fetched offers
   numberOfNights!: number;
   totalPrice: number = 0;
-  contractId!: number ;
+  contractId!: number ; 
   imageUrls: string[] = [];
+  season!:Season
 
   newReservation: Reservation = {
     checkInDate: '',
     checkOutDate: '',
     guestCount: 0,
-    isFullPayment: false,
+    fullPayment: false,
     userId: 0,
     roomTypeReservation: [],
-    paymentDTO: { rmarkUpPercentage: 0, rcancellationDeadline: 0, rPaymentDeadline: 0, rcancellationPercentage: 0, totalPrice: 0 },
+    reservationRoomTypes:[],
+    paymentDTO: { rmarkUpPercentage: 0.0, rcancellationDeadline: 0, rpaymentDeadline: 0, rcancellationPercentage: 0.0,rprepaymentPercentage:0.0, totalPrice: 0.0 },
     reservationSupplementDTOS: [],
     reservationOffersDTOS: [],
     hotelId: this.hotel?.hotelId ||0
@@ -53,12 +58,14 @@ export class HotelOverviewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router:Router,
     private hotelService: HotelService,
     private contractService: ContractService,
     private roomService: RoomService,
     private supplementService: SupplementService,
     private reservationService: ReservationService,
-    private offersService: OffersService // Inject OffersService
+    private offersService: OffersService, // Inject OffersService
+    private seasonService: SeasonService
   ) {}
 
   ngOnInit(): void {
@@ -144,6 +151,8 @@ export class HotelOverviewComponent implements OnInit {
                         console.log('Invalid response format for room types:', response);
                       }
                     });
+                    this.getSeasonForReservation(contract.content, this.searchCriteria!.checkInDate, this.searchCriteria!.checkOutDate)
+                    
                 } else {
                   console.log('Contract or contract content is null.');
                 }
@@ -154,82 +163,112 @@ export class HotelOverviewComponent implements OnInit {
     });
 
   }
+  
+
+  getSeasonForReservation(contractId: number, checkInDate: string, checkOutDate: string): void {
+    this.seasonService.getSeasonForReservation(contractId, checkInDate, checkOutDate)
+      .subscribe(seasons => {
+        // Handle the fetched seasons here
+        this.season=seasons.content;
+        console.log('Fetched season:', seasons);
+      }, error => {
+        console.error('Error fetching seasons:', error);
+      });
+    }
 
   addReservation(): void {
     // Set reservation data based on user inputs and selected data
-    this.newReservation.checkInDate = this.searchCriteria!.checkInDate; // Example, replace with actual user input
-    this.newReservation.checkOutDate = this.searchCriteria!.checkOutDate; // Example, replace with actual user input
-    this.newReservation.guestCount = this.searchCriteria!.guestCount ;// Example, replace with actual user input
-    this.newReservation.isFullPayment = true; // Example, replace with actual user input
+    this.newReservation.checkInDate = this.searchCriteria!.checkInDate;
+    this.newReservation.checkOutDate = this.searchCriteria!.checkOutDate;
+    this.newReservation.guestCount = this.searchCriteria!.guestCount;
+    this.newReservation.fullPayment = true;
     this.newReservation.userId = Number(localStorage.getItem('userId'))!;
+    
     if (this.hotel !== null) {
       this.newReservation.hotelId = this.hotel.hotelId;
-  }
-
-
-
+    }
+  
+    // Fetch contract data and set paymentDTO based on contract details
     this.contractService.getContractById(this.contractId).subscribe(contract => {
       if (contract && contract.content) {
         const contractData = contract.content;
-        console.log(contractData)
-  
-        // Set payment data based on contract values
         this.newReservation.paymentDTO = {
-          rmarkUpPercentage: 5,
-          rcancellationDeadline: contractData.cancellationDeadline ,
-          rPaymentDeadline: contractData.cancellationDeadline ,
-          rcancellationPercentage: contractData.cancellationFeePercentage ,
-          totalPrice: this.calculateTotalPrice()
-        }
-      }});
+          rmarkUpPercentage: this.season.markUp,
+          rcancellationDeadline: contractData.cancellationDeadline,
+          rprepaymentPercentage: contractData.prepaymentPercentage,
+          rpaymentDeadline: contractData.cancellationDeadline,
+          rcancellationPercentage: contractData.cancellationFeePercentage,
+          totalPrice: this.calculateTotalPrice(),
+        };
   
+        // Prepare roomTypeReservation, supplements, and offers
+        this.prepareReservationData();
+      }
+    }, error => {
+      console.error('Error fetching contract details:', error);
+    });
+  }
+  
+  prepareReservationData(): void {
     // Prepare roomTypeReservation data based on selected room types and counts
     this.selectedRoomTypes.forEach(selectedRoomType => {
       const roomTypeReservation: RoomTypeReservation = {
         roomType: { roomId: selectedRoomType.roomId },
-        roomCount: selectedRoomType.selectedRoomCount || 1, // Default to 1 if no count selected
-        roomPrice: selectedRoomType.roomPrice || 0 // Default to 0 if no price available
+        roomCount: selectedRoomType.selectedRoomCount || 1,
+        roomPrice: selectedRoomType.roomPrice || 0
       };
       this.newReservation.roomTypeReservation.push(roomTypeReservation);
     });
-
-    
-
+  
     // Prepare reservationSupplementDTOS based on selected supplements and prices
     this.selectedSupplements.forEach(selectedSupplement => {
       const reservationSupplement: ReservationSupplement = {
-        rSupplementId: selectedSupplement.supplementId || 0, // Example, replace with actual supplement ID
-        price: selectedSupplement.price || 0, // Default to 0 if no price available
-        serviceName: selectedSupplement.serviceName || '' // Example, replace with actual service name
+        rSupplementId: selectedSupplement.supplementId || 0,
+        price: selectedSupplement.price || 0,
+        serviceName: selectedSupplement.serviceName || ''
       };
       this.newReservation.reservationSupplementDTOS.push(reservationSupplement);
     });
-
+  
     // Prepare reservationOffersDTOS based on selected offers
     this.offers.forEach(selectedOffer => {
       const reservationOffer: ReservationOffer = {
-        rOfferId: selectedOffer.offerId || 0, // Example, replace with actual offer ID
-        offerName: selectedOffer.offerName || '', // Example, replace with actual offer name
-        discountPercentage: selectedOffer.discountPercentage || 0 // Example, replace with actual discount percentage
+        rOfferId: selectedOffer.offerId || 0,
+        offerName: selectedOffer.offerName || '',
+        discountPercentage: selectedOffer.discountPercentage || 0
       };
       this.newReservation.reservationOffersDTOS.push(reservationOffer);
     });
-    console.log('New Reservation:', this.newReservation);
-    this.reservationService.addReservation(this.newReservation)
-    .subscribe(
-      (response) => {
-        // Handle successful response
-        console.log('Reservation added successfully:', response);
-      },
-      (error) => {
-        // Handle error
-        console.error('Error adding reservation:', error);
-      }
-    );
+    const paymentDetails = {
+      roomTypeTotalPrice: this.calculateRoomTypeTotalPrice(),
+      supplementsTotalPrice: this.calculateSupplementsTotalPrice(),
+      totalDiscount: this.calculateTotalDiscount(),
+      totalPrice: this.calculateTotalPrice(),
+      serviceCharge: this.calculateServiceCharge(),
+      totalAmountIncludingServiceCharge: this.calculateTotalAmountIncludingServiceCharge()
+    };
+    if (!localStorage.getItem('userId')){
+      // Display SweetAlert for message
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'You need to log in to view details!',
+        confirmButtonText: 'Login'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to login page
+          this.router.navigate(['/login']);
+        }
+      });
+    }
+  
+    this.router.navigate(['/payment'], { state: { reservation: this.newReservation,paymentDetails:paymentDetails,contractId:this.contractId,roomTypes:this.selectedRoomTypes,hotel:this.hotel} });
+
 
  
   }
-
+  
+  
   // Helper method to filter room types based on season and set room price and count
   filterRoomTypesBySeason(roomTypes: RoomType[], checkInDate: string, checkOutDate: string): RoomType[] {
     const filteredRoomTypes: RoomType[] = [];
@@ -366,6 +405,64 @@ export class HotelOverviewComponent implements OnInit {
       console.error('Error creating object URL:', error);
       return ''; // Return empty string or handle the error appropriately
     }
+  }
+  calculateRoomTypeTotalPrice(): number {
+    let totalPrice = 0;
+    this.selectedRoomTypes.forEach(roomType => {
+      if (roomType.selectedRoomCount && roomType.roomPrice) {
+        totalPrice += roomType.selectedRoomCount * roomType.roomPrice;
+      }
+    });
+    return totalPrice;
+  }
+  
+  
+  calculateSupplementsTotalPrice(): number {
+    let totalPrice = 0;
+    this.selectedSupplements.forEach(supplement => {
+      if (supplement.price) {
+        totalPrice += supplement.price;
+      }
+    });
+    return totalPrice;
+  }
+  calculateNumberOfNights() {
+    if (this.searchCriteria && this.searchCriteria.checkInDate && this.searchCriteria.checkOutDate) {
+      const checkInDate = new Date(this.searchCriteria.checkInDate);
+      const checkOutDate = new Date(this.searchCriteria.checkOutDate);
+      const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+      this.numberOfNights = Math.ceil(timeDifference / (1000 * 3600 * 24));
+    }
+  }
+  calculateTotalDiscount(): number {
+    let totalDiscount = 0;
+    this.offers.forEach(offer => {
+      if (offer.discountPercentage) {
+        totalDiscount += (this.calculateRoomTypeTotalPrice() + this.calculateSupplementsTotalPrice()) * (offer.discountPercentage / 100);
+      }
+    });
+    return totalDiscount;
+  }
+  calculateServiceCharge(): number {
+    let serviceCharge = 0;
+    if (this.hotel && this.season) {
+      // Calculate service charge based on total amount and season markup percentage
+      serviceCharge = (this.calculateTotalPrice() * this.season.markUp) / 100;
+    }
+    return serviceCharge;
+  }
+  
+  calculateTotalAmountIncludingServiceCharge(): number {
+    // Calculate total amount including service charge
+    return this.calculateTotalPrice() + this.calculateServiceCharge();
+  }
+  
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('userId');
+  }
+  
+  redirectToLogin(): void {
+    this.router.navigate(['/login']);
   }
   
   

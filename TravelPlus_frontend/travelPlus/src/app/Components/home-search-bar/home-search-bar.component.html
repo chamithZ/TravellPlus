@@ -7,13 +7,13 @@
 
     <div class="flex flex-col">
       <label for="checkInDate" class="py-3 ml-5"><i class="far fa-calendar-alt mr-2 text-gray-500"></i>Check-In Date</label>
-      <input type="date" class="border rounded-md p-3 w-full" [min]="currentDate" [(ngModel)]="checkInDate" name="checkInDate">
+      <input type="date" class="border rounded-md p-3 w-full" [min]="currentDate" [max]="maxDate" [(ngModel)]="checkInDate" name="checkInDate">
 
     </div>
 
     <div class="flex flex-col">
       <label for="checkOutDate" class="py-3 ml-5"><i class="far fa-calendar-alt mr-2 text-gray-500"></i>Check-Out Date</label>
-      <input type="date" class="border rounded-md p-3 w-full" [min]="tomorrowDate" [(ngModel)]="checkOutDate" name="checkOutDate">
+      <input type="date" class="border rounded-md p-3 w-full" [min]="tomorrowDate" [max]="maxDate" [(ngModel)]="checkOutDate" name="checkOutDate">
 
     </div>
 
@@ -42,10 +42,15 @@
       </div>
     </div>
 
-    <!-- Square search button with icon -->
-    <button class="bg-[#41A4FF] text-white p-3 rounded-full ml-5 lg:ml-0 focus:outline-none transition-colors duration-300 hover:bg-white hover:text-[#41A4FF] hover:border-[#41A4FF] border-2 border-[#41A4FF]" (click)="searchHotels()">
-      <i class="fas fa-search"></i>
+    <button class="bg-[#41A4FF] text-white p-3 rounded-full ml-5 lg:ml-0 focus:outline-none transition-colors duration-300 hover:bg-white hover:text-[#41A4FF] hover:border-[#41A4FF] border-2 border-[#41A4FF]" (click)="searchHotels()" [disabled]="loading">
+      <i *ngIf="!loading" class="fas fa-search"></i>
+      <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
     </button>
+    
+    
   </form>
+  <button (click)="setLocation()" class="bg-[#41A4FF] text-white p-2 rounded-full ml-5 mt-2 lg:ml-5 focus:outline-none transition-colors duration-300 hover:bg-white hover:text-[#41A4FF] hover:border-[#41A4FF] border-2 border-[#41A4FF]" >
+   Find Nearby  <i class="fas fa-location"></i>
+  </button>
 </div>
 

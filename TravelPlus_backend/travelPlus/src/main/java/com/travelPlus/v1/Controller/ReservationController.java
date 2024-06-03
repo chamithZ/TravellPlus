@@ -1,9 +1,8 @@
 package com.travelPlus.v1.Controller;
 
-import com.travelPlus.v1.DTO.HotelDTO;
-import com.travelPlus.v1.DTO.PaymentDTO;
 import com.travelPlus.v1.DTO.ReservationDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
+import com.travelPlus.v1.DTO.UserReservationDTO;
 import com.travelPlus.v1.Service.ReservationService;
 import com.travelPlus.v1.Utill.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/reservations")
 public class ReservationController {
+
     @Autowired
     private ReservationService reservationService;
     @Autowired
     private ResponseDTO responseDTO;
-
     @PostMapping
     public ResponseEntity addReservation(@RequestBody ReservationDTO reservationDTO ){
         String res= reservationService.addBooking(reservationDTO);
@@ -66,13 +65,11 @@ public class ReservationController {
                 responseDTO.setMessage("Reservation is not available ");
                 responseDTO.setContent(reservationDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
             }else{
                 responseDTO.setCode(VarList.RSP_FAIL );
                 responseDTO.setMessage("Error");
                 responseDTO.setContent(null);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
             }
         }catch( Exception ex){
             responseDTO.setCode(VarList.RSP_ERROR );
@@ -85,7 +82,7 @@ public class ReservationController {
     @GetMapping("/{userId}")
     public ResponseEntity getAllReservation(@PathVariable long userId){
         try{
-            List<ReservationDTO> reservationDTOList=reservationService.getAllReservation(userId);
+            List<UserReservationDTO> reservationDTOList=reservationService.getAllReservation(userId);
             responseDTO.setCode(VarList.RSP_SUCCESS );
             responseDTO.setMessage("Success");
             responseDTO.setContent(reservationDTOList);
@@ -96,6 +93,39 @@ public class ReservationController {
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent((null));
             return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/reservationId/{reservationId}")
+    public ResponseEntity getReservationById(@PathVariable long reservationId) {
+        try {
+            UserReservationDTO reservationDTO = reservationService.getReservationById(reservationId);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(reservationDTO);
+            return new ResponseEntity(responseDTO, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/hotelId/{hotelId}")
+    public ResponseEntity<List<UserReservationDTO>> getReservationsByHotelId(@PathVariable long hotelId) {
+        try {
+            List<UserReservationDTO> reservations = reservationService.getReservationsByHotelId(hotelId);
+            return new ResponseEntity<>(reservations, HttpStatus.OK);
+
+
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -123,5 +153,15 @@ public class ReservationController {
         }
     }
 
-
+    @PatchMapping("/{reservationId}")
+    public ResponseEntity<?> updateIsFullPayment(
+            @PathVariable long reservationId
+    ) {
+        String result = reservationService.updateIsFullPayment(reservationId);
+        if (result.equals(VarList.RSP_SUCCESS)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

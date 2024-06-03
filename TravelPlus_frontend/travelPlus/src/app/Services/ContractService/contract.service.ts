@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { contract } from '../../Models/Contract';
 import { Response } from '../../Models/Response';
+import { AuthService } from '../AuthService/auth-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,15 @@ import { Response } from '../../Models/Response';
 export class ContractService {
   baseUrl="http://localhost:8080/api/v1";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authService: AuthService) { }
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   addContract(contract: contract): Observable<Response<contract>> {
-    return this.http.post<Response<contract>>(`${this.baseUrl}/contracts`, contract, this.httpOptions);
+    const headers = this.authService.getTokenHeader();
+    return this.http.post<Response<contract>>(`${this.baseUrl}/contracts`, contract, { headers });
   }
 
   updateContract(contract: contract): Observable<Response<contract>> {
@@ -36,5 +38,24 @@ export class ContractService {
   getContractById(contractId: number): Observable<Response<contract>> {
     const url = `${this.baseUrl}/contracts/getContract/${contractId}`;
     return this.http.get<Response<contract>>(url);
+  }
+
+  deleteContract(contractId: number): Observable<Response<any>> {
+    const url = `${this.baseUrl}/contracts/${contractId}`;
+    return this.http.delete<Response<any>>(url);
+  }
+
+  enableContract(contractId: number): Observable<Response<any>> {
+    const url = `${this.baseUrl}/contracts/${contractId}`;
+    const headers = this.authService.getTokenHeader();
+    return this.http.patch<Response<any>>(url, {}, { headers });
+  }
+  getAllContracts(page: number, pageSize: number,requestType: String): Observable<any> {
+    const url = `${this.baseUrl}/contracts?page=${page}&pageSize=${pageSize}&requestType=${requestType}`;
+    return this.http.get<any>(url);
+  }
+  getAllDisabledContracts(page: number, pageSize: number,requestType: String): Observable<any> {
+    const url = `${this.baseUrl}/contracts?page=${page}&pageSize=${pageSize}&requestType=${requestType}`;
+    return this.http.get<any>(url);
   }
 }

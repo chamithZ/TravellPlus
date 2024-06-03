@@ -5,6 +5,8 @@ import { ReservationRoomTypeService } from '../../Services/ReservationRoomType/r
 import { HotelService } from '../../Services/HotelService/hotel.service';
 import { Hotel } from '../../Models/Hotel';
 import { HotelImages } from '../../Models/HotelImages';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservations',
@@ -15,27 +17,45 @@ export class ReservationsComponent implements OnInit {
   reservations: any[] = [];
   hotel:Hotel[]=[];
   hotelImages: HotelImages[]=[];
+  loading: boolean = false; 
 
   constructor(
     private reservationService: ReservationService,
     private reservationRoomTypeService: ReservationRoomTypeService, // Inject ReservationRoomTypeServic
     private hotelService: HotelService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.getReservationsByUserId();
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please login first!',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/login']); 
+        }
+      });
+    } else {
+      this.getReservationsByUserId();
+    }
   }
+  
 
   getReservationsByUserId(): void {
+    this.loading = true;
     const userId = localStorage.getItem('userId');
     if (userId !== null) {
       this.reservationService.getReservationsByUserId(parseInt(userId))
         .subscribe((response: any) => {
           if (response && response.content) {
-            this.reservations = response.content;
+            // Filter out reservations with reservationStatus set to false
+            this.reservations = response.content.filter((reservation: any) => reservation.reservationStatus === true);
             console.log('Reservations:', this.reservations);
             this.getRoomTypesAndHotelsForReservations(); // Call method to fetch room types
-            
           } else {
             console.error('Invalid response format:', response);
           }
@@ -46,6 +66,7 @@ export class ReservationsComponent implements OnInit {
       console.error('User ID is null');
     }
   }
+  
   getRoomTypesAndHotelsForReservations(): void {
     this.reservations.forEach(reservation => {
       // Fetch room types for the reservation
@@ -62,6 +83,7 @@ export class ReservationsComponent implements OnInit {
                   const hotel = hotelResponse.content;
                   this.hotel.push(hotel); // Store hotel in the hotels array
                   console.log('Hotel:', hotel);
+                  this.loading = false;
                 } else {
                   console.error('Invalid hotel response format:', hotelResponse);
                 }
@@ -77,12 +99,18 @@ export class ReservationsComponent implements OnInit {
     });
   }
 
-
+  viewReservation(reservationId: number): void {
+    this.router.navigate(['/reservationOverview', reservationId]);
+  }
   getHotelName(hotelId: number): string {
     const hotel = this.hotel.find(h => h.hotelId === hotelId);
     return hotel ? hotel.hotelName : 'Unknown Hotel';
   }
- 
+  getHotelImage(hotelId: number): HotelImages | null {
+    const hotel = this.hotel.find(h => h.hotelId === hotelId);
+    return hotel && hotel.hotelImages.length > 0 ? hotel.hotelImages[0] : null;
+  }
+  
 
   getElapsedTime(reservedDate: Date): string {
     const now = new Date();

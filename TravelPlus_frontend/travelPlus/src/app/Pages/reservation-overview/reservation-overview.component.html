@@ -1,1 +1,75 @@
-<p>reservation-overview works!</p>
+<div class="max-w-3xl mx-auto bg-white shadow-md rounded-md p-6">
+  <h2 class="text-2xl font-bold mb-4">Reservation Details</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">Check-in Date</h3>
+          <p class="text-gray-800">{{ reservation.checkInDate }}</p>
+      </div>
+
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-2">Total Payment</h3>
+        <p class="text-gray-800">LKR {{ payment.totalPrice }}</p>
+    </div>
+      <div class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">Check-out Date</h3>
+          <p class="text-gray-800">{{ reservation.checkOutDate }}</p>
+      </div>
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-2">Full Payment</h3>
+        <p class="text-gray-800">{{ reservation.fullPayment ? 'Yes' : 'No' }}</p>
+    </div>
+
+      <div class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">Guest Count</h3>
+          <p class="text-gray-800">{{ reservation.guestCount }}</p>
+      </div>
+
+
+
+      <div class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">Reserved Room Details</h3>
+          <ul>
+              <div *ngFor="let roomType of reservation.reservationRoomTypes let i=index">
+                  <li class="text-gray-800">{{ roomType.roomTypeName }} - LKR {{ roomType.roomPrice }}</li>
+                  <li class="text-gray-800">Room count: {{ reservation.roomTypeReservation[i].roomCount }} </li>
+              </div>
+          </ul>
+      </div>
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-2">Hotel Name</h3>
+        <p class="text-gray-800">{{ hotel.hotelName }}</p>
+    </div>
+      <div *ngIf="!reservation.fullPayment" class="mb-4">
+        <h3 class="text-lg font-semibold mb-2">Remaining Payment : {{reservation.fullPayment}}</h3>
+        <p class="text-gray-800">LKR {{ payment.totalPrice - (payment.totalPrice * (payment.rprepaymentPercentage / 100)) }}</p>
+        <!-- Add a button to pay the balance -->
+        <button (click)="payBalance()" class="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-2.5 mt-8">
+            Pay Balance
+        </button>
+    </div>
+
+    
+
+     
+  </div>
+       <!-- Display cancellation percentage if condition is met -->
+       <div *ngIf="reservation && payment" class="mb-8">
+        <ng-container *ngIf="shouldDisplayCancellationPercentage()">
+          <p class="font-semibold ">According to TravelPlus policies, if you cancel your reservation, only <span class="text-red-500 font-bold">{{ payment.rcancellationPercentage }}%</span> of your payment will be refunded.</p>
+        </ng-container>
+    </div>
+
+  <div class="flex justify-between items-center">
+    
+     
+        
+      <!-- Cancel Reservation Button -->
+      <button (click)="cancelReservation()"  class="text-white border-2 bg-red-500 hover:bg-white hover:text-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm px-20 py-2.5">
+          Cancel Reservation
+      </button>
+  </div>
+
+  <button (click)="generatePDF()" class="mt-5 mb-20 text-white border-2 bg-gray-500 hover:bg-white hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-20 py-2.5">
+      Generate PDF Invoice
+  </button>

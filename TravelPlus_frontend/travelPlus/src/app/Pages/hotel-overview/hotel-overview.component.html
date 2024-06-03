@@ -16,19 +16,22 @@
   <div class="container mx-auto px-4 py-8">
     <!-- Hotel Name and Description -->
     <div class="text-center">
-      <h1 class="text-3xl font-semibold text-blue-500">{{ hotel?.hotelName }}</h1>
-      <p>{{ hotel?.hotelCity }}</p>
-      <p>{{ hotel?.hotelDescription }}</p>
+      <h1 class="text-3xl font-semibold text-blue-500">{{ hotel?.hotelName }} - {{ hotel?.hotelCity }}</h1>
+      
     </div>
 
     <div *ngIf="hotel && hotel.hotelImages && hotel.hotelImages.length > 0" class="mt-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         <div *ngFor="let image of hotel.hotelImages">
           <div class="relative">
-            <img *ngIf="image.imageData" [src]="'data:image/png;base64,' + image.imageData" alt="Hotel Image" class="w-full h-auto object-cover rounded-lg">
+            <img *ngIf="image.imageData" [src]="'data:image/png;base64,' + image.imageData" alt="Hotel Image" class="w-full h-full object-cover rounded-lg" style="width: 100%; height: 200px;"> <!-- Adjust the height as needed -->
           </div>
         </div>
       </div>
+    </div>
+    
+    <div class="mt-8">
+      <p>{{ hotel?.hotelDescription }}</p>
     </div>
   
     <!-- Available Room Types -->
@@ -42,7 +45,7 @@
               <th class="px-4 py-2">Guest Count</th>
               <th class="px-4 py-2">Bed Type</th>
               <th class="px-4 py-2">Description</th>
-              <th class="px-4 py-2">Price</th>
+              <th class="px-4 py-2">Price per Night</th>
               <th class="px-4 py-2">Available Rooms</th>
               <th class="px-4 py-2">Select Room Count</th>
               <th class="px-4 py-2">Select Room</th>
@@ -94,15 +97,44 @@
         </li>
       </ul>
     </div>
-  </div>
-  <div class="flex justify-between">
-    <div>Total Amount:</div>
-    <div>{{calculateTotalPrice() }}</div>
-    <div class="flex justify-center mt-8">
-      <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" (click)="addReservation()">
-        Reserve
-      </button>
+
+    <!-- Reservation Summary -->
+   <!-- Reservation Summary -->
+<!-- Reservation Summary -->
+<div *ngIf="selectedRoomTypes.length > 0" class="mt-8">
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <div>
+      <p class="text-2xl font-semibold text-blue-400">perfect for {{ numberOfNights }} nights</p>
     </div>
+    <h2 class="text-xl font-semibold mb-4">Reservation Summary</h2>
+    <div>Total Price for Selected Rooms: LKR {{ calculateRoomTypeTotalPrice().toFixed(2) }}</div>
+    <div>Total Price for Selected Supplements: LKR {{ calculateSupplementsTotalPrice().toFixed(2) }}</div>
+    <div>Total Discount Applied: LKR {{ calculateTotalDiscount().toFixed(2) }}</div>
+    <div>Total Amount: LKR {{ calculateTotalPrice().toFixed(2) }}</div>
+    <!-- Display Service Charge -->
+    <div>Service Charge: LKR {{ calculateServiceCharge().toFixed(2) }}</div>
+    <!-- Display Total Amount including Service Charge -->
+    <div>Total Amount Including Service Charge: LKR {{ calculateTotalAmountIncludingServiceCharge().toFixed(2) }}</div>
+    </div>
+    
+</div>
+
+    
+<div class="flex justify-center mt-8">
+  <!-- Show different buttons based on user login status -->
+  <ng-container *ngIf="isLoggedIn(); else loginButton">
+    <!-- User is logged in, show Reserve Now button -->
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-20" (click)="addReservation()">
+      Reserve Now
+    </button>
+  </ng-container>
+  <ng-template #loginButton>
+    <!-- User is not logged in, show Login to Reserve button -->
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-20" (click)="redirectToLogin()">
+      Login to Reserve
+    </button>
+  </ng-template>
+</div>
   </div>
 
 </body>

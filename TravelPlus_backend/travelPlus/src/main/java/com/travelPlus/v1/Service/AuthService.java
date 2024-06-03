@@ -6,7 +6,10 @@ import com.travelPlus.v1.DTO.LoginDTO;
 import com.travelPlus.v1.DTO.UserDTO;
 import com.travelPlus.v1.Entity.User;
 import com.travelPlus.v1.Repo.UserRepo;
+import com.travelPlus.v1.Utill.VarList;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -20,6 +23,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private final UserRepo userRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -28,21 +34,18 @@ public class AuthService {
 
 
     public JWTResponse signup(UserDTO request) {
-        var user = User
-                .builder()
-                .name(request.getName())
-                .userType(request.getUserType())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .contactNo(request.getContactNo())
-                .nic(request.getNic())
-                .age(request.getAge())
-                .userType(request.getUserType())
-                .build();
+        if(userRepository.existsById(request.getUserId()) || userRepository.existsUserByEmail(request.getEmail()) || userRepository.existsUserByNic(request.getNic())) {
+            return null;
+        }
+        else{
+            User user = modelMapper.map(request,User.class);
+            user.setUserStatus(true);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user = userService.save(user);
+            var jwt = jwtService.generateToken(user);
+            return JWTResponse.builder().token(jwt).build();
+        }
 
-        user = userService.save(user);
-        var jwt = jwtService.generateToken(user);
-        return JWTResponse.builder().token(jwt).build();
     }
 
     public JWTResponse signin(AuthDTO request) {

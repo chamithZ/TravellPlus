@@ -4,10 +4,15 @@ import com.travelPlus.v1.DTO.ContractDTO;
 import com.travelPlus.v1.DTO.HotelDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.Entity.Contract;
+import com.travelPlus.v1.Entity.Hotel;
 import com.travelPlus.v1.Entity.RoomType;
 import com.travelPlus.v1.Service.ContractService;
 import com.travelPlus.v1.Utill.VarList;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/contracts")
@@ -24,6 +30,8 @@ public class ContractController {
     private ContractService contractService;
     @Autowired
     private ResponseDTO responseDTO;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     @PreAuthorize("hasAuthority('admin')")
@@ -59,7 +67,6 @@ public class ContractController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity updateContract(@RequestBody ContractDTO contractDTO){
     System.out.println("menna");
         try{
@@ -92,26 +99,68 @@ public class ContractController {
     }
 
     @GetMapping
-    public ResponseEntity getAllCOntracts(){
-        try{
-            List<ContractDTO> emp=contractService.getAllContracts();
-            responseDTO.setCode(VarList.RSP_DUPLICATED );
-            responseDTO.setMessage("Success");
-            responseDTO.setContent(emp);
-            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+    public ResponseEntity getAllContracts(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size, @RequestParam String requestType) {
+        try {
+            Pageable pageRequest  = PageRequest.of(page, size);
 
-        }catch(Exception ex){
+            if(requestType.equals("active")){
+                Page<Contract> contractPage = contractService.getAllContracts(pageRequest );
+                List<ContractDTO> contractDTOs = contractPage.getContent().stream()
+                        .map(contract -> modelMapper.map(contract, ContractDTO.class))
+                        .collect(Collectors.toList());
+                responseDTO.setContent(contractDTOs);
+
+            }
+            else{
+                Page<Contract> contractPage = contractService.getAllDisabledContracts(pageRequest );
+                List<ContractDTO> contractDTOs = contractPage.getContent().stream()
+                        .map(contract -> modelMapper.map(contract, ContractDTO.class))
+                        .collect(Collectors.toList());
+                responseDTO.setContent(contractDTOs);
+
+            }
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent((null));
-            return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PatchMapping ("/{contractId}")
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity enableContract(@PathVariable int contractId){
+        try{
+            String res= contractService.enableContract(contractId);
+            if(res.equals("000")){
+                responseDTO.setCode(VarList.RSP_SUCCESS );
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(res);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            }
+            else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No Contract found ");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+
+            }}catch( Exception e){
+            responseDTO.setCode(VarList.RSP_ERROR );
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
 
     @DeleteMapping("/{contractId}")
-    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity deleteContract(@PathVariable int contractId){
         try{
             String emp= contractService.deleteContract(contractId);

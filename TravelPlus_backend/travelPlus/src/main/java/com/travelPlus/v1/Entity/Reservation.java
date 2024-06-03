@@ -26,7 +26,8 @@ public class Reservation {
     private LocalDate checkOutDate;
     private LocalDateTime reservedDate;
     private int guestCount;
-    boolean isFullPayment;
+    private boolean isFullPayment;
+    private boolean reservationStatus;
 
 
 

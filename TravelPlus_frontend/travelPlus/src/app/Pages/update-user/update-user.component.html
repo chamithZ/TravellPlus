@@ -1,0 +1,79 @@
+<form [formGroup]="userForm" class="max-w-md mx-auto" (ngSubmit)="onSubmit()">
+  
+  <div class="hidden">
+    <label for="name" class="hidden">Name:</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter name">
+  </div>
+   
+      <!-- Name -->
+      <div class="relative z-0 w-full mb-5 group mt-10">
+        <input type="text" name="name" id="name"
+               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+               formControlName="name" placeholder=" " required />
+        <label for="name"
+               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+        <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched"
+             class="text-red-500 mt-2">
+          <div *ngIf="userForm.get('name')?.errors?.['required']">Name is required.</div>
+        </div>
+      </div>
+  
+      <!-- Email -->
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="email" name="email" id="email"
+               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+               formControlName="email" placeholder=" " required />
+        <label for="email"
+               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email Address</label>
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+             class="text-red-500 mt-2">
+          <div *ngIf="userForm.get('email')?.errors?.['required']">Email is required.</div>
+          <div *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format.</div>
+        </div>
+      </div>
+  
+      <!-- Contact Number -->
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="tel" name="contactNo" id="contactNo"
+               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+               formControlName="contactNo" placeholder=" " required />
+        <label for="contactNo"
+               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contact Number</label>
+        <div *ngIf="userForm.get('contactNo')?.invalid && userForm.get('contactNo')?.touched"
+             class="text-red-500 mt-2">
+          <div *ngIf="userForm.get('contactNo')?.errors?.['required']">Contact Number is required.</div>
+        </div>
+      </div>
+  
+      <!-- NIC -->
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="text" name="nic" id="nic"
+               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+               formControlName="nic" placeholder=" " required />
+        <label for="nic"
+               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">NIC</label>
+        <div *ngIf="userForm.get('nic')?.invalid && userForm.get('nic')?.touched"
+             class="text-red-500 mt-2">
+          <div *ngIf="userForm.get('nic')?.errors?.['required']">NIC is required.</div>
+        </div>
+      </div>
+  
+      <!-- Age -->
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="number" name="age" id="age"
+               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+               formControlName="age" placeholder=" " required />
+        <label for="age"
+               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Age</label>
+        <div *ngIf="userForm.get('age')?.invalid && userForm.get('age')?.touched"
+             class="text-red-500 mt-2">
+          <div *ngIf="userForm.get('age')?.errors?.['required']">Age is required.</div>
+        </div>
+      </div>
+  
+      <!-- Register Button -->
+      <button type="submit"
+              class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">Update</button>
+
+  </form>
+  

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @Service
@@ -25,6 +28,8 @@ public class ReservationService {
     @Autowired
     private RoomTypeRepo roomTypeRepo;
     @Autowired
+    private  UserRepo userRepo;
+    @Autowired
     private PaymentRepo paymentRepo;
     @Autowired
     private ReservationOffersRepo reservationOffersRepo;
@@ -32,6 +37,7 @@ public class ReservationService {
     private ReservationSupplementRepo supplementRepo;
     @Autowired
     private ReservationRoomTypeRepo reservationRoomTypeRepo;
+    ExecutorService emailExecutorService = Executors.newSingleThreadExecutor();
 
     public String addBooking(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
@@ -39,7 +45,8 @@ public class ReservationService {
         reservation.setCheckInDate(reservationDTO.getCheckInDate());
         reservation.setCheckOutDate(reservationDTO.getCheckOutDate());
         reservation.setGuestCount(reservationDTO.getGuestCount());
-        reservation.setFullPayment(reservationDTO.isFullPayment());
+        reservation.setFullPayment(reservationDTO.getIsFullPayment());
+        reservation.setReservationStatus(true);
 
         Hotel hotel=new Hotel();
         hotel.setHotelId(reservationDTO.getHotelId());
@@ -79,11 +86,11 @@ public class ReservationService {
 
         PaymentDTO paymentDTO = reservationDTO.getPaymentDTO();
         Payment payment = new Payment();
-        payment.setPaymentId(paymentDTO.getPaymentId());
-        // Set other payment attributes
+        System.out.println(paymentDTO.getRmarkUpPercentage());
         payment.setRmarkUpPercentage(paymentDTO.getRmarkUpPercentage());
         payment.setRcancellationDeadline(paymentDTO.getRcancellationDeadline());
         payment.setRPaymentDeadline(paymentDTO.getRPaymentDeadline());
+        payment.setRprepaymentPercentage(paymentDTO.getRprepaymentPercentage());
         payment.setRcancellationPercentage(paymentDTO.getRcancellationPercentage());
         payment.setTotalPrice(paymentDTO.getTotalPrice());
         payment.setReservation(reservation);
@@ -113,11 +120,38 @@ public class ReservationService {
             // Save offers
             reservationOffersRepo.save(offers);
         }
+        emailExecutorService.submit(() -> {
+            User guest = userRepo.findById(reservationDTO.getUserId()).orElse(null);
+            if (guest != null) {
+                StringBuilder body = new StringBuilder();
+                body.append("Dear ").append(guest.getName()).append(",\n\n");
+                body.append("Thank you for choosing TravelPlus!\n\n");
+                body.append("Your reservation has been confirmed. Below are the details:\n\n");
+                body.append("Reservation ID: ").append(reservation.getReservationId()).append("\n");
+                body.append("Check-in Date: ").append(reservation.getCheckInDate()).append("\n");
+                body.append("Check-out Date: ").append(reservation.getCheckOutDate()).append("\n");
+                body.append("Number of Guests: ").append(reservation.getGuestCount()).append("\n\n");
+                body.append("We look forward to welcoming you!\n\n");
+                body.append("Best regards,\n");
+                body.append("The TravelPlus Team");
+
+                EmailService.sendEmail(guest.getEmail(), "TravelPlus Reservation Confirmation", body.toString());
+            }
+        });
 
         return VarList.RSP_SUCCESS;
     }
 
+    public UserReservationDTO getReservationById(long reservationId) {
+        Optional<Reservation> optionalReservation = reservationRepo.findById(reservationId);
 
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            return modelMapper.map(reservation, UserReservationDTO.class);
+        } else {
+            return null;
+        }
+    }
 
     public String updateReservation(ReservationDTO reservationDTO){
         if(reservationRepo.existsById(reservationDTO.getReservationId())){
@@ -133,7 +167,9 @@ public class ReservationService {
     public String deleteReservation(long reservationId) {
         if (reservationRepo.existsById(reservationId))
         {
-            reservationRepo.deleteById(reservationId);
+            Reservation reservation =reservationRepo.findById(reservationId).orElse(null);
+            assert reservation != null;
+            reservation.setReservationStatus(false);
             return VarList.RSP_SUCCESS;
         }
         else{
@@ -141,12 +177,42 @@ public class ReservationService {
         }
     }
 
-    public List<ReservationDTO> getAllReservation(long userId){
+    public List<UserReservationDTO> getAllReservation(long userId){
 
         List<Reservation> reservations=reservationRepo.findByUser_userId(userId);
-        return modelMapper.map(reservations,new TypeToken<ArrayList<ReservationDTO>>(){
+        return modelMapper.map(reservations,new TypeToken<ArrayList<UserReservationDTO>>(){
         }.getType());
     }
+    public String updateIsFullPayment(long reservationId) {
+        Optional<Reservation> optionalReservation = reservationRepo.findById(reservationId);
 
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            reservation.setFullPayment(true); // Set isFullPayment to true
+            reservationRepo.save(reservation);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
+    }
+    public List<UserReservationDTO> getReservationsByHotelId(long hotelId) {
+        try {
+            List<Reservation> reservations = reservationRepo.findByHotel_HotelId(hotelId);
+
+            // Initialize ModelMapper
+            ModelMapper modelMapper = new ModelMapper();
+
+            // Define the TypeToken
+            java.lang.reflect.Type targetListType = new TypeToken<List<UserReservationDTO>>() {}.getType();
+
+            // Perform mapping
+            List<UserReservationDTO> userReservationDTOs = modelMapper.map(reservations, targetListType);
+            return userReservationDTOs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Log the exception
+            return null; // or handle the exception appropriately
+        }
+    }
 
 }

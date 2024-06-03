@@ -18,10 +18,8 @@ export class SupplementService {
   
   
   addSupplements(supplements: Supplement[]): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
-    return this.http.post<any>(`${this.baseUrl}/supplements`, supplements, httpOptions);
+ 
+    return this.http.post<any>(`${this.baseUrl}/supplements`, supplements, this.httpOptions);
   }
   getSupplementList(contractId: number): Observable<Response<Supplement[]>> {
     return this.http.get<Response<Supplement[]>>(`${this.baseUrl}/supplements/${contractId}`, this.httpOptions);

@@ -24,9 +24,14 @@ public class ReservationDTO {
     private ReservationRoomType reservationRoomType;
     private PaymentDTO paymentDTO;
     private  boolean isFullPayment;
+    private boolean reservationStatus;
     private Collection<RoomTypeReservationDTO> roomTypeReservation=new ArrayList<>();
     private Collection<ReservationSupplementDTO> reservationSupplementDTOS=new ArrayList<>();
     private Collection<ReservationOffersDTO> reservationOffersDTOS=new ArrayList<>();
     private long hotelId;
+
+    public boolean getIsFullPayment(){
+        return this.isFullPayment;
+    }
 
 }

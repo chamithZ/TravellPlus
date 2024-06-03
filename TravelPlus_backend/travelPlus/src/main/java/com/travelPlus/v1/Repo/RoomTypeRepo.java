@@ -30,6 +30,7 @@ public interface RoomTypeRepo extends JpaRepository<RoomType,Long> {
             "LEFT JOIN rt.roomTypeReservation rtr " +
             "ON rtr.roomType.roomId = rt.roomId " +
             "AND (rtr.reservation.checkInDate BETWEEN :checkInDate AND :checkOutDate OR rtr.reservation.checkOutDate BETWEEN :checkInDate AND :checkOutDate) " +
+            "AND (rtr.reservation.reservationStatus=true) " +
             "AND EXISTS (SELECT 1 FROM rs.season s WHERE :checkInDate BETWEEN s.startDate AND s.endDate AND :checkOutDate BETWEEN s.startDate AND s.endDate) " +
             "WHERE rt.contract.contractId= :contractId " + // Filter by contractId
             "GROUP BY rt.roomId")

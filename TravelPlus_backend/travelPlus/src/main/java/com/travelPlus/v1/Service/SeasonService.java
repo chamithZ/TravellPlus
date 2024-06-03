@@ -14,6 +14,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,15 @@ public class SeasonService {
             Season season =seasonRepo.findById(seasonId).orElse(null);
             return season;
     }
+
+    public Season findSeasonByContract(long contractId,String checkIn,String checkOut){
+
+        LocalDate parsedCheckInDate = LocalDate.parse(checkIn);
+        LocalDate parsedCheckOutDate = LocalDate.parse(checkOut);
+        Season season =seasonRepo.findSeasonByDates(contractId,parsedCheckInDate,parsedCheckOutDate).orElse(null);
+        return season;
+    }
+
 
 }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Services/AuthService/auth-service.service'; // Import your authentication service
 
 @Component({
   selector: 'app-header',
@@ -10,14 +11,14 @@ export class HeaderComponent implements OnInit {
   mobileMenuOpen: boolean = false;
   isLoggedIn: boolean = false; // Track user's login status
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) {
+    authService.getLogStatus.subscribe(name => this.isLoggedIn = name !== 'Sign In');
+   }
 
   ngOnInit(): void {
-    // Check if there is a token in local storage
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.isLoggedIn = true; // User is logged in
-    }
+    this.authService.isLogged().subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 
   toggleMobileMenu() {
@@ -25,9 +26,11 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    // Clear token from local storage and navigate to login page
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    this.authService.logout();
     this.router.navigate(['/login']);
+  }
+  navigateToUserProfile(): void {
+    // Navigate to the user profile route
+    this.router.navigateByUrl('/account');
   }
 }

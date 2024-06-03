@@ -24,6 +24,7 @@ public class Contract {
     private int cancellationDeadline;
     private double prepaymentPercentage;
     private int paymentDeadline;
+    private  boolean contractStatus;
 
     @OneToMany(mappedBy = "contract") // contract - roomType relation
     private List<RoomType> roomType;

@@ -3,60 +3,78 @@
     <div class="flex justify-between items-center py-4">
 
       <div class="animate-bounce ">
-        <a routerLink="/home" class="text-2xl font-semibold text-black">
+        <a routerLink="/" class="text-2xl font-semibold text-black">
           Travel<span class="text-[#41A4FF]">Plus</span>
         </a>
       </div>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex md:items-center">
+      <nav class="hidden md:flex md:items-center  justify-center lg:justify-start">
         <!-- Main menu items -->
         <div class="flex space-x-4">
           <a routerLink="/" class="nav-link
           hover:hover:text-[#41A4FF] font-semibold  hover:font-semibold capitalize inline-block text-xl text-gray-700 relative cursor-pointer transition-all duration-400 before:content-[''] before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1.5 before:rounded-full before:opacity-0 before:transition-all before:duration-300 before:bg-gradient-to-r before:from-blue-300 before:via-blue-400 before:to-blue-600 hover:before:w-full hover:before:opacity-100">Home</a>
           <a routerLink="/reservations" class="nav-link
           hover:hover:text-[#41A4FF] font-semibold  hover:font-semibold capitalize inline-block text-xl text-gray-700 relative cursor-pointer transition-all duration-400 before:content-[''] before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1.5 before:rounded-full before:opacity-0 before:transition-all before:duration-300 before:bg-gradient-to-r before:from-blue-300 before:via-blue-400 before:to-blue-600 hover:before:w-full hover:before:opacity-100">Reservations</a>
-          <a routerLink="/aboutUs" class="nav-link
+          <a routerLink="/aboutus" class="nav-link
           hover:hover:text-[#41A4FF] font-semibold  hover:font-semibold capitalize inline-block text-xl text-gray-700 relative cursor-pointer transition-all duration-400 before:content-[''] before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1.5 before:rounded-full before:opacity-0 before:transition-all before:duration-300 before:bg-gradient-to-r before:from-blue-300 before:via-blue-400 before:to-blue-600 hover:before:w-full hover:before:opacity-100">AboutUs</a>
-          <a routerLink="/contactUs" class="nav-link
+          <a routerLink="/contactus" class="nav-link
           hover:hover:text-[#41A4FF] font-semibold  hover:font-semibold capitalize inline-block text-xl text-gray-700 relative cursor-pointer transition-all duration-400 before:content-[''] before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1.5 before:rounded-full before:opacity-0 before:transition-all before:duration-300 before:bg-gradient-to-r before:from-blue-300 before:via-blue-400 before:to-blue-600 hover:before:w-full hover:before:opacity-100">ContactUs</a>
         </div>
-
-        <!-- Add condition to show/hide links based on login status -->
-        <div *ngIf="isLoggedIn" class="flex space-x-4 ml-36">
-          <a (click)="logout()" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">Logout</a>
-        </div>
-        <div *ngIf="!isLoggedIn" class="flex space-x-4 ml-36">
-          <a routerLink="/login" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">Sign In</a>
-          <a routerLink="/register" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">Sign Up</a>
-        </div>
       </nav>
-
-      <!-- Mobile Menu -->
-      <nav class="md:hidden absolute top-0 right-0 mt-4 mr-4 bg-white shadow-lg rounded-md p-4 w-48"
+           <!-- Mobile Menu -->
+           <nav class="md:hidden absolute top-0 right-0 mt-4 mr-4 bg-white shadow-lg rounded-md p-4 w-48"
            [ngClass]="{'block': mobileMenuOpen, 'hidden': !mobileMenuOpen}"
            (clickOutside)="mobileMenuOpen = false">
-        <div class="flex flex-col space-y-2">
-          <a routerLink="/" class="nav-link">Home</a>
-          <a routerLink="/reservations" class="nav-link">Reservations</a>
-          <a (click)="logout()" class="nav-link">Logout</a>
-        </div>
+
+           <div class="flex flex-col space-y-2">
+            <a routerLink="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a routerLink="/reservations" class="nav-link"><i class="fas fa-calendar-alt"></i> Reservations</a>
+            <a routerLink="/aboutus" class="nav-link"><i class="fas fa-info-circle"></i> About Us</a>
+            <a routerLink="/contactus" class="nav-link"><i class="fas fa-info-circle"></i> Contact Us</a>
+            <a *ngIf="!isLoggedIn" (click)="navigateToUserProfile()" class="nav-link"><i class="fas fa-user"></i> Account</a>
+            <a *ngIf="isLoggedIn" (click)="logout()" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+            <a *ngIf="!isLoggedIn" routerLink="/register" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+          </div>
+          
       </nav>
 
-      <!-- Mobile Menu Toggle Button -->
-      <button id="mobile-menu-toggle"
-              class="md:hidden absolute top-0 right-0 mt-4 mr-4 border border-gray-300 px-3 py-2 rounded text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700"
-              (click)="toggleMobileMenu()">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path [ngClass]="{'hidden': mobileMenuOpen, 'block': !mobileMenuOpen}"
-                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16m-7 6h7"></path>
-          <path [ngClass]="{'hidden': !mobileMenuOpen, 'block': mobileMenuOpen}"
-                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+           <!-- Mobile Menu Toggle Button -->
+           <button id="mobile-menu-toggle"
+           class="md:hidden absolute top-0 right-0 mt-4 mr-4 border border-gray-300 px-3 py-2 rounded text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700"
+           (click)="toggleMobileMenu()">
+     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+       <path [ngClass]="{'hidden': mobileMenuOpen, 'block': !mobileMenuOpen}"
+             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+             d="M4 6h16M4 12h16m-7 6h7"></path>
+       <path [ngClass]="{'hidden': !mobileMenuOpen, 'block': mobileMenuOpen}"
+             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+             d="M6 18L18 6M6 6l12 12"></path>
+     </svg>
+   </button>
+   
+      <!-- Add condition to show/hide links based on login status -->
+      <div class="hidden md:flex space-x-4">
+        <div *ngIf="isLoggedIn" class="flex space-x-4">
+          <a (click)="navigateToUserProfile()" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">
+            <i class="fas fa-user mr-2 mt-4 text-gray-500"></i>
+          </a>
+          <a (click)="logout()" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">
+            <button type="submit" class=" text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-[#41A4FF] hover:border-blue-400">Sign Out</button>
+          </a>
+        </div>
+        <div *ngIf="!isLoggedIn" class="flex space-x-4">
+          <a routerLink="/login" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">
+            <button type="submit" class=" text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-[#41A4FF] hover:border-blue-400">Sign In</button>
+          </a>
+          <a routerLink="/register" class="nav-link text-xl text-gray-700 cursor-pointer hover:hover:text-[#41A4FF]">
+            <button type="submit" class=" text-[#41A4FF] border-2 bg-white hover:bg-[#41A4FF] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center bg-[#41A4FF] hover:text-white border-[#41A4FF] hover:border-blue-400">Sign Up</button>
+          </a>
+        </div>
+      </div>
 
+ 
     </div>
   </div>
 </header>

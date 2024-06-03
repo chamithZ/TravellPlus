@@ -1,30 +1,52 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8" *ngIf="!loading">
   <h1 class="text-3xl text-[#41A4FF] font-semibold mb-5">Your Reservations</h1>
   <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
     <div *ngFor="let reservation of reservations" class="flex justify-center items-center">
-      <div class="bg-white rounded-lg overflow-hidden shadow-md flex-grow">
+      <div class="bg-white rounded-lg overflow-hidden shadow-md flex-grow border border-gray-200">
         <div class="p-6">
           <div class="font-semibold text-xl mb-2 text-blue-700">{{ reservation.title }}</div>
-          <div class="flex justify-between">
-            <div>
-              <div *ngIf="hotel.length" class="mt-4">
-                <p class="sm:text-xl text-gray-700 text-right font-bold lg:text-2xl"> <span class="text-blue-500">{{ getHotelName(reservation.hotelId) }}</span> Hotel</p>
+          <div class="flex flex-col md:flex-row justify-between">
+            <div class="mb-4 md:mb-0 px-5">
+              <div *ngIf="hotel.length" >
+                <p class="sm:text-2xl text-gray-700 font-bold lg:text-2xl md: sm:text-center"><span class="text-blue-500">{{ getHotelName(reservation.hotelId) }}</span> Hotel</p>
               </div>
+            
+              
               <p class="text-gray-700 font-semibold">Booked Rooms</p>
               <ul>
-                <li *ngFor="let roomType of reservation.roomTypes" class="text-gray-700">{{ roomType.roomTypeName }}</li>
+                <div *ngFor="let roomType of reservation.roomTypes let i=index" >
+                  <li class="text-gray-700">{{ roomType.roomTypeName }}</li>
+                  <li class="text-gray-800">Room count: {{reservation.roomTypeReservation[i].roomCount}}</li>
+                </div>
               </ul>
+              <div *ngIf="hotel.length">
+                <div class=" mt-5 mb-4">
+                  <img *ngIf="getHotelImage(reservation.hotelId)?.imageData" class="object-cover rounded-lg" [src]="'data:image/png;base64,' + getHotelImage(reservation.hotelId)?.imageData" alt="Hotel Image" style="width: 25%;">
+                </div>
+              </div>
+              
             </div>
-            <div>
+            <div class="lg:mt-15 md:mt-20 px-5">
               <p class="text-gray-700 font-semibold">Check-in Date: <span class="text-blue-500">{{ reservation.checkInDate | date: 'mediumDate' }}</span></p>
               <p class="text-gray-700 font-semibold">Check-out Date: <span class="text-blue-500">{{ reservation.checkOutDate | date: 'mediumDate' }}</span></p>
               <p class="text-gray-700 font-semibold">Reserved Date: <span class="text-blue-500">{{ reservation.reservedDate | date: 'medium' }}</span></p>
               <p class="text-gray-700 font-semibold">Time Elapsed: <span class="text-blue-500">{{ getElapsedTime(reservation.reservedDate) }}</span></p>
-              <button type="button" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center  bg-[#41A4FF] hover:text-blue-400 border-blue-400">View Reservation</button>
+              <button (click)="viewReservation(reservation.reservationId)" type="button" class="mt-5 text-white border-2 bg-[#41A4FF] hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm w-full sm:w-80 px-5 py-2.5 text-center bg-[#41A4FF] hover:text-blue-400 border-blue-400">View Reservation</button>
             </div>
           </div>
+          <div class="mt-4 px-5 text-red-500 font-bold mb-16" *ngIf="!reservation.fullPayment">You have to pay </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white rounded-lg p-8">
+    <div class="flex items-center justify-center mb-4">
+      <!-- Replace the SVG loader with a plane icon -->
+      <i class="fas fa-plane-departure text-blue-500 animate-bounce text-4xl"></i>
+      <p class="text-lg font-semibold text-[#41A4FF] ml-2">Loading...</p>
     </div>
   </div>
 </div>

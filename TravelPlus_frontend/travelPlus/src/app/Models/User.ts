@@ -6,5 +6,7 @@ export interface User{
   nic: string;
   userType: string;
   password: string;
+  propertyId: number;
+  userStatus: boolean;
   age: number;
 }

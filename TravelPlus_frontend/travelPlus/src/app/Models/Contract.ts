@@ -1,3 +1,4 @@
+import { Hotel } from "./Hotel";
 import { Offer } from "./Offer";
 import { Season } from "./Season";
 
@@ -11,6 +12,7 @@ export interface contract{
     paymentDeadline:number,
     hotelId:number,
     season:Season[],
-    offer:Offer[] 
+    offer:Offer[],
+    hotel:Hotel 
 
 }  

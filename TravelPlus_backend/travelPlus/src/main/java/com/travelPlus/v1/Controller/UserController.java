@@ -1,7 +1,6 @@
 package com.travelPlus.v1.Controller;
 
 
-import com.travelPlus.v1.DTO.ContractDTO;
 import com.travelPlus.v1.DTO.ResponseDTO;
 import com.travelPlus.v1.DTO.UserDTO;
 import com.travelPlus.v1.Service.UserService;
@@ -11,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -26,11 +27,10 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity updateUser(@RequestBody UserDTO userDTO){
-        System.out.println(userDTO.getContactNo());
         try{
             String res= userService.updateUser(userDTO);
             if(res.equals("000")){
-                responseDTO.setCode(VarList.RSP_DUPLICATED );
+                responseDTO.setCode(VarList.RSP_SUCCESS );
                 responseDTO.setMessage("Success");
                 responseDTO.setContent(userDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
@@ -84,7 +84,7 @@ public class UserController {
     public ResponseEntity getAllUsers(){
         try{
             List<UserDTO> emp=userService.getAllUsers();
-            responseDTO.setCode(VarList.RSP_DUPLICATED );
+            responseDTO.setCode(VarList.RSP_SUCCESS );
             responseDTO.setMessage("Success");
             responseDTO.setContent(emp);
             return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
@@ -96,6 +96,24 @@ public class UserController {
             return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/admins")
+    public ResponseEntity getAllAdmins(){
+        try{
+            List<UserDTO> userList=userService.getUsersWithPropertyIdGreaterThanZero();
+            responseDTO.setCode(VarList.RSP_SUCCESS );
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(userList);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+
+        }catch(Exception ex){
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent((null));
+            return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @GetMapping("/{email}")
     public ResponseEntity getUser(@PathVariable String email){
@@ -123,7 +141,38 @@ public class UserController {
             return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity getUserByUserId(@PathVariable long userId){
+        try{
 
+            UserDTO userDTO=userService.getUserByUserId(userId);
+            if(userDTO!=null){
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(userDTO);
+                return  new ResponseEntity<>(responseDTO,HttpStatus.ACCEPTED);
+            }
+            else{
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage(" User not found!");
+                responseDTO.setContent(userDTO);
+                return  new ResponseEntity<>(responseDTO,HttpStatus.ACCEPTED);
+            }
 
+        }
+        catch (Exception ex){
+            responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent((null));
+            return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<ResponseDTO> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return ResponseEntity.badRequest().body(new ResponseDTO("011","error", response));
+    }
 
 }

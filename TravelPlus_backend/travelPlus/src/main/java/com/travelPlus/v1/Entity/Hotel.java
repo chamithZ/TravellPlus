@@ -23,6 +23,7 @@ public class Hotel {
     private String hotelEmail;
     private String hotelCity;
     private String hotelContactNo;
+    @Column(columnDefinition = "VARCHAR(2000)")
     private String hotelDescription;
     private boolean hotelStatus;
 
@@ -34,5 +35,6 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel")
     private List<Reservation> reservations;
+
 
 }

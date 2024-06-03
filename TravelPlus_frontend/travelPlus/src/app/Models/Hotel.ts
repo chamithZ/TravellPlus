@@ -8,6 +8,7 @@ export interface Hotel{
     "hotelAddress": string,
     "hotelEmail": string,
     "hotelCity": string,
+    "pricePerNight": number,
     "hotelContactNo": string,
     "hotelDescription": string,
     roomTypes?: RoomType[];

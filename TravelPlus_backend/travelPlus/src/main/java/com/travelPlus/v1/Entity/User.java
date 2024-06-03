@@ -1,11 +1,12 @@
 package com.travelPlus.v1.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @Data
 @ToString
+@JsonIgnoreProperties(value = {"authorities", "username", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled"})
 @Table(name="User")
 public class User implements UserDetails {
   @Id
@@ -30,12 +32,16 @@ public class User implements UserDetails {
   private int age;
   private  String userType;
   private String password;
+  private Long propertyId;
   LocalDateTime createdAt;
-
   LocalDateTime updatedAt;
+  private boolean userStatus;
+
+
 
 
   @OneToMany(mappedBy = "user")
+  @JsonIgnore
   private List<Reservation> reservation;
 
   @Override

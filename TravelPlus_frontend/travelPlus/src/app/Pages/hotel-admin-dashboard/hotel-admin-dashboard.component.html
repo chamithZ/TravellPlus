@@ -1,0 +1,53 @@
+<div class="flex h-screen">
+  <div class="bg-gray-100 w-64 flex flex-col">
+    <h3 class="text-2xl font-bold p-4 text-blue-500">Hotel Dashboard</h3>
+    <ul class="flex-1">
+      <li>
+        <a (click)="selectedOption = 'reservation'" [class.bg-blue-100]="selectedOption === 'reservation'" class="block p-4 hover:bg-blue-100 transition duration-200">Reservations</a>
+      </li>
+      <li>
+        <a (click)="selectedOption = 'Room'" [class.bg-blue-100]="selectedOption === 'Room'" class="block p-4 hover:bg-blue-100 transition duration-200">Room Management</a>
+      </li>
+      <li>
+        <a (click)="selectedOption = 'Supplement'" [class.bg-blue-100]="selectedOption === 'Supplement'" class="block p-4 hover:bg-blue-100 transition duration-200">Supplements</a>
+      </li>
+    </ul>
+  </div>
+  <div class="flex-1 bg-gray-200 relative">
+    <router-outlet></router-outlet>
+    <!-- Cards for managing hotels -->
+    <div *ngIf="selectedOption === 'reservation'" class="absolute inset-0 flex justify-center items-center bg-gray-200 bg-opacity-50">
+      <a  [routerLink]="['/hotelReservations', hotelId]"  class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+        <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+          <i class="far fa-calendar-alt text-3xl text-gray-600"></i>
+        </div>
+        <div class="p-6">
+          <h2 class="text-xl font-semibold text-gray-800">View Reservations</h2>
+          <p class="text-gray-700">Click here to view reservations.</p>
+        </div>
+      </a>
+    </div>
+    <div *ngIf="selectedOption === 'Room'" class="absolute inset-0 flex justify-center items-center bg-gray-200 bg-opacity-50">
+      <a  [routerLink]="['/roomTypeList', hotelId]"class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+        <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+          <i class="fas fa-bed text-3xl text-gray-600"></i>
+        </div>
+        <div class="p-6">
+          <h2 class="text-xl font-semibold text-gray-800">View Room Types</h2>
+          <p class="text-gray-700">Click here to view room types.</p>
+        </div>
+      </a>
+    </div>
+    <div *ngIf="selectedOption === 'Supplement'" class="absolute inset-0 flex justify-center items-center bg-gray-200 bg-opacity-50">
+      <a [routerLink]="['/supplementList', hotelId]" class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:bg-gray-50 transition duration-300 flex items-center p-5">
+        <div class="bg-gray-200 px-6 py-4 rounded-l-lg">
+          <i class="fas fa-plus-circle text-3xl text-gray-600"></i>
+        </div>
+        <div class="p-6">
+          <h2 class="text-xl font-semibold text-gray-800">View Supplements</h2>
+          <p class="text-gray-700">Click here to view supplements.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

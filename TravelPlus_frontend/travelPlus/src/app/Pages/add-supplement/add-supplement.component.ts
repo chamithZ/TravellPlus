@@ -9,87 +9,99 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-add-supplement',
   templateUrl: './add-supplement.component.html',
-  styleUrl: './add-supplement.component.css'
+  styleUrls: ['./add-supplement.component.css']
 })
 export class AddSupplementComponent {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private supplementService: SupplementService,
+    private route: ActivatedRoute
+  ) {}
 
-  constructor(private router:Router,private http: HttpClient, private formBuilder: FormBuilder, private supplementService:SupplementService,  private route: ActivatedRoute ) {}
   contractId!: number;
   seasons: Season[] = [];
   supplementForm!: FormGroup;
 
   ngOnInit(): void {
-  
-   
-    this.route.params.subscribe(params => 
-      this.contractId = params['contractId']);
+    this.route.params.subscribe(params => this.contractId = params['contractId']);
     this.fetchSeasons(this.contractId);
     
-    // Initialize the form
     this.supplementForm = this.formBuilder.group({
-      serviceName: ['', Validators.required],
-      contractId: [this.contractId, Validators.required], // Initialize contractId in the form
-      supplementSeason: this.formBuilder.array([]) // Initialize an empty form array for roomTypeSeasons
+      supplements:this.formBuilder.array([])
     });
-    
   }
-  get supplementSeason(): FormArray {
-    return this.supplementForm.get('supplementSeason') as FormArray;
+
+  fetchSeasons(contractId: number): void {
+    const url = `http://localhost:8080/api/v1/seasons/${contractId}`;
+  
+    this.http.get<any>(url).subscribe((data: any) => {
+      if (data && data.content) {
+        this.seasons = data.content;
+        console.log(this.seasons)
+      } else {
+        console.error('Invalid response format:', data);
+      }
+    }, error => {
+      console.error('Error fetching seasons:', error);
+    });
+
+  }
+  get supplements(): FormArray {
+    return this.supplementForm.get('supplements') as FormArray;
+  }
+
+
+  addSupplementFormGroup(): void {
+    const supplementGroup = this.formBuilder.group({
+      serviceName: ['', Validators.required],
+      contractId: [this.contractId, Validators.required],
+      supplementSeasons: this.formBuilder.array([])
+    });
+
+    
+    this.supplements.push(supplementGroup);
+    const supplementIndex = this.supplements.length - 1;
+  
+    // Add the room type seasons to the new roomTypeFormGroup
+    this.seasons.forEach((season: Season) => {
+      this.addSeasonFormGroup(supplementIndex, season);
+    });
   }
   
-  addSeasonFormGroup(season: Season): void {
+
+
+  addSeasonFormGroup(supplementIndex: number, season: Season): void {
     // Create a FormGroup for the season
     const seasonFormGroup = this.formBuilder.group({
       seasonId: [season.seasonId],
       price: ['', Validators.required]
     });
   
-    // Add the FormGroup to the roomTypeSeasons FormArray
-    this.supplementSeason.push(seasonFormGroup);
-  }
-
-  fetchSeasons(contractId: number): void {
-    const url = `http://localhost:8080/api/v1/seasons/${contractId}`;
+    // Get the supplementSeasons FormArray for the specified supplement index
+    const supplementSeasonsArray = this.supplements.at(supplementIndex).get('supplementSeasons') as FormArray;
   
-    this.http.get<any>(url)
-      .subscribe((data: any) => {
-        if (data && data.content) {
-          this.seasons = data.content;
-          console.log('Seasons:', this.seasons);
-  
-          // Iterate over seasons to add controls to roomTypeSeasons FormArray
-          this.seasons.forEach(season => {
-            this.addSeasonFormGroup(season);
-          });
-        } else {
-          console.error('Invalid response format:', data);
-        }
-      }, error => {
-        console.error('Error fetching seasons:', error);
-      });
+    // Add the FormGroup to the supplementSeasons FormArray
+    supplementSeasonsArray.push(seasonFormGroup);
   }
-
+  
   onSubmit(): void {
-    // Get the form value
     const formValue = this.supplementForm.value;
+  
+    const supplementValues =  formValue.supplements.map((supplement: any) => ({
+        ...supplement,
+        supplementSeason: supplement.supplementSeasons.map((season: any) => ({
+          ...season,
+          season: { seasonId: season.seasonId }
+        }))
+      }))
     
-    const modifiedSupplementForm = formValue.supplementSeason.map((season: any) => ({
-      ...season,
-      season: { seasonId: season.seasonId }
-    }));
-    
-    const transformedValue = {
-      ...formValue,
-      supplementSeason: modifiedSupplementForm 
-    };
-
-    
-    console.log(transformedValue); 
-    this.supplementService.addSupplements(transformedValue as Supplement[]).subscribe((res)=>{
+    console.log(supplementValues)
+    this.supplementService.addSupplements(supplementValues as Supplement[]).subscribe(() => {
       this.supplementForm.reset({ contractId: this.contractId });
-      this.router.navigate(['/addSupplement',this.contractId]);
-   
-  })
-}
-
+      this.router.navigate(['/adminDashboard']);
+    });
+  }
+  
 }

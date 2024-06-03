@@ -43,6 +43,7 @@ export class UpdateContractComponent implements OnInit {
       cancellationDeadline: [this.contract.cancellationDeadline],
       prepaymentPercentage: [this.contract.prepaymentPercentage],
       paymentDeadline: [this.contract.paymentDeadline],
+      hotelId: [this.contract.hotelId]
       
     });
 
